@@ -5,8 +5,6 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { deleteOutgoingReqDetail } from "../../../../api/outgoing/outgoingApi";
 
 const OutgoingReqListModalDetail = ({ item, check }) => {
-	console.log(item);
-	console.log(check);
 	const queryClient = useQueryClient();
 	const deleteOutgoingReqDetailMutation = useMutation({
 		mutationFn: (outgoingDetailId) =>

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import OutgoingReqListModal from "./OutgoingReqListModal";
 
 const OutgoingReqListItem = ({ outgoingReqItem }) => {
-	console.log(outgoingReqItem);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const handleOpenModal = () => {
