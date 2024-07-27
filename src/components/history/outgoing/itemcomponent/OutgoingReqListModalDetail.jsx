@@ -4,8 +4,9 @@ import useDragHandler from "../../../../hooks/useDragHandler";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { deleteOutgoingReqDetail } from "../../../../api/outgoing/outgoingApi";
 
-const OutgoingReqListModalDetail = ({ item }) => {
+const OutgoingReqListModalDetail = ({ item, check }) => {
 	console.log(item);
+	console.log(check);
 	const queryClient = useQueryClient();
 	const deleteOutgoingReqDetailMutation = useMutation({
 		mutationFn: (outgoingDetailId) =>
@@ -34,6 +35,14 @@ const OutgoingReqListModalDetail = ({ item }) => {
 		handleTouchEnd,
 		handleMouseDown,
 	} = useDragHandler(handleSwipeLeft, handleSwipeRight);
+
+	const onClickDelete = () => {
+		if (check === true) {
+			deleteOutgoingReqDetailMutation.mutate(item.outgoingDetailId);
+		} else {
+			alert("체크하지 않은 사용자입니다.");
+		}
+	};
 
 	return (
 		<div className="relative w-full max-w-[600px] rounded-[10px] shadow-lg px-4 py-4 overflow-hidden">
@@ -83,11 +92,7 @@ const OutgoingReqListModalDetail = ({ item }) => {
 				<button
 					className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-red-500 text-white px-4 py-9 rounded-md z-10"
 					style={{ width: "100px" }}
-					onClick={() =>
-						deleteOutgoingReqDetailMutation.mutate(
-							item.outgoingDetailId
-						)
-					}
+					onClick={onClickDelete}
 				>
 					삭제
 				</button>
