@@ -1,10 +1,13 @@
 import React from "react";
 import OutgoingReqListItem from "./OutgoingReqListItem";
-const OutgoingReqListComponent = ({ data }) => {
+const OutgoingReqListComponent = ({ outgoingReqList }) => {
 	return (
-		<div className="w-full flex flex-col items-center px-2 gap-2">
-			{data.map((item) => (
-				<OutgoingReqListItem item={item} key={item.outgoingId} />
+		<div className="w-full flex flex-col items-center px-2 gap-2 overflow-auto max-h-[70vh] ">
+			{outgoingReqList.map((item) => (
+				<OutgoingReqListItem
+					outgoingReqItem={item}
+					key={item.outgoingId}
+				/>
 			))}
 		</div>
 	);

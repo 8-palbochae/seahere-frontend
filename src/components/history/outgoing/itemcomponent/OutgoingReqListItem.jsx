@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import OutgoingReqListModal from "./OutgoingReqListModal";
 
-const OutgoingReqListItem = ({ item }) => {
+const OutgoingReqListItem = ({ outgoingReqItem }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const handleOpenModal = () => {
@@ -19,22 +19,22 @@ const OutgoingReqListItem = ({ item }) => {
 				onClick={handleOpenModal}
 			>
 				<div className="text-gray-700 text-base mb-1 border-b border-gray-300 pb-1">
-					{item.outgoingDate}
+					{outgoingReqItem.outgoingDate}
 				</div>
 				<div className="w-full  bg-white rounded-[20px] h-[98px]  shadow-lg border-solid flex items-center px-4 cursor-pointer">
 					<div className="flex-1 flex justify-center items-center">
 						<div className="w-[73px] text-center font-normal truncate text-black text-base leading-[normal]">
-							{item.customerName}
+							{outgoingReqItem.customerName}
 						</div>
 					</div>
 					<div className="flex-1 flex justify-center items-center">
 						<div className="w-[73px] text-center font-normal truncate text-black text-base leading-[normal]">
-							{item.title}
+							{outgoingReqItem.title}
 						</div>
 					</div>
 					<div className="flex-1 flex justify-center items-center">
 						<div className="w-[70px] text-center font-normal text-black text-base leading-[normal]">
-							{item.status}
+							{outgoingReqItem.status}
 						</div>
 					</div>
 				</div>
@@ -43,7 +43,8 @@ const OutgoingReqListItem = ({ item }) => {
 			{isModalOpen && (
 				<OutgoingReqListModal
 					handleCloseModal={handleCloseModal}
-					outgoingId={item.outgoingId}
+					outgoingId={outgoingReqItem.outgoingId}
+					partialOutgoing={outgoingReqItem.partialOutgoing}
 				/>
 			)}
 		</div>

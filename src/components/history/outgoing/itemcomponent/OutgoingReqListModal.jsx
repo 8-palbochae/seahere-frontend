@@ -5,9 +5,12 @@ import { getOutgoingReqDetailList } from "../../../../api/outgoing/outgoingApi";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { changeOutgoingReqState } from "../../../../api/outgoing/outgoingApi";
 
-const OutgoingReqListModal = ({ handleCloseModal, outgoingId }) => {
+const OutgoingReqListModal = ({
+	handleCloseModal,
+	outgoingId,
+	partialOutgoing,
+}) => {
 	const [isModalOpen, setIsModalOpen] = useState(true);
-
 	const queryClient = useQueryClient();
 	const changeOutgoingReqStateMutation = useMutation({
 		mutationFn: (state) => changeOutgoingReqState(outgoingId, state),
@@ -19,7 +22,7 @@ const OutgoingReqListModal = ({ handleCloseModal, outgoingId }) => {
 	});
 
 	let { data, isPending } = useQuery({
-		queryKey: ["outgoingDetail", outgoingId],
+		queryKey: ["outgoingDetailList", outgoingId],
 		queryFn: () => getOutgoingReqDetailList(outgoingId),
 		enable: !!outgoingId,
 	});
@@ -50,11 +53,12 @@ const OutgoingReqListModal = ({ handleCloseModal, outgoingId }) => {
 				<div className="mt-8">
 					<OutgoingReqListModalTitle />
 				</div>
-				<div className="mt-2">
+				<div className="mt-2 overflow-auto max-h-[30vh]">
 					{data.map((item) => (
 						<OutgoingReqListModalDetail
 							key={item.outgoingDetailId}
 							item={item}
+							partialOutgoing={partialOutgoing}
 						/>
 					))}
 				</div>

@@ -43,4 +43,20 @@ const changeOutgoingReqState = async (outgoingId, state) => {
 	}
 };
 
-export { getOutgoingReqList, getOutgoingReqDetailList, changeOutgoingReqState };
+const deleteOutgoingReqDetail = async (outgoingDetailId) => {
+	try {
+		const res = await axios.delete(
+			`${url}/outgoings/details/${outgoingDetailId}`
+		);
+		return res.data;
+	} catch (error) {
+		throw new Error("Failed to fetch data");
+	}
+};
+
+export {
+	getOutgoingReqList,
+	getOutgoingReqDetailList,
+	changeOutgoingReqState,
+	deleteOutgoingReqDetail,
+};

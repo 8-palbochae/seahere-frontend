@@ -1,9 +1,8 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import OutgoingReqListComponent from "../itemcomponent/OutgoingReqListComponent";
 import SearchInputFilter from "../../../common/SearchInputFilter";
 import { getOutgoingReqList } from "../../../../api/outgoing/outgoingApi";
 import { useQuery } from "@tanstack/react-query";
-import { enable } from "workbox-navigation-preload";
 import PeriodStart from "../../main/itemcomponent/PeriodStart";
 import PeriodEnd from "../../main/itemcomponent/PeriodEnd";
 import dayjs from "dayjs";
@@ -63,7 +62,7 @@ const OutgoingReqList = () => {
 					<span>~</span>
 					<PeriodEnd setEndDate={setEndDate} endDate={endDate} />
 				</div>
-				<OutgoingReqListComponent data={data} />
+				<OutgoingReqListComponent outgoingReqList={data} />
 			</div>
 		</div>
 	);
