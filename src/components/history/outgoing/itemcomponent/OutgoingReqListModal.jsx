@@ -50,7 +50,7 @@ const OutgoingReqListModal = ({ handleCloseModal, outgoingId }) => {
 				<div className="mt-8">
 					<OutgoingReqListModalTitle />
 				</div>
-				<div className="mt-2">
+				<div className="mt-2 overflow-auto max-h-[30vh]">
 					{data.map((item) => (
 						<OutgoingReqListModalDetail
 							key={item.outgoingDetailId}

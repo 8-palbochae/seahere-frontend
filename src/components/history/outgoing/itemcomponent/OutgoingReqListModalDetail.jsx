@@ -19,7 +19,6 @@ const OutgoingReqListModalDetail = ({ item }) => {
 
 	const [isSwiped, setIsSwiped] = useState(false);
 
-	// 핸들러 함수들
 	const handleSwipeLeft = () => {
 		setIsSwiped(true);
 	};
