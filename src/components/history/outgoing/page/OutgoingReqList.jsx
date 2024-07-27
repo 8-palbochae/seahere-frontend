@@ -18,20 +18,19 @@ const OutgoingReqList = () => {
 	const [search, setSearch] = useState("");
 	const [query, setQuery] = useState({});
 
-	useLayoutEffect(() => {
-		setQuery({ startDate, endDate, search });
-	}, [startDate, endDate, search]);
-
 	const useSearchResults = (query) => {
 		return useQuery({
-			queryKey: ["searchResults", query],
+			queryKey: ["outgoingReqList", query],
 			queryFn: () => getOutgoingReqList(query),
 			enable: !!query,
 		});
 	};
 
 	const { data, isPending, isError, error } = useSearchResults(query);
-	const { outgoingReqList, setOutgoingReqList } = useState(data);
+
+	useLayoutEffect(() => {
+		setQuery({ startDate, endDate, search });
+	}, [startDate, endDate, search]);
 
 	if (isPending) {
 		return (
@@ -64,11 +63,7 @@ const OutgoingReqList = () => {
 					<span>~</span>
 					<PeriodEnd setEndDate={setEndDate} endDate={endDate} />
 				</div>
-				<OutgoingReqListComponent
-					data={data}
-					setStartDate={setStartDate}
-					setEndDate={setEndDate}
-				/>
+				<OutgoingReqListComponent data={data} />
 			</div>
 		</div>
 	);

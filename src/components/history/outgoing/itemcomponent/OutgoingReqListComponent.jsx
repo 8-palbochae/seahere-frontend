@@ -1,6 +1,6 @@
 import React from "react";
 import OutgoingReqListItem from "./OutgoingReqListItem";
-const OutgoingReqListComponent = React.memo(({ data }) => {
+const OutgoingReqListComponent = ({ data }) => {
 	return (
 		<div className="w-full flex flex-col items-center px-2 gap-2">
 			{data.map((item) => (
@@ -8,6 +8,6 @@ const OutgoingReqListComponent = React.memo(({ data }) => {
 			))}
 		</div>
 	);
-});
+};
 
 export default OutgoingReqListComponent;
