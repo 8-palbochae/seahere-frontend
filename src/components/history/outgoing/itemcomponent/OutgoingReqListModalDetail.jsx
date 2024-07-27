@@ -1,8 +1,22 @@
 import React, { useState } from "react";
 import nupchiIcon from "../../../../assets/history/nupchi-icon.png";
 import useDragHandler from "../../../../hooks/useDragHandler";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { deleteOutgoingReqDetail } from "../../../../api/outgoing/outgoingApi";
 
 const OutgoingReqListModalDetail = ({ item }) => {
+	console.log(item);
+	const queryClient = useQueryClient();
+	const deleteOutgoingReqDetailMutation = useMutation({
+		mutationFn: (outgoingDetailId) =>
+			deleteOutgoingReqDetail(outgoingDetailId),
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: ["outgoingDetailList"],
+			});
+		},
+	});
+
 	const [isSwiped, setIsSwiped] = useState(false);
 
 	// 핸들러 함수들
@@ -70,7 +84,11 @@ const OutgoingReqListModalDetail = ({ item }) => {
 				<button
 					className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-red-500 text-white px-4 py-9 rounded-md z-10"
 					style={{ width: "100px" }}
-					onClick={() => alert("삭제되었습니다.")}
+					onClick={() =>
+						deleteOutgoingReqDetailMutation.mutate(
+							item.outgoingDetailId
+						)
+					}
 				>
 					삭제
 				</button>

@@ -19,7 +19,7 @@ const OutgoingReqListModal = ({ handleCloseModal, outgoingId }) => {
 	});
 
 	let { data, isPending } = useQuery({
-		queryKey: ["outgoingDetail", outgoingId],
+		queryKey: ["outgoingDetailList", outgoingId],
 		queryFn: () => getOutgoingReqDetailList(outgoingId),
 		enable: !!outgoingId,
 	});
