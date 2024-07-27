@@ -4,7 +4,7 @@ import useDragHandler from "../../../../hooks/useDragHandler";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { deleteOutgoingReqDetail } from "../../../../api/outgoing/outgoingApi";
 
-const OutgoingReqListModalDetail = ({ item, check }) => {
+const OutgoingReqListModalDetail = ({ item, partialOutgoing }) => {
 	const queryClient = useQueryClient();
 	const deleteOutgoingReqDetailMutation = useMutation({
 		mutationFn: (outgoingDetailId) =>
@@ -35,7 +35,7 @@ const OutgoingReqListModalDetail = ({ item, check }) => {
 	} = useDragHandler(handleSwipeLeft, handleSwipeRight);
 
 	const onClickDelete = () => {
-		if (check === true) {
+		if (partialOutgoing === true) {
 			deleteOutgoingReqDetailMutation.mutate(item.outgoingDetailId);
 		} else {
 			alert("체크하지 않은 사용자입니다.");

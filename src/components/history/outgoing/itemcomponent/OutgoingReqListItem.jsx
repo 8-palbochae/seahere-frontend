@@ -44,7 +44,7 @@ const OutgoingReqListItem = ({ outgoingReqItem }) => {
 				<OutgoingReqListModal
 					handleCloseModal={handleCloseModal}
 					outgoingId={outgoingReqItem.outgoingId}
-					check={outgoingReqItem.check}
+					partialOutgoing={outgoingReqItem.partialOutgoing}
 				/>
 			)}
 		</div>
