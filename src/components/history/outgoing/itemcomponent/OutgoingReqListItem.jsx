@@ -6,7 +6,6 @@ const OutgoingReqListItem = ({ item }) => {
 
 	const handleOpenModal = () => {
 		setIsModalOpen(true);
-		console.log("클릭됨");
 	};
 
 	const handleCloseModal = () => {
