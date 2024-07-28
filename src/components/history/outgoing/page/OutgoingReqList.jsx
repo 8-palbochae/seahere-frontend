@@ -7,8 +7,6 @@ import PeriodStart from "../../main/itemcomponent/PeriodStart";
 import PeriodEnd from "../../main/itemcomponent/PeriodEnd";
 import dayjs from "dayjs";
 
-const size = 10;
-
 const getCurrentDate = () => {
 	return dayjs().format("YYYY-MM-DD");
 };
@@ -25,7 +23,6 @@ const OutgoingReqList = () => {
 					startDate,
 					endDate,
 					search,
-					size,
 					page: pageParam,
 				}),
 			getNextPageParam: (lastPage) =>

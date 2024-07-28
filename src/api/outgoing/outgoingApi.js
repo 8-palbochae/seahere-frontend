@@ -5,7 +5,7 @@ const getOutgoingReqListSlice = async ({
 	startDate,
 	endDate,
 	page,
-	size,
+	size = 10,
 	search,
 }) => {
 	try {
