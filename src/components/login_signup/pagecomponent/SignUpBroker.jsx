@@ -15,6 +15,8 @@ import { certifyCompany } from '../../../api/broker/brokerCertificationApi';
 import { useDatePicker } from '../../../hooks/signup/useDatePicker';
 import { useAddress } from '../../../hooks/signup/useAddress';
 import { useCertifyModal } from '../../../hooks/signup/useCertifyModal';
+import { postCompany } from '../../../api/broker/companyApi';
+import Company from '../../../types/Company';
 
 dayjs.extend(customParseFormat);
 
@@ -31,19 +33,30 @@ const SignUpBroker = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const certification = await certifyCompany(businessNumber, representativeName, issueDate.format('YYYYMMDD'));
-    console.log(certification);
-    setIsBrokerCheckSuccess(certification);
-    openModal();
+    try {
+      const certification = await certifyCompany(businessNumber, representativeName, issueDate.format('YYYYMMDD'));
+      setIsBrokerCheckSuccess(certification);
+      openModal();
+    } catch (error) {
+      console.error('Error during certification:', error);
+      // Handle error (e.g., show a notification or message to the user)
+    }
   };
 
-  const onSuccessClick = () => {
-    console.log('Representative Name:', representativeName);
-    console.log('Business Number:', businessNumber);
-    console.log('Issue Date:', issueDate ? issueDate.format(dateFormat) : null);
-    console.log(postCode);
-    console.log(address);
-    console.log(detailAddress);
+  const onSuccessClick = async () => {
+    const company = new Company(
+      companyName,
+      representativeName,
+      businessNumber,
+      postCode,
+      address,
+      detailAddress
+    );
+
+    try {
+      const response = await postCompany(company);
+    } catch (error) {
+    }
   };
 
   return (
