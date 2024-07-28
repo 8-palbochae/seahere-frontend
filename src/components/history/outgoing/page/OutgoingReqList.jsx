@@ -1,8 +1,8 @@
 import React, { useLayoutEffect, useState } from "react";
 import OutgoingReqListComponent from "../itemcomponent/OutgoingReqListComponent";
 import SearchInputFilter from "../../../common/SearchInputFilter";
-import { getOutgoingReqList } from "../../../../api/outgoing/outgoingApi";
-import { useQuery } from "@tanstack/react-query";
+import { getOutgoingReqListSlice } from "../../../../api/outgoing/outgoingApi";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import PeriodStart from "../../main/itemcomponent/PeriodStart";
 import PeriodEnd from "../../main/itemcomponent/PeriodEnd";
 import dayjs from "dayjs";
@@ -15,23 +15,20 @@ const OutgoingReqList = () => {
 	const [startDate, setStartDate] = useState(getCurrentDate);
 	const [endDate, setEndDate] = useState(getCurrentDate);
 	const [search, setSearch] = useState("");
-	const [query, setQuery] = useState({});
-
-	const useSearchResults = (query) => {
-		return useQuery({
-			queryKey: ["outgoingReqList", query],
-			queryFn: () => getOutgoingReqList(query),
-			enable: !!query,
+	const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+		useInfiniteQuery({
+			queryKey: ["outgoingReqList", { startDate, endDate, search }],
+			queryFn: ({ pageParam = 0 }) =>
+				getOutgoingReqListSlice({
+					startDate,
+					endDate,
+					search,
+					page: pageParam,
+				}),
+			getNextPageParam: (lastPage) =>
+				lastPage.hasNext ? lastPage.currentPage + 1 : undefined,
 		});
-	};
-
-	const { data, isPending, isError, error } = useSearchResults(query);
-
-	useLayoutEffect(() => {
-		setQuery({ startDate, endDate, search });
-	}, [startDate, endDate, search]);
-
-	if (isPending) {
+	if (status === "loading") {
 		return (
 			<div>
 				<div className="flex flex-col gap-5">
@@ -44,12 +41,15 @@ const OutgoingReqList = () => {
 						<span>~</span>
 						<PeriodEnd setEndDate={setEndDate} endDate={endDate} />
 					</div>
-					<div className="w-full flex flex-col items-center px-2 gap-2"></div>
+					<div>잠시만 기다려 주세요</div>
 				</div>
 			</div>
 		);
 	}
 
+	if (status === "error") {
+		alert("서버에 문제가 있습니다.");
+	}
 	return (
 		<div>
 			<div className="flex flex-col gap-5">
@@ -62,7 +62,12 @@ const OutgoingReqList = () => {
 					<span>~</span>
 					<PeriodEnd setEndDate={setEndDate} endDate={endDate} />
 				</div>
-				<OutgoingReqListComponent outgoingReqList={data} />
+				<OutgoingReqListComponent
+					data={data}
+					fetchNextPage={fetchNextPage}
+					hasNextPage={hasNextPage}
+					isFetchingNextPage={isFetchingNextPage}
+				/>
 			</div>
 		</div>
 	);
