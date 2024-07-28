@@ -49,8 +49,7 @@ const OutgoingReqListComponent = ({
 					})}
 				</React.Fragment>
 			))}
-			{isFetchingNextPage && <div>Loading more...</div>}
-			{!hasNextPage && !isFetchingNextPage && <div>No more results</div>}
+			{isFetchingNextPage && <div>불러오는중입니다...</div>}
 		</div>
 	);
 };
