@@ -13,6 +13,24 @@ const getOutgoingReqList = async (query) => {
 	}
 };
 
+const getOutgoingReqListSlice = async ({
+	startDate,
+	endDate,
+	page,
+	size,
+	search,
+}) => {
+	console.log("pageParam = ", page);
+	try {
+		const res = await axios.get(`${url}/outgoings/test`, {
+			params: { startDate, endDate, search, page, size },
+		});
+		return res.data;
+	} catch (error) {
+		throw new Error("Failed to fetch data");
+	}
+};
+
 const getOutgoingReqDetailList = async (outgoingId) => {
 	try {
 		const res = await axios.get(`${url}/outgoings/${outgoingId}`);
@@ -56,6 +74,7 @@ const deleteOutgoingReqDetail = async (outgoingDetailId) => {
 
 export {
 	getOutgoingReqList,
+	getOutgoingReqListSlice,
 	getOutgoingReqDetailList,
 	changeOutgoingReqState,
 	deleteOutgoingReqDetail,
