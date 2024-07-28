@@ -1,18 +1,6 @@
 import axios from "axios";
 import { url } from "../../constants/defaultUrl";
 
-const getOutgoingReqList = async (query) => {
-	const { startDate, endDate, search } = query;
-	try {
-		const res = await axios.get(`${url}/outgoings`, {
-			params: { startDate, endDate, search },
-		});
-		return res.data;
-	} catch (error) {
-		throw new Error("Failed to fetch data");
-	}
-};
-
 const getOutgoingReqListSlice = async ({
 	startDate,
 	endDate,
@@ -22,7 +10,7 @@ const getOutgoingReqListSlice = async ({
 }) => {
 	console.log("pageParam = ", page);
 	try {
-		const res = await axios.get(`${url}/outgoings/test`, {
+		const res = await axios.get(`${url}/outgoings`, {
 			params: { startDate, endDate, search, page, size },
 		});
 		return res.data;
@@ -73,7 +61,6 @@ const deleteOutgoingReqDetail = async (outgoingDetailId) => {
 };
 
 export {
-	getOutgoingReqList,
 	getOutgoingReqListSlice,
 	getOutgoingReqDetailList,
 	changeOutgoingReqState,
