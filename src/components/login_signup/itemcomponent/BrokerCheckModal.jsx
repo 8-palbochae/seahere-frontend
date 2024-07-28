@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const BrokerCheckModal = ({ onClose, success, message }) => {
+const BrokerCheckModal = ({ onClose, success,onSucessClick, message }) => {
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50">
             <div className="fixed inset-0 bg-black opacity-50 z-10" onClick={onClose}></div>
@@ -21,6 +21,7 @@ const BrokerCheckModal = ({ onClose, success, message }) => {
                         <Link to="/signup">
                             <button
                                 className="w-[100px] h-8 bg-blue-600 rounded-[10px] text-white text-center font-medium"
+                                onClick={onSucessClick}
                             >
                                 확인
                             </button>
