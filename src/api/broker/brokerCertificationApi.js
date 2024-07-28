@@ -11,7 +11,7 @@ export const certifyCompany = async (regNumber, ceoName, startDate) => {
         ]
     };
 
-    const serviceKey = "w%2F9mQZHK9naA0VQgcCPay%2B%2BAFoyLPVRNclaFvbIOC8%2B8BPTu%2FTAt1K9EdqkqnUlyJx4GEXMD4tsK22jqm7NLuA%3D%3D";
+    const serviceKey = "";
 
     try {
         const response = await axios.post(
@@ -24,18 +24,13 @@ export const certifyCompany = async (regNumber, ceoName, startDate) => {
                 }
             }
         );
-        console.log(response.data)
         if (response.data.data[0].valid === '01') {
             return true;
         } else {
             return false;
         }
     } catch (error) {
-        if (error.response) {
-            console.log(error.response.data); // responseText의 에러메세지 확인
-        } else {
-            console.log(error.message);
-        }
+        console.log(error)
         return false; // 에러 발생 시 false 반환
     }
 };
