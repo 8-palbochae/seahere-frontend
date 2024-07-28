@@ -10,19 +10,24 @@ import Background from '../itemcomponent/Background';
 import InputField from '../itemcomponent/InputField';
 import SubmitButton from '../itemcomponent/SubmitButton';
 import BrokerCheckModal from '../itemcomponent/BrokerCheckModal';
+import { certifyCompany } from '../../../api/broker/brokerCertificationApi';
 
 dayjs.extend(customParseFormat);
 
-const dateFormat = 'YYYY/MM/DD';
+const dateFormat = 'YYYY-MM-DD';
 
 const SignUpBroker = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isBrokerCheckSuccess, setIsBrokerCheckSuccess] = useState(null);
   const [issueDate, setIssueDate] = useState(null);
+  const [representativeName, setRepresentativeName] = useState('');
+  const [businessNumber, setBusinessNumber] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setIsBrokerCheckSuccess(true);
+    const certification  = await certifyCompany(businessNumber,representativeName,issueDate.format('YYYYMMDD'))
+    console.log(certification);
+    setIsBrokerCheckSuccess(certification);
     setIsModalOpen(true);
   };
 
@@ -32,7 +37,7 @@ const SignUpBroker = () => {
 
   const handleDateChange = (date) => {
     setIssueDate(date);
-    console.log('Selected Date: ', date ? date.format(dateFormat) : null);
+    console.log('Selected Date:', date ? date.format(dateFormat) : null);
   };
 
   return (
@@ -42,8 +47,20 @@ const SignUpBroker = () => {
           <img className="mx-auto" src={camera} alt="Camera" />
         </div>
         <form className="relative w-full space-y-4" onSubmit={handleSubmit}>
-          <InputField type="text" name="representativeName" placeholder="대표자 성명" />
-          <InputField type="text" name="businessNumber" placeholder="사업자 등록번호" />
+          <InputField
+            type="text"
+            name="representativeName"
+            placeholder="대표자 성명"
+            value={representativeName}
+            onChange={(e) => setRepresentativeName(e.target.value)}
+          />
+          <InputField
+            type="text"
+            name="businessNumber"
+            placeholder="사업자 등록번호"
+            value={businessNumber}
+            onChange={(e) => setBusinessNumber(e.target.value)}
+          />
           <div className="relative">
             <DatePicker
               format={dateFormat}
