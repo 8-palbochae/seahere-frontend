@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { inventoryIcon } from "../../constants/inventory/inventory.image";
 import { getProductList } from "../../api/incoming/incomingApi";
 import { useQuery } from "@tanstack/react-query";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SearchInput = ({ value }) => {
 	let { data, isPending, isError, error } = useQuery({
@@ -21,8 +21,8 @@ const SearchInput = ({ value }) => {
 		if (!isPending) {
 			if (query.length > 0) {
 				// Filter the data based on the query
-				const filteredSuggestions = data.filter((item) =>
-					item.toLowerCase().includes(query.toLowerCase())
+				const filteredSuggestions = data.filter(({productName}) =>
+					productName.toLowerCase().includes(query.toLowerCase())
 				);
 				setSuggestions(filteredSuggestions);
 			} else {
@@ -66,7 +66,7 @@ const SearchInput = ({ value }) => {
 								});
 							}}
 						>
-							{suggestion}
+							{suggestion.productName}
 						</div>
 					))}
 				</div>
