@@ -57,14 +57,10 @@ const SignUpInfo = () => {
       }
 
     const response = await postUser(userInfo,userType);
-
-      // 성공적인 요청 후의 처리를 여기에 추가합니다.
-      console.log(response);
-      if(response.ok){
+      if(response.status===201){
         navigate("/login");
       }
     } catch (error) {
-      // 에러 처리를 여기에 추가합니다.
       console.error('회원가입 오류:', error);
     }
   };
