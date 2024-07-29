@@ -1,4 +1,12 @@
+import { useState, useEffect } from 'react';
+
 const InputField = ({ type, name, placeholder, value, onChange, onClick, readOnly, className }) => {
+    const [isFilled, setIsFilled] = useState(false);
+
+    useEffect(() => {
+        setIsFilled(value !== '');
+    }, [value]);
+
     return (
         <div className="relative w-full">
             <input
@@ -11,6 +19,15 @@ const InputField = ({ type, name, placeholder, value, onChange, onClick, readOnl
                 onClick={onClick}
                 readOnly={readOnly}
             />
+            {isFilled ? (
+                <span className="absolute right-2 top-2 text-green-500">
+                    &#10003;
+                </span>
+            ) : (
+                <span className="absolute right-2 top-2 text-red-500">
+                    &#10007;
+                </span>
+            )}
         </div>
     );
 };
