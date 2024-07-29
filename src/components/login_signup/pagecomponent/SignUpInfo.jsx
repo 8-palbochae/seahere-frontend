@@ -6,11 +6,68 @@ import back from '../../../assets/login_signup/backbutton.svg';
 import Background from '../itemcomponent/Background';
 import InputField from '../itemcomponent/InputField';
 import SubmitButton from '../itemcomponent/SubmitButton';
+import useUserTypeStore from '../../../stores/signupType';
+import { postUser } from '../../../api/user/userApi';
+import { useNavigate } from 'react-router-dom';
 
 const SignUpInfo = () => {
+  const { userType } = useUserTypeStore((state) => ({
+    userType: state.userType,
+  }));
+  const navigate =useNavigate();
   const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
+  const [postCode, setPostCode] = useState('');
   const [address, setAddress] = useState('');
   const [detailAddress, setDetailAddress] = useState('');
+
+  // 필드 상태를 하나의 객체로 관리
+  const [formValues, setFormValues] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // 폼의 기본 동작을 막습니다.
+
+    if (formValues.password !== formValues.confirmPassword) {
+      alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+      return;
+    }
+
+    try {
+      const userInfo = {
+        "username": formValues.name,
+        "email": formValues.email,
+        "password": formValues.password,
+        "address" : {
+          "postCode" : postCode,
+          "mainAddress": address,
+          "subAddress": detailAddress,
+        }
+      }
+
+    const response = await postUser(userInfo,userType);
+
+      // 성공적인 요청 후의 처리를 여기에 추가합니다.
+      console.log(response);
+      if(response.ok){
+        navigate("/login");
+      }
+    } catch (error) {
+      // 에러 처리를 여기에 추가합니다.
+      console.error('회원가입 오류:', error);
+    }
+  };
 
   const handleComplete = (data) => {
     let fullAddress = data.address;
@@ -26,6 +83,7 @@ const SignUpInfo = () => {
       }
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
+    setPostCode(data.zonecode);
     setAddress(fullAddress);
     setIsPostcodeOpen(false);
   };
@@ -33,18 +91,42 @@ const SignUpInfo = () => {
   return (
     <Background backgroundSrc={background} logoSrc={MainLogo} backButtonSrc={back} backLink={"/login"}>
       <div className="absolute top-[400px] left-1/2 transform -translate-x-1/2 w-full max-w-[276px]">
-        <form className="relative w-full max-w-[276px]">
+        <form className="relative w-full max-w-[276px]" onSubmit={handleSubmit}>
           <div className="mt-2">
-            <InputField type="text" name="name" placeholder="이름" />
+            <InputField
+              type="text"
+              name="name"
+              placeholder="이름"
+              value={formValues.name}
+              onChange={handleInputChange}
+            />
           </div>
           <div className="mt-2">
-            <InputField type="email" name="email" placeholder="이메일" />
+            <InputField
+              type="email"
+              name="email"
+              placeholder="이메일"
+              value={formValues.email}
+              onChange={handleInputChange}
+            />
           </div>
           <div className="mt-2">
-            <InputField type="password" name="password" placeholder="비밀번호" />
+            <InputField
+              type="password"
+              name="password"
+              placeholder="비밀번호"
+              value={formValues.password}
+              onChange={handleInputChange}
+            />
           </div>
           <div className="mt-2">
-            <InputField type="password" name="confirmPassword" placeholder="비밀번호 확인" />
+            <InputField
+              type="password"
+              name="confirmPassword"
+              placeholder="비밀번호 확인"
+              value={formValues.confirmPassword}
+              onChange={handleInputChange}
+            />
           </div>
           <div className="mt-2">
             <InputField
