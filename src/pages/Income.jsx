@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import ProductInfo from '../components/incoming/ProductInfo';
 import IncomingInfo from '../components/incoming/IncomingInfo';
-import ButtonGroup from '../components/incoming/ButtonGroup';
 import { useLocation } from "react-router-dom";
 
 const Income = () => {
@@ -25,18 +23,12 @@ const Income = () => {
 
     return (
         <div className='overflow-y-auto'>
-            <ProductInfo selectedProduct={selectedProduct} />
             <IncomingInfo
                 onAmountChange={handleAmountChange}
                 onPriceChange={handlePriceChange}
                 isAmountValid={isAmountValid}
                 isPriceValid={isPriceValid}
-            />
-            <ButtonGroup
-                isAmountValid={isAmountValid}
-                isPriceValid={isPriceValid}
-                amount={amount}
-                price={price}
+                selectedProduct={selectedProduct}
             />
         </div>
     );

@@ -9,7 +9,7 @@ export const country = [
     }
 ]
 
-export const status = [
+export const category = [
     {
         value:1,
         label: '활어',

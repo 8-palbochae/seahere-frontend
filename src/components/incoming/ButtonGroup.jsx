@@ -1,27 +1,44 @@
 import React, { useState } from 'react';
-import CheckMessage from './CheckMessage'; // CheckMessage 경로에 맞게 수정
+import MessageModal from './MessageModal';
 
-const ButtonGroup = ({ amount, price }) => {
+const ButtonGroup = ({ quantity, incomingPrice, onSubmit }) => {
     const [showModal, setShowModal] = useState(false);
-    const [message, setMessage] = useState('');
+    const [modalTitle, setModalTitle] = useState('');
+    const [modalMessage, setModalMessage] = useState('');
 
     const handleAddClick = () => {
         let errorMessage = '';
 
-        if (!amount && !price) {
-            errorMessage = '입고량과 입고금액을 입력해주세요';
-        } else if (!amount) {
+        if (!quantity && !incomingPrice) {
+            errorMessage = '입고량과 입고 금액을 입력해주세요';
+            setModalTitle('입력 확인');
+        } else if (!quantity) {
             errorMessage = '입고량을 입력해주세요';
-        } else if (!price) {
-            errorMessage = '입고금액을 입력해주세요';
+            setModalTitle('입력 확인');
+        } else if (!incomingPrice) {
+            errorMessage = '입고 금액을 입력해주세요';
+            setModalTitle('입력 확인');
         }
 
         if (errorMessage) {
-            setMessage(errorMessage);
+            setModalMessage(errorMessage);
             setShowModal(true);
         } else {
-            setMessage('입고 등록이 완료되었습니다.');
+            setModalTitle('입고 등록 완료');
+            setModalMessage('입고 등록이 완료되었습니다.');
             setShowModal(true);
+        }
+    };
+
+    // const handleModalClose = async () => {
+    //     setShowModal(false);
+    //     await onSubmit();
+    // };
+
+    const handleModalClose = async () => {
+        setShowModal(false);
+        if (modalTitle === '입고 등록 완료') {
+            await onSubmit();
         }
     };
 
@@ -37,9 +54,10 @@ const ButtonGroup = ({ amount, price }) => {
                 </button>
             </div>
             {showModal && (
-                <CheckMessage 
-                    onClose={() => setShowModal(false)} 
-                    message={message} 
+                <MessageModal
+                    onClose={handleModalClose}
+                    title={modalTitle}
+                    message={modalMessage}
                 />
             )}
         </div>
