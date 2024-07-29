@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ProductInfo from './ProductInfo';
-// import MessageModal from './MessageModal';
-// import { useLocation } from "react-router-dom";
 import ButtonGroup from './ButtonGroup';
 import { saveIncomingData } from '../../api/incoming/incomingApi';
 
 const IncomingInfo = ({ onAmountChange, onPriceChange, isAmountValid, isPriceValid, selectedProduct}) => {
     
-    // const location = useLocation();
-    // const {state} = location;
-    // const { selectedProduct } = state?.selectedProduct || { productId: '', productName: '' };
-
     const [quantity, setQuantity] = useState('');
     const [incomingPrice, setIncomingPrice] = useState('');
     const [countryDetail, setCountryDetail] = useState('');
@@ -19,9 +13,9 @@ const IncomingInfo = ({ onAmountChange, onPriceChange, isAmountValid, isPriceVal
 
 
     const [selectedProductDetails, setSelectedProductDetails] = useState({
-        country: null,
-        category: null,
-        natural: null
+        country: '',
+        category: '',
+        natural: ''
     });
 
     const handleAmountChange = (e) => {
@@ -48,11 +42,11 @@ const IncomingInfo = ({ onAmountChange, onPriceChange, isAmountValid, isPriceVal
             memo,
             productId: selectedProduct.productId
 
-            // productId: selectedProduct.productId,
+
 
         };
         console.log(data);
-        
+
         try {
             await saveIncomingData(data);
         } catch (error) {
@@ -61,15 +55,15 @@ const IncomingInfo = ({ onAmountChange, onPriceChange, isAmountValid, isPriceVal
     };
 
     return (
-        <div className='flex flex-col mt-6'>
+        <div className='flex flex-col mt-1'>
             <ProductInfo selectedProduct={selectedProduct.productName} setSelectedProductDetails={setSelectedProductDetails} />
             <div className='flex flex-col w-full items-center'>
                 <div className='w-10/12 flex items-center'>
-                    <div className='w-full font-bold text-2xl'>입고 정보 입력</div>
+                    <div className='w-full font-bold text-2xl mt-3'>입고 정보 입력</div>
                 </div>
             </div>
 
-            <div className='flex flex-col gap-4 mt-5 shadow-md border border-gray-200 rounded-lg py-4 mx-4'>
+            <div className='flex flex-col gap-4 mt-3 shadow-md border border-gray-200 rounded-lg py-4 mx-4'>
                 <div className='flex flex-col w-full items-center'>
                     <div className='w-11/12 flex items-center justify-between'>
                         <div className='w-full font-bold text-xl flex items-center'>

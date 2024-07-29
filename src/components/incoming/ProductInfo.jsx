@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Select } from 'antd';
 import { country, natural, category } from '../../constants/income/ProductType';
 import productImg from '../../assets/income/product.svg';
@@ -8,28 +8,32 @@ const ProductInfo = ({ selectedProduct, setSelectedProductDetails }) => {
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedNatural, setSelectedNatural] = useState("");
 
+    // useEffect to update selectedProductDetails when any of the selected values change
+    useEffect(() => {
+        setSelectedProductDetails({
+            country: selectedCountry,
+            natural: selectedNatural,
+            category: selectedCategory
+        })
+
+    }, [selectedCountry, selectedCategory, selectedNatural, setSelectedProductDetails]);
+
     const handleSelectChange = (type, value) => {
-        const updatedDetails = { selectedCountry, selectedCategory, selectedNatural};
-        
-        
         if (type === 'country') {
             const selectedOption = country.find(option => option.value === value);
             console.log(selectedOption.label);            
             setSelectedCountry(selectedOption.label);
-            console.log(selectedCountry)
-        }
-        if (type === 'category'){
+        } else if (type === 'category') {
             const selectedOption = category.find(option => option.value === value);
-             setSelectedCategory(selectedOption.label);}
-        if (type === 'natural') {        
+            setSelectedCategory(selectedOption.label);
+        } else if (type === 'natural') {        
             const selectedOption = natural.find(option => option.value === value);
             setSelectedNatural(selectedOption.label);
         }
-        setSelectedProductDetails(updatedDetails);
     };
 
     return (
-        <div className='shadow-md border border-gray-200 rounded-lg p-6 mt-6 mx-4'>
+        <div className='shadow-md border border-gray-200 rounded-lg p-6 mt-6 mx-6'>
             <div className='flex justify-center'>
                 <span className='text-black font-bold text-2xl mb-6'>{selectedProduct}</span>
             </div>
@@ -52,7 +56,7 @@ const ProductInfo = ({ selectedProduct, setSelectedProductDetails }) => {
                         placeholder="상태"
                         optionFilterProp="label"
                         options={category}
-                        onChange={(label) => handleSelectChange('category', label)}
+                        onChange={(value) => handleSelectChange('category', value)}
                     />
                     <Select
                         className='w-full h-full'
@@ -60,7 +64,7 @@ const ProductInfo = ({ selectedProduct, setSelectedProductDetails }) => {
                         placeholder="양식 유무"
                         optionFilterProp="label"
                         options={natural}
-                        onChange={(label) => handleSelectChange('natural', label)}
+                        onChange={(value) => handleSelectChange('natural', value)}
                     />
                 </div>
             </div>
