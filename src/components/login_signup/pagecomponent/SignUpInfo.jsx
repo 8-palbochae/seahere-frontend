@@ -11,8 +11,9 @@ import { postUser } from '../../../api/user/userApi';
 import { useNavigate } from 'react-router-dom';
 
 const SignUpInfo = () => {
-  const { userType } = useUserTypeStore((state) => ({
+  const { userType,companyId } = useUserTypeStore((state) => ({
     userType: state.userType,
+    companyId: state.companyId,
   }));
   const navigate =useNavigate();
   const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
@@ -43,7 +44,6 @@ const SignUpInfo = () => {
       alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
       return;
     }
-
     try {
       const userInfo = {
         "username": formValues.name,
@@ -53,9 +53,9 @@ const SignUpInfo = () => {
           "postCode" : postCode,
           "mainAddress": address,
           "subAddress": detailAddress,
-        }
+        },
+        ...(companyId && { companyId }),
       }
-
     const response = await postUser(userInfo,userType);
       if(response.status===201){
         navigate("/login");
