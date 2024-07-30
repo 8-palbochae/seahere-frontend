@@ -6,9 +6,12 @@ const postUser = async (userInfo, type) => {
         "email": userInfo.email,
         "password": userInfo.password,
         "username": userInfo.username,
-        "address": userInfo.address,
+        "address": userInfo.address
     };
 
+    if (type === 'ceo' && userInfo.companyId) {
+        body.companyId = userInfo.companyId;
+    }
     try {
         const res = await axios.post(`${url}/users/${type}`, body, {
             headers: {
@@ -16,7 +19,12 @@ const postUser = async (userInfo, type) => {
             },
         });
 
-        return res;
+        if(res.status===201){ 
+            return res;
+        }
+        else{
+            throw new Error("사업자 회원 가입에 실패하였습니다");
+        }
     } catch (error) {
         if (error.response) {
             const status = error.response.status;
