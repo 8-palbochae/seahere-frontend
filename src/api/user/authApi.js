@@ -46,4 +46,46 @@ const postLogin = async (loginInfo) => {
     }
 };
 
-export { postLogin };
+
+const authenticationGet = async () => {
+    try {
+        const response = await axios.get('http://localhost:8080/authentication/protected', {
+            headers: {
+                'Accept': 'application/json' // 클라이언트가 수용할 수 있는 콘텐츠 타입
+            },
+            withCredentials: true // 쿠키를 요청에 포함시키기 위한 설정
+        });
+        
+        console.log(response);
+
+        if(response.status===200){ 
+            return response;
+        }
+        else{
+            
+        }
+    } catch (error) {
+        if (error.response) {
+            const status = error.response.status;
+            const data = error.response.data;
+
+            if (status === 400) {
+                const message = data.message || "잘못된 요청입니다. 입력값을 확인해주세요.";
+                throw new Error(message);
+            } else if (status === 401) {
+                const message = data.message || "인증 실패";
+                throw new Error(message);
+            } else {
+                const message = data.message || `서버 오류: ${status}`;
+                throw new Error(message);
+            }
+        } else if (error.request) {
+            throw new Error("서버에 연결할 수 없습니다. 나중에 다시 시도해주세요.");
+        } else {
+            throw new Error(`요청 중 오류가 발생했습니다: ${error.message}`);
+        }
+    }
+};
+
+
+export { postLogin , authenticationGet};
