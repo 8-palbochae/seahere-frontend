@@ -21,7 +21,13 @@ const postCompany = async (company) => {
 
             }
         })
-        return res.data;
+
+        if(res.status===200){
+            return res.data;
+        }
+        else{
+            throw new Error("내부 에러")
+        }
 
     } catch (error) {
         throw new Error("서버 연결 실패")
