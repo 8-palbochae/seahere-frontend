@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-const authentication = create(persist(
+const useAuthenticationStore = create(persist(
   (set) => ({
     accessToken: null, 
     refreshToken: null,
-    setAccessToekn: (token) => set({ accessToken: token }), 
+    setAccessToken: (token) => set({ accessToken: token }), 
     setRefreshToken: (token) => set({ refreshToken: token }), 
   }),
   {
@@ -28,4 +28,4 @@ const deleteCookie = (name) => {
   document.cookie = `${name}=; Max-Age=0; path=/;`;
 };
 
-export {authentication,getCookie,deleteCookie};
+export {useAuthenticationStore,getCookie,deleteCookie};
