@@ -7,21 +7,23 @@ import Background from '../itemcomponent/Background';
 import InputField from '../itemcomponent/InputField';
 import SubmitButton from '../itemcomponent/SubmitButton';
 import useUserTypeStore from '../../../stores/signupType';
-import { postUser } from '../../../api/user/userApi';
+import { postSocialUser, postUser } from '../../../api/user/userApi';
 import { useNavigate } from 'react-router-dom';
 
 const SignUpInfo = () => {
-  const { userType,companyId } = useUserTypeStore((state) => ({
+  const { userType,companyId,guestId,initializeState} = useUserTypeStore((state) => ({
     userType: state.userType,
     companyId: state.companyId,
+    guestId: state.guestId,
+    initializeState: state.initializeState,
   }));
+
   const navigate =useNavigate();
   const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
   const [postCode, setPostCode] = useState('');
   const [address, setAddress] = useState('');
   const [detailAddress, setDetailAddress] = useState('');
 
-  // 필드 상태를 하나의 객체로 관리
   const [formValues, setFormValues] = useState({
     name: '',
     email: '',
@@ -58,12 +60,38 @@ const SignUpInfo = () => {
       }
     const response = await postUser(userInfo,userType);
       if(response.status===201){
+        initializeState();
         navigate("/login");
       }
     } catch (error) {
       console.error('회원가입 오류:', error);
     }
   };
+
+  const handleSubmitOAuth = async (e) => {
+    e.preventDefault();
+
+    const userInfo = {
+      "userId" : guestId,
+      "username": formValues.name,
+      "address" : {
+        "postCode" : postCode,
+        "mainAddress": address,
+        "subAddress": detailAddress,
+      },
+      "companyId" : companyId,
+      "type" : userType,
+    }
+    try {
+      const response = await postSocialUser(userInfo);
+      if(response.status===201){
+        initializeState();
+        navigate("/login");
+      }
+    }catch(error){
+
+    }
+  }
 
   const handleComplete = (data) => {
     let fullAddress = data.address;
@@ -87,7 +115,7 @@ const SignUpInfo = () => {
   return (
     <Background backgroundSrc={background} logoSrc={MainLogo} backButtonSrc={back} backLink={"/login"}>
       <div className="absolute top-[400px] left-1/2 transform -translate-x-1/2 w-full max-w-[276px]">
-        <form className="relative w-full max-w-[276px]" onSubmit={handleSubmit}>
+        <form className="relative w-full max-w-[276px]" onSubmit={guestId ? handleSubmitOAuth : handleSubmit}>
           <div className="mt-2">
             <InputField
               type="text"
@@ -98,6 +126,7 @@ const SignUpInfo = () => {
             />
           </div>
           <div className="mt-2">
+          {guestId ? null : (
             <InputField
               type="email"
               name="email"
@@ -105,24 +134,25 @@ const SignUpInfo = () => {
               value={formValues.email}
               onChange={handleInputChange}
             />
+          )}
           </div>
           <div className="mt-2">
-            <InputField
+            {guestId ? null : <InputField
               type="password"
               name="password"
               placeholder="비밀번호"
               value={formValues.password}
               onChange={handleInputChange}
-            />
+            />}
           </div>
           <div className="mt-2">
-            <InputField
+            {guestId ? null : <InputField
               type="password"
               name="confirmPassword"
               placeholder="비밀번호 확인"
               value={formValues.confirmPassword}
               onChange={handleInputChange}
-            />
+            />}
           </div>
           <div className="mt-2">
             <InputField
