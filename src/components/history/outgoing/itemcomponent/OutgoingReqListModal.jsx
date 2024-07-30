@@ -3,7 +3,10 @@ import OutgoingReqListModalTitle from "./OutgoingReqListModaltitle";
 import OutgoingReqListModalDetail from "./OutgoingReqListModalDetail";
 import { getOutgoingReqDetailList } from "../../../../api/outgoing/outgoingApi";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { changeOutgoingReqState } from "../../../../api/outgoing/outgoingApi";
+import {
+	changeOutgoingReqState,
+	recoveryOutgoingReqDetail,
+} from "../../../../api/outgoing/outgoingApi";
 
 const OutgoingReqListModal = ({
 	handleCloseModal,
@@ -21,11 +24,26 @@ const OutgoingReqListModal = ({
 		},
 	});
 
+	const restoreOutgoingReqDetailStateMutation = useMutation({
+		mutationFn: (state) => recoveryOutgoingReqDetail(outgoingId),
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: ["outgoingDetailList"],
+			});
+		},
+	});
+
 	let { data, isPending } = useQuery({
 		queryKey: ["outgoingDetailList", outgoingId],
 		queryFn: () => getOutgoingReqDetailList(outgoingId),
 		enable: !!outgoingId,
 	});
+
+	const handleRestoreClose = () => {
+		restoreOutgoingReqDetailStateMutation.mutate(outgoingId);
+		setIsModalOpen(false);
+		handleCloseModal();
+	};
 
 	const handleClose = () => {
 		setIsModalOpen(false);
@@ -44,7 +62,7 @@ const OutgoingReqListModal = ({
 						요청 상세
 					</span>
 					<button
-						onClick={handleClose}
+						onClick={handleRestoreClose}
 						className="absolute top-0 right-0 bg-blue-600 text-white px-4 py-2 rounded mb-4"
 					>
 						X
@@ -68,7 +86,7 @@ const OutgoingReqListModal = ({
 						className="bg-gray-300 text-black px-6 py-3 rounded-lg text-lg font-semibold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200"
 						onClick={() => {
 							changeOutgoingReqStateMutation.mutate("reject");
-							handleClose();
+							handleRestoreClose();
 						}}
 					>
 						거절
