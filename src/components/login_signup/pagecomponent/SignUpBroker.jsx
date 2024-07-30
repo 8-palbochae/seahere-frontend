@@ -17,6 +17,7 @@ import { useAddress } from '../../../hooks/signup/useAddress';
 import { useCertifyModal } from '../../../hooks/signup/useCertifyModal';
 import { postCompany } from '../../../api/broker/companyApi';
 import Company from '../../../types/Company';
+import useUserTypeStore from '../../../stores/signupType';
 
 dayjs.extend(customParseFormat);
 
@@ -30,6 +31,8 @@ const SignUpBroker = () => {
   const [representativeName, setRepresentativeName] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [businessNumber, setBusinessNumber] = useState('');
+
+  const { setCompanyId } = useUserTypeStore.getState();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -55,6 +58,7 @@ const SignUpBroker = () => {
 
     try {
       const response = await postCompany(company);
+      setCompanyId(response);
     } catch (error) {
     }
   };
