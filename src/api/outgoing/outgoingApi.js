@@ -8,7 +8,6 @@ const getOutgoingReqListSlice = async ({
 	size = 10,
 	search,
 }) => {
-	console.log(startDate, endDate, page, size, search);
 	try {
 		const res = await axios.get(`${url}/outgoings`, {
 			params: { startDate, endDate, search, page, size },
