@@ -1,24 +1,24 @@
 import axios from "axios";
 import { url } from "../../constants/defaultUrl";
 
-const postLogin = async (loginInfo) => {
+const postEmailLogin = async (loginInfo) => {
     const body = {
         "email": loginInfo.email,
         "password" : loginInfo.password,
     }; 
-    console.log(loginInfo);
     try {
         const response = await axios.post(`${url}/login`, body, {
             headers: {
                 'Content-Type': 'application/json',
             },
-            withCredentials: true // 쿠키를 요청에 포함시키기 위한 설정
+            withCredentials: true
         });
 
         if(response.status===200){ 
-            const accessToken = response.headers['authorization']; // 서버에서 설정한 헤더 이름으로 변경
-            const refreshToken = response.headers['authorization-refresh']; 
-            return response;
+            const access = response.headers['authorization']; // 서버에서 설정한 헤더 이름으로 변경
+            const refresh = response.headers['authorization-refresh']; 
+
+            return [access, refresh];
         }
         else{
             
@@ -51,15 +51,15 @@ const authenticationGet = async () => {
     try {
         const response = await axios.get('http://localhost:8080/authentication/protected', {
             headers: {
-                'Accept': 'application/json' // 클라이언트가 수용할 수 있는 콘텐츠 타입
+                'Accept': 'application/json' 
             },
-            withCredentials: true // 쿠키를 요청에 포함시키기 위한 설정
+            withCredentials: true 
         });
         
-        console.log(response);
-
         if(response.status===200){ 
-            return response;
+            const access = response.headers['authorization']; // 서버에서 설정한 헤더 이름으로 변경
+            const refresh = response.headers['authorization-refresh']; 
+            return [access, refresh];
         }
         else{
             
@@ -88,4 +88,4 @@ const authenticationGet = async () => {
 };
 
 
-export { postLogin , authenticationGet};
+export { postEmailLogin , authenticationGet};
