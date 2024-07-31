@@ -9,25 +9,24 @@ import { authenticationGet } from '../../../api/user/authApi';
 import { useAuthenticationStore } from '../../../stores/authentication';
 
 const BrokerMain = () => {
-	const { setAccessToken, setRefreshToken } = useAuthenticationStore();
+	const {accessToken,refreshToken,setAccessToken, setRefreshToken, deleteCookie } = useAuthenticationStore();
+
 	useEffect(() => {
-		const getTokens = async () => {
-		console.log('Fetching tokens...');
-		try {
-		const response = await authenticationGet();
-		console.log('Tokens fetched:', response);
-		const { accessToken, refreshToken } = response;
+    const fetchTokens = async () => {
+			if (accessToken === null && refreshToken === null) {
+				try {
+					const [access, refresh] = await authenticationGet();
+					setAccessToken(access);
+					setRefreshToken(refresh);
+				} catch (error) {
+					console.error("Failed to fetch tokens:", error);
+				}
+			}
+		};
 
-		// Zustand store에 토큰 저장
-		setAccessToken(accessToken);
-		setRefreshToken(refreshToken);
-		} catch (error) {
-		console.error('Failed to fetch tokens:', error);
-		}
-  	};
-		getTokens();
+		fetchTokens();
 
-}, [setAccessToken, setRefreshToken]);
+	}, [accessToken,refreshToken,setAccessToken, setRefreshToken]);
 	
 	return (
 		<div className="flex flex-col items-center w-full gap-3">
