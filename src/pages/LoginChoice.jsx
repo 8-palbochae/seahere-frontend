@@ -11,10 +11,26 @@ import SubmitButton from "../components/login_signup/itemcomponent/SubmitButton"
 import FindPasswordModal from "../components/login_signup/itemcomponent/FindPasswordModal"; // FindPasswordModal 컴포넌트 가져오기
 import { url } from "../constants/defaultUrl";
 import axios from 'axios';
+import { postEmailLogin } from '../api/user/authApi';
+import { useAuthenticationStore } from '../stores/authentication';
 
 const LoginChoice = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const {setAccessToken,setRefreshToken} = useAuthenticationStore();
   const navigate = useNavigate();
+  const [loginInfo, setLoginInfo] = useState({
+    email: '',
+    password: '',
+  })
+
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setLoginInfo((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
 
   const handleLogin = (provider) => {
     window.location.href=`${url}/oauth2/authorization/${provider}`
@@ -27,6 +43,19 @@ const LoginChoice = () => {
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
+
+  const onSubmitHandler = async (e) =>{
+    e.preventDefault();
+    const tokens = await postEmailLogin(loginInfo);
+    const [access,refresh]  = tokens;
+    console.log(tokens)
+    setAccessToken(access);
+    setRefreshToken(refresh);
+
+    if(access != null && refresh != null){
+      navigate("/main");
+    }
+  }
 
   return (
     <div>
@@ -70,12 +99,14 @@ const LoginChoice = () => {
               </div>
             </div>
           </div>
-          <form className="absolute w-[276px] h-[207px] top-0 left-[62px]">
+          <form className="absolute w-[276px] h-[207px] top-0 left-[62px]"
+		        onSubmit={onSubmitHandler}>
             <div className="top-0 absolute w-[273px] h-[52px] left-0.5">
               <InputField
                 type="text"
                 name="email"
                 placeholder="이메일"
+				        onChange={handleInputChange}
               />
             </div>
             <div className="top-[66px] absolute w-[273px] h-[52px] left-0.5">
@@ -83,6 +114,7 @@ const LoginChoice = () => {
                 type="password"
                 name="password"
                 placeholder="비밀번호"
+				        onChange={handleInputChange}
               />
             </div>
             <div className="absolute w-[276px] h-[49px] top-[132px] left-0">
@@ -100,11 +132,6 @@ const LoginChoice = () => {
           className="absolute w-80 h-80 top-[52px] left-[35px] object-cover"
           src={MainLogo}
         />
-      </div>
-
-      <div>
-        <Link to={"/main"}>메인으로</Link>
-        <Link to={"/incoming"}>입고화면으로</Link>
       </div>
 
       {isModalOpen && (

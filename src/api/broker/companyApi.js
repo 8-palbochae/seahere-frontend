@@ -15,9 +15,9 @@ const postCompany = async (company) => {
             body,
             {
             headers: {
-                'Content-Type': 'application/json; charset=UTF-8'
+                'Content-Type': 'application/json; charset=UTF-8'   
             }
-        })
+        });
 
         if(res.status===200){
             return res.data;

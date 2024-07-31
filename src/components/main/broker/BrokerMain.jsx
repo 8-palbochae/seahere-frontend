@@ -1,12 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TodayInfo from "./TodayInfo";
 import InventorySearch from "./InventorySearch";
 import IncomingSearch from "./IncomingSearch";
 import OutgoingReq from "./OutgoingReq";
 import Trade from "./Trade";
 import Sales from "./Sales";
+import { authenticationGet } from '../../../api/user/authApi';
+import { useAuthenticationStore } from '../../../stores/authentication';
 
 const BrokerMain = () => {
+	const {accessToken,refreshToken,setAccessToken, setRefreshToken, deleteCookie } = useAuthenticationStore();
+
+	useEffect(() => {
+    const fetchTokens = async () => {
+			if (accessToken === null && refreshToken === null) {
+				try {
+					const [access, refresh] = await authenticationGet();
+					setAccessToken(access);
+					setRefreshToken(refresh);
+				} catch (error) {
+					console.error("Failed to fetch tokens:", error);
+				}
+			}
+		};
+
+		fetchTokens();
+
+	}, [accessToken,refreshToken,setAccessToken, setRefreshToken]);
+	
 	return (
 		<div className="flex flex-col items-center w-full gap-3">
 			<div className="p-2 rounded-[20px] w-full h-1/5">
