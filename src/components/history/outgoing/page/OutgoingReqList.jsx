@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useState } from "react";
 import OutgoingReqListComponent from "../itemcomponent/OutgoingReqListComponent";
 import SearchInputFilter from "../../../common/SearchInputFilter";
 import { getOutgoingReqListSlice } from "../../../../api/outgoing/outgoingApi";
@@ -48,7 +48,7 @@ const OutgoingReqList = () => {
 	}
 
 	if (status === "error") {
-		alert("서버에 문제가 있습니다.");
+		console.log("api 통신 문제");
 	}
 	return (
 		<div>
