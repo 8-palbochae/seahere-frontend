@@ -15,7 +15,7 @@ const PeriodStart = ({ setStartDate, startDate }) => {
 		<Space direction="vertical" size={12}>
 			<DatePicker
 				format={dateFormat}
-				onPanelChange={startDate}
+				onPanelChange={() => startDate}
 				inputReadOnly={true} // 자판 비활성화
 				onChange={handleStartChange}
 				placeholder={startDate}
