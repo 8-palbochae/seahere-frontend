@@ -38,7 +38,7 @@ const OutgoingReqListModalDetail = ({ item, partialOutgoing }) => {
 		if (partialOutgoing === true) {
 			deleteOutgoingReqDetailMutation.mutate(item.outgoingDetailId);
 		} else {
-			alert("부분발송에 동의하지 않은 사용자입니다.");
+			alert("부분발송에 동의하지 않은 주문입니다.");
 		}
 	};
 
