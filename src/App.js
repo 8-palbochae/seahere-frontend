@@ -40,6 +40,7 @@ import AlarmHistory from "./components/common/header/AlarmHistory";
 import BrokerMain from "./components/main/broker/BrokerMain";
 import AxiosInstanceTest from './components/common/AxiosInstanceTest';
 import PrivateRoute from './components/common/PrivateRoute';
+import SocialLoading from './components/login_signup/SocialLoading';
 
 function App() {
 	return (
@@ -48,6 +49,7 @@ function App() {
 				<Routes>
 					{/* 공개된 라우트 */}
 					<Route path="/login" element={<LoginChoice />} />
+					<Route path="/loading" element={<SocialLoading />} />
 					<Route path="/signup" element={<SignUp />}>
 						<Route path="" element={<SignUpInfo />} />
 						<Route path="broker" element={<SignUpBroker />} />
