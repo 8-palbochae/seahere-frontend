@@ -95,6 +95,13 @@ const OutgoingReqListModal = ({
 					<button
 						className="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
 						onClick={() => {
+							const isNotPossible = data.some(
+								(item) => item.afterCount < 0
+							);
+							if (isNotPossible) {
+								alert("재고 부족 상품이 있습니다.");
+								return;
+							}
 							changeOutgoingReqStateMutation.mutate("ready");
 							handleClose();
 						}}
