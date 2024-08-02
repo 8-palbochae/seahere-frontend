@@ -7,6 +7,7 @@ import {
 	changeOutgoingReqState,
 	recoveryOutgoingReqDetail,
 } from "../../../../api/outgoing/outgoingApi";
+import { Modal } from "antd";
 
 const OutgoingReqListModal = ({
 	handleCloseModal,
@@ -50,6 +51,22 @@ const OutgoingReqListModal = ({
 		handleCloseModal();
 	};
 
+	const showErrorModal = () => {
+		Modal.error({
+			title: "재고 부족",
+			content: "재고 부족 상품이 있습니다.",
+			centered: true,
+		});
+	};
+
+	const showInfoModal = (title, content) => {
+		Modal.info({
+			title: title,
+			content: content,
+			centered: true,
+		});
+	};
+
 	if (!isModalOpen) return null;
 	if (isPending) {
 		data = [];
@@ -83,30 +100,34 @@ const OutgoingReqListModal = ({
 
 				<div className="mt-4 flex justify-center gap-4">
 					<button
-						className="bg-gray-300 text-black px-6 py-3 rounded-lg text-lg font-semibold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200"
-						onClick={() => {
-							changeOutgoingReqStateMutation.mutate("reject");
-							handleRestoreClose();
-						}}
-					>
-						거절
-					</button>
-
-					<button
 						className="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
 						onClick={() => {
 							const isNotPossible = data.some(
 								(item) => item.afterCount < 0
 							);
 							if (isNotPossible) {
-								alert("재고 부족 상품이 있습니다.");
+								showErrorModal();
 								return;
 							}
 							changeOutgoingReqStateMutation.mutate("ready");
+							showInfoModal(
+								"출고 대기",
+								"출고 상태가 대기로변경되었습니다."
+							);
 							handleClose();
 						}}
 					>
 						수락
+					</button>
+					<button
+						className="bg-gray-300 text-black px-6 py-3 rounded-lg text-lg font-semibold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200"
+						onClick={() => {
+							changeOutgoingReqStateMutation.mutate("reject");
+							showInfoModal("출고 거절", "출고 거절되었습니다.");
+							handleRestoreClose();
+						}}
+					>
+						거절
 					</button>
 				</div>
 			</div>
