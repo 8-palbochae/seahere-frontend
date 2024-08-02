@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
-
+import React from 'react';
 import MainInventory from '../components/inventory/MainInventory';
 
 const InventoryView = () => {
-    
   return (
-    <div className="w-full">
-        <MainInventory/>
+    <div className="w-full h-screen overflow-hidden">
+      <MainInventory />
     </div>
-    );
+  );
 };
 
 export default InventoryView;

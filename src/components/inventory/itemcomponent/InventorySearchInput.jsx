@@ -16,8 +16,8 @@ const InventorySearchInput = ({ onSearchChange }) => {
 	});
 
 	useEffect(() => {
-		if (!isPending) {
-			const filteredSuggestions = data?.filter(({ productName }) =>
+		if (!isPending && data) {
+			const filteredSuggestions = data.filter(({ productName }) =>
 				productName.toLowerCase().includes(query.toLowerCase())
 			);
 			setSuggestions(filteredSuggestions);
@@ -31,16 +31,16 @@ const InventorySearchInput = ({ onSearchChange }) => {
 	};
 
 	return (
-		<div className="fixed top-16 left-0 w-full bg-white z-10">
-			<div className="relative w-full max-w-lg mx-auto">
-				<div className="flex h-11 bg-gray-100 justify-around items-center gap-3 m-2 rounded">
+		<div className="w-full flex justify-center mt-4 sticky top-0 bg-white">
+			<div className="w-full max-w-4xl mx-auto bg-white">
+				<div className="flex h-11 bg-gray-100 justify-between items-center gap-3 m-2 rounded w-full">
 					<img
 						className="w-8 object-cover ml-3 mr-2"
 						src={inventoryIcon.searchIcon}
 						alt="Search Icon"
 					/>
 					<input
-						className="w-4/5 h-8 p-2 bg-gray-200 rounded"
+						className="flex-grow h-8 p-2 bg-gray-200 rounded"
 						type="text"
 						placeholder="Search"
 						value={query}
