@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import axios from 'axios';
 import InventoryListItem from './InventoryListItem';
 import { useInView } from 'react-intersection-observer';
+import { getInventoryList } from '../../api/inventory/inventoryApi';
 
 const InventoryList = ({ companyId, size, searchOption }) => {
     const [products, setProducts] = useState([]);
@@ -15,10 +15,7 @@ const InventoryList = ({ companyId, size, searchOption }) => {
     const fetchData = useCallback(async (reset = false) => {
         setLoading(true);
         try {
-            const url = `http://localhost:8080/inventories?companyId=${companyId}&page=${reset ? 0 : pageNum}&size=${size}&search=${reset ? searchOption : currentSearchOption}`;
-            const response = await axios.get(url);
-            const newProducts = response.data.content.content;
-
+            const newProducts = await getInventoryList(companyId, reset ? 0 : pageNum, size, reset ? searchOption : currentSearchOption);
             setProducts(prevProducts => reset ? newProducts : [...prevProducts, ...newProducts]);
             setHasMore(newProducts.length > 0);
         } catch (error) {
@@ -32,11 +29,11 @@ const InventoryList = ({ companyId, size, searchOption }) => {
             setCurrentSearchOption(searchOption);
             setPageNum(0);
             setProducts([]);
-            fetchData(true); // Reset data for new search
+            fetchData(true);
         } else if (pageNum === 0) {
-            fetchData(true); // Initial fetch
+            fetchData(true);
         } else {
-            fetchData(); // Fetch for pagination
+            fetchData();
         }
     }, [searchOption, currentSearchOption, fetchData, pageNum]);
 
@@ -47,10 +44,10 @@ const InventoryList = ({ companyId, size, searchOption }) => {
     }, [inView, hasMore, loading]);
 
     return (
-        <div>
-            {products.map(product => (
+        <div className="h-full overflow-y-auto">
+            {products.map((product, index) => (
                 <InventoryListItem
-                    key={product.productId}
+                    key={`${product.productId}-${index}`} // 고유한 key 생성
                     product={product}
                 />
             ))}

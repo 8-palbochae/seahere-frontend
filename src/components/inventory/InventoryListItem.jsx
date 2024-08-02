@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
-import axios from 'axios';
 import productImg from '../../assets/income/product.svg';
 import InventoryItemDetails from './InventoryItemDetails';
+import { getInventoryDetails } from '../../api/inventory/inventoryApi';
 
 const InventoryListItem = ({ product }) => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -10,18 +10,17 @@ const InventoryListItem = ({ product }) => {
     const { companyId, name, category, totalQuantity, latestIncoming } = product;
 
     const handleToggle = () => {
-        setIsExpanded(prevState => !(prevState));
+        setIsExpanded(prevState => !prevState);
     };
 
     useEffect(() => {
         if (isExpanded) {
             const fetchData = async () => {
                 try {
-                    const url = `http://localhost:8080/inventories/details?companyId=${companyId}&page=0&size=5&search=&name=${name}&category=${category}`;
-                    const response = await axios.get(url);
-                    setDetails(response.data.content.content);
+                    const detailsData = await getInventoryDetails(companyId, name, category);
+                    setDetails(detailsData);
                 } catch (error) {
-                    console.error('Error fetching data:', error);
+                    console.error('데이터를 가져오는 중 오류 발생:', error);
                 }
             };
             fetchData();
@@ -29,7 +28,7 @@ const InventoryListItem = ({ product }) => {
     }, [isExpanded, companyId, name, category]);
 
     return (
-        <div>
+        <div className="inventory-list-item">
             <div
                 className={`flex p-3 justify-around items-center cursor-pointer bg-white border border-gray-200 rounded-md shadow-sm
                             ${isExpanded ? 'rounded-b-none' : 'rounded-md'}`}
