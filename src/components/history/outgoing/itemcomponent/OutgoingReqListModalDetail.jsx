@@ -79,7 +79,11 @@ const OutgoingReqListModalDetail = ({ item, partialOutgoing }) => {
 
 				{/* Item 4: 100→20 */}
 				<div className="text-center flex-1">
-					<div className="text-black font-normal text-base truncate">
+					<div
+						className={`text-base font-normal truncate ${
+							item.afterCount <= 0 ? "text-red-500" : "text-black"
+						}`}
+					>
 						{item.beforeCount}→{item.afterCount}
 					</div>
 				</div>
