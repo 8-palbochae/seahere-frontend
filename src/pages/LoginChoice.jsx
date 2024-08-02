@@ -1,6 +1,5 @@
-// LoginChoice.js
-import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import MainLogo from "../assets/common/MainLogo.svg";
 import background from "../assets/common/background.svg";
 import naver from "../assets/login_signup/naver.svg";
@@ -8,21 +7,38 @@ import google from "../assets/login_signup/google.svg";
 import middleLine from "../assets/login_signup/middle_Line.svg";
 import InputField from "../components/login_signup/itemcomponent/InputField";
 import SubmitButton from "../components/login_signup/itemcomponent/SubmitButton";
-import FindPasswordModal from "../components/login_signup/itemcomponent/FindPasswordModal"; // FindPasswordModal 컴포넌트 가져오기
+import FindPasswordModal from "../components/login_signup/itemcomponent/FindPasswordModal";
 import { url } from "../constants/defaultUrl";
-import axios from 'axios';
 import { postEmailLogin } from '../api/user/authApi';
 import { useAuthenticationStore } from '../stores/authentication';
 
 const LoginChoice = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const {setAccessToken,setRefreshToken} = useAuthenticationStore();
+  const { setAccessToken, setRefreshToken } = useAuthenticationStore();
   const navigate = useNavigate();
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
-  })
+  });
+  const [errorMessage, setErrorMessage] = useState(null);
 
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const error = queryParams.get('error');
+    if (error) {
+      setErrorMessage(decodeURIComponent(error));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (errorMessage) {
+      const timer = setTimeout(() => {
+        setErrorMessage(null);
+      }, 3000); // 3000ms = 3초
+
+      return () => clearTimeout(timer);
+    }
+  }, [errorMessage]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -33,7 +49,7 @@ const LoginChoice = () => {
   };
 
   const handleLogin = (provider) => {
-    window.location.href=`${url}/oauth2/authorization/${provider}`
+    window.location.href = `${url}/oauth2/authorization/${provider}`;
   };
 
   const handleModalOpen = () => {
@@ -44,18 +60,20 @@ const LoginChoice = () => {
     setIsModalOpen(false);
   };
 
-  const onSubmitHandler = async (e) =>{
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
-    const tokens = await postEmailLogin(loginInfo);
-    const [access,refresh]  = tokens;
-    console.log(tokens)
-    setAccessToken(access);
-    setRefreshToken(refresh);
-
-    if(access != null && refresh != null){
-      navigate("/main");
+    try {
+      const tokens = await postEmailLogin(loginInfo);
+      const [access, refresh] = tokens;
+      setAccessToken(access);
+      setRefreshToken(refresh);
+      if (access && refresh) {
+        navigate("/main");
+      }
+    } catch (error) {
+      setErrorMessage(error.message);
     }
-  }
+  };
 
   return (
     <div>
@@ -99,14 +117,13 @@ const LoginChoice = () => {
               </div>
             </div>
           </div>
-          <form className="absolute w-[276px] h-[207px] top-0 left-[62px]"
-		        onSubmit={onSubmitHandler}>
+          <form className="absolute w-[276px] h-[207px] top-0 left-[62px]" onSubmit={onSubmitHandler}>
             <div className="top-0 absolute w-[273px] h-[52px] left-0.5">
               <InputField
                 type="text"
                 name="email"
                 placeholder="이메일"
-				        onChange={handleInputChange}
+                onChange={handleInputChange}
               />
             </div>
             <div className="top-[66px] absolute w-[273px] h-[52px] left-0.5">
@@ -114,7 +131,7 @@ const LoginChoice = () => {
                 type="password"
                 name="password"
                 placeholder="비밀번호"
-				        onChange={handleInputChange}
+                onChange={handleInputChange}
               />
             </div>
             <div className="absolute w-[276px] h-[49px] top-[132px] left-0">
@@ -143,6 +160,11 @@ const LoginChoice = () => {
           >
             닫기
           </button>
+        </div>
+      )}
+      {errorMessage && (
+        <div className="fixed top-0 w-[390px] bg-red-600 text-white text-center py-2">
+          {errorMessage}
         </div>
       )}
     </div>
