@@ -2,9 +2,9 @@ const inventoryMockup = {
     products: [
         {
             productId: 1,
-            productName: "Apple",
-            country: "USA",
-            category: "Fruit",
+            productName: "광어",
+            country: "국산",
+            category: "활어",
             natural: "Yes",
             totalQuantity: 100,
             page: 1,
@@ -17,13 +17,11 @@ const inventoryMockup = {
                     inventoryId: 101,
                     inventoryQuantity: 50,
                     price: 1000,
-                    date: "2023-07-10"
                 },
                 {
                     inventoryId: 102,
                     inventoryQuantity: 50,
                     price: 1000,
-                    date: "2023-07-15"
                 }
             ]
         },
@@ -44,13 +42,11 @@ const inventoryMockup = {
                     inventoryId: 201,
                     inventoryQuantity: 75,
                     price: 800,
-                    date: "2023-07-12"
                 },
                 {
                     inventoryId: 202,
                     inventoryQuantity: 75,
                     price: 800,
-                    date: "2023-07-18"
                 }
             ]
         },
@@ -71,13 +67,11 @@ const inventoryMockup = {
                     inventoryId: 301,
                     inventoryQuantity: 100,
                     price: 500,
-                    date: "2023-07-15"
                 },
                 {
                     inventoryId: 302,
                     inventoryQuantity: 100,
                     price: 500,
-                    date: "2023-07-20"
                 }
             ]
         }
