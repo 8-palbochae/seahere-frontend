@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import SearchInput from '../common/SearchInput';
 import InventoryList from './InventoryList';
+import InventorySearchInput from './itemcomponent/InventorySearchInput';
 
 const MainInventory = () => {
   const [searchOption, setSearchOption] = useState("");
@@ -10,15 +10,16 @@ const MainInventory = () => {
   };
 
   return (
-    <>
-      <SearchInput onSearchChange={handleSearchChange} />
-      <InventoryList
-        companyId={1}
-        page={1}
-        size={10}
-        searchOption={searchOption}
-      />
-    </>
+    <div className="flex flex-col h-screen">
+      <InventorySearchInput onSearchChange={handleSearchChange} />
+      <div className="flex-1 overflow-auto mt-16">
+        <InventoryList
+          companyId={101}
+          size={4}
+          searchOption={searchOption}
+        />
+      </div>
+    </div>
   );
 };
 

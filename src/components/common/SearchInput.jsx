@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 const SearchInput = ({ value }) => {
 	let { data, isPending, isError, error } = useQuery({
 		queryKey: ["productList"],
-		// queryFn : getProductList,
 		queryFn: () => getProductList(value),
 		enabled: value !== undefined && value !== null,
 	});
@@ -21,7 +20,7 @@ const SearchInput = ({ value }) => {
 		if (!isPending) {
 			if (query.length > 0) {
 				// Filter the data based on the query
-				const filteredSuggestions = data.filter(({productName}) =>
+				const filteredSuggestions = data.filter(({ productName }) =>
 					productName.toLowerCase().includes(query.toLowerCase())
 				);
 				setSuggestions(filteredSuggestions);
