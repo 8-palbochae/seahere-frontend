@@ -60,6 +60,7 @@ const InventoryItemDetails = ({ detailData }) => {
             <InventoryEditModal name={name} quantity={quantity}
                 isOpen={isModalOpen}
                 onClose={closeModal}
+                inventoryId={inventoryId}
             />
             {/* <InventoryDeleteModal
                 isOpen={isDeleteConfirmOpen}
@@ -71,14 +72,16 @@ const InventoryItemDetails = ({ detailData }) => {
 };
 
 InventoryItemDetails.propTypes = {
-    country: PropTypes.string.isRequired,
-    naturalStatus: PropTypes.string.isRequired,
     detailData: PropTypes.shape({
         inventoryId: PropTypes.number.isRequired,
-        inventoryQuantity: PropTypes.number.isRequired,
-        price: PropTypes.number.isRequired,
+        companyId: PropTypes.number,
+        name: PropTypes.string,
+        category: PropTypes.string,
+        quantity: PropTypes.number.isRequired,
+        incomingDate: PropTypes.string,
+        country: PropTypes.string,
+        naturalStatus: PropTypes.string
     }).isRequired
 };
-
 
 export default InventoryItemDetails;
