@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import productImg from '../../../assets/income/product.svg';
 import { Select } from 'antd';
-import InventoryEditCheckModal from './InventoryEditCheckModal'; // Ensure you import the modal correctly
+import InventoryEditCheckModal from './InventoryEditCheckModal';
 
 const InventoryEditModal = ({ name, quantity, isOpen, onClose, inventoryId }) => {
     const [isCheckModalOpen, setIsCheckModalOpen] = useState(false);

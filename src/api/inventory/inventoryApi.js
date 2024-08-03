@@ -33,37 +33,21 @@ const getInventoryDetails = async (companyId, name, category) => {
 const updateInventoryQuantity = async (inventoryId, reason, afterQuantity) => {
     try {
         const target = `${url}/adjust`;
-        if (!inventoryId) {
-            throw new Error("Inventory ID must not be null");
-        }
-
-        // 요청 본문 데이터
         const requestBody = {
             inventoryId: inventoryId,
             reason: reason,
             afterQuantity: parseFloat(afterQuantity)
         };
-
-        // 요청 본문 데이터 콘솔 출력
-        console.log('Request Body:', requestBody);
-
         const response = await axios.post(target, requestBody, {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
             }
         });
 
-        if (response.status !== 200) {
-            throw new Error(`Error: ${response.status}`);
-        }
-        console.log('Inventory updated successfully');
     } catch (error) {
-        console.error('Error updating inventory:', error.response ? error.response.status : error.message);
+        console.error('Error updating inventory:', error.message);
         throw new Error("서버 연결 실패");
     }
 }
-
-
-
 
 export { getInventoryList, getInventoryDetails, updateInventoryQuantity };
