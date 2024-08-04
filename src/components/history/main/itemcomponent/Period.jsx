@@ -2,12 +2,12 @@ import React from "react";
 import PeriodStart from "./PeriodStart";
 import PeriodEnd from "./PeriodEnd";
 
-function Period() {
+function Period({ setStartDate, setEndDate }) {
 	return (
 		<div className="flex flex-col items-center space-y-4 w-full mt-3">
 			<div className="flex w-full justify-center space-x-6">
-				<PeriodStart />
-				<span>~</span> <PeriodEnd />
+				<PeriodStart setStartDate={setStartDate} />
+				<span>~</span> <PeriodEnd setEndDate={setEndDate} />
 			</div>
 			<div className="flex w-full justify-center space-x-4 px-4">
 				<button className="flex-grow bg-gray-100 text-black py-2 px-4 rounded">
