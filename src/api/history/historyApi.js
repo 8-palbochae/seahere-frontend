@@ -12,4 +12,15 @@ const getHistoryList = async (startDate, endDate) => {
 		throw new Error("서버 연결 실패");
 	}
 };
-export { getHistoryList };
+
+const getHistoryIncomingList = async (date) => {
+	try {
+		const res = await axios.get(`${url}/histories/incomings/${date}`);
+		console.log(res.data);
+		return res.data;
+	} catch (error) {
+		throw new Error("서버 연결 실패");
+	}
+};
+
+export { getHistoryList, getHistoryIncomingList };
