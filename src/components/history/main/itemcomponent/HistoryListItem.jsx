@@ -5,7 +5,7 @@ import { ReactComponent as Adjust } from "../../../../assets/history/adjust-icon
 import useHistoryHandler from "../../../../hooks/History/historyHandler";
 import dayjs from "dayjs";
 
-const HistoryListItem = ({ type, count }) => {
+const HistoryListItem = ({ type, count, date }) => {
 	const { handleNavigation } = useHistoryHandler();
 
 	// 아이콘 매핑 객체
@@ -26,7 +26,7 @@ const HistoryListItem = ({ type, count }) => {
 	return (
 		<div
 			className="flex flex-col w-full mb-1 shadow-md rounded-lg py-4 px-3 bg-white text-center"
-			onClick={() => handleNavigation(type)}
+			onClick={() => handleNavigation(type, date)}
 		>
 			<div className="flex w-full items-center justify-around text-center">
 				<div>

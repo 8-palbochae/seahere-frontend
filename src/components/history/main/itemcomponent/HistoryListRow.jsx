@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import HistoryListItem from "./HistoryListItem";
 import dayjs from "dayjs";
-const HistoryListRow = ({ keys, date, count }) => {
+const HistoryListRow = ({ date, count }) => {
 	return (
 		<>
 			<div className="flex flex-col w-full shadow-lg mt-3">
@@ -13,12 +13,18 @@ const HistoryListRow = ({ keys, date, count }) => {
 					<HistoryListItem
 						type={"출고"}
 						count={count.outgoingCount}
+						date={date}
 					/>
 					<HistoryListItem
 						type={"입고"}
 						count={count.incomingCount}
+						date={date}
 					/>
-					<HistoryListItem type={"조정"} count={count.adjustCount} />
+					<HistoryListItem
+						type={"조정"}
+						count={count.adjustCount}
+						date={date}
+					/>
 				</div>
 			</div>
 		</>

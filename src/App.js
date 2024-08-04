@@ -38,9 +38,9 @@ import {
 import { TradeMain, TradeBrokerMain } from "./components/trade";
 import AlarmHistory from "./components/common/header/AlarmHistory";
 import BrokerMain from "./components/main/broker/BrokerMain";
-import AxiosInstanceTest from './components/common/AxiosInstanceTest';
-import PrivateRoute from './components/common/PrivateRoute';
-import SocialLoading from './components/login_signup/SocialLoading';
+import AxiosInstanceTest from "./components/common/AxiosInstanceTest";
+import PrivateRoute from "./components/common/PrivateRoute";
+import SocialLoading from "./components/login_signup/SocialLoading";
 
 function App() {
 	return (
@@ -54,7 +54,10 @@ function App() {
 						<Route path="" element={<SignUpInfo />} />
 						<Route path="broker" element={<SignUpBroker />} />
 						<Route path="choice" element={<SignUpChoice />} />
-						<Route path="broker-choice" element={<SignUpBrokerChoice />} />
+						<Route
+							path="broker-choice"
+							element={<SignUpBrokerChoice />}
+						/>
 					</Route>
 
 					{/* 보호된 라우트 */}
@@ -63,32 +66,68 @@ function App() {
 							<Route path="/" element={<Main />} />
 							<Route path="/setting" element={<Setting />}>
 								<Route path="" element={<MainSetting />} />
-								<Route path="users" element={<UserInfoSetting />} />
+								<Route
+									path="users"
+									element={<UserInfoSetting />}
+								/>
 								<Route path="qr" element={<QrInfo />} />
-								<Route path="alarm-history" element={<AlarmHistory />} />
-								<Route path="password" element={<PasswordChange />} />
+								<Route
+									path="alarm-history"
+									element={<AlarmHistory />}
+								/>
+								<Route
+									path="password"
+									element={<PasswordChange />}
+								/>
 								<Route path="teams" element={<TeamInfo />} />
-								<Route path="inventories" element={<InventorySetting />} />
+								<Route
+									path="inventories"
+									element={<InventorySetting />}
+								/>
 								<Route path="alarms" element={<Alarm />} />
 							</Route>
 							<Route path="/main" element={<Main />}>
 								<Route path="" element={<BrokerMain />} />
-								<Route path="outgoings" element={<OutgoingReqList />} />
+								<Route
+									path="outgoings"
+									element={<OutgoingReqList />}
+								/>
 							</Route>
-							<Route path="/histories" element={<HistoryOutlet />}>
+							<Route
+								path="/histories"
+								element={<HistoryOutlet />}
+							>
 								<Route path="" element={<History />} />
-								<Route path="outgoings" element={<OutgoingList />} />
-								<Route path="incomingList" element={<IncomingList />} />
-								<Route path="adjusts" element={<AdjustList />} />
+								<Route
+									path="outgoings/:date"
+									element={<OutgoingList />}
+								/>
+								<Route
+									path="incomings/:date"
+									element={<IncomingList />}
+								/>
+								<Route
+									path="adjusts/:date"
+									element={<AdjustList />}
+								/>
 							</Route>
-							<Route path="/inventories" element={<InventoryView />} />
+							<Route
+								path="/inventories"
+								element={<InventoryView />}
+							/>
 							<Route path="/trades" element={<TradeView />}>
 								<Route path="" element={<TradeMain />} />
-								<Route path="broker/:id" element={<TradeBrokerMain />} />
+								<Route
+									path="broker/:id"
+									element={<TradeBrokerMain />}
+								/>
 							</Route>
 							<Route path="/carts" element={<Cart />} />
 							<Route path="/incoming" element={<Income />} />
-							<Route path="/alarm-history" element={<AlarmHistory />} />
+							<Route
+								path="/alarm-history"
+								element={<AlarmHistory />}
+							/>
 						</Route>
 					</Route>
 
