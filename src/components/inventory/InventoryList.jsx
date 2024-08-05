@@ -47,7 +47,7 @@ const InventoryList = ({ companyId, size, searchOption }) => {
         <div className="h-full overflow-y-auto">
             {products.map((product, index) => (
                 <InventoryListItem
-                    key={`${product.productId}-${index}`} // 고유한 key 생성
+                    key={`${product.productId}-${index}`}
                     product={product}
                 />
             ))}

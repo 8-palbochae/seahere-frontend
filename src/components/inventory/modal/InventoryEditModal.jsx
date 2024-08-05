@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import productImg from '../../../assets/income/product.svg';
 import { Select } from 'antd';
-import InventoryEditCheckModal from './InventoryEditCheckModal'; // Ensure you import the modal correctly
+import InventoryEditCheckModal from './InventoryEditCheckModal';
 
-const InventoryEditModal = ({ name, isOpen, onClose, quantity }) => {
+const InventoryEditModal = ({ name, quantity, isOpen, onClose, inventoryId }) => {
     const [isCheckModalOpen, setIsCheckModalOpen] = useState(false);
-    const [currentQuantity, setCurrentQuantity] = useState(quantity);
     const [afterQuantity, setAfterQuantity] = useState('');
-    const [currentPrice, setCurrentPrice] = useState('');
-    const [afterPrice, setAfterPrice] = useState('');
     const [isCompleteDisabled, setIsCompleteDisabled] = useState(true);
 
     useEffect(() => {
-        if (!afterQuantity && !afterPrice) {
+        if (!afterQuantity) {
             setIsCompleteDisabled(true);
         } else {
             setIsCompleteDisabled(false);
         }
-    }, [afterQuantity, afterPrice]);
+    }, [afterQuantity]);
 
     if (!isOpen) return null;
 
@@ -34,10 +31,7 @@ const InventoryEditModal = ({ name, isOpen, onClose, quantity }) => {
 
     const handleEditComplete = () => {
         if (!afterQuantity) {
-            setAfterQuantity(currentQuantity);
-        }
-        if (!afterPrice) {
-            setAfterPrice(currentPrice);
+            setAfterQuantity(quantity);
         }
         setIsCheckModalOpen(true);
     };
@@ -45,11 +39,6 @@ const InventoryEditModal = ({ name, isOpen, onClose, quantity }) => {
     const handleQuantityChange = (e) => {
         const value = e.target.value.replace(/[^0-9]/g, '');
         setAfterQuantity(value.replace(/\B(?=(\d{3})+(?!\d))/g, ','));
-    };
-
-    const handlePriceChange = (e) => {
-        const value = e.target.value.replace(/[^0-9]/g, '');
-        setAfterPrice(value.replace(/\B(?=(\d{3})+(?!\d))/g, ','));
     };
 
     return (
@@ -74,7 +63,7 @@ const InventoryEditModal = ({ name, isOpen, onClose, quantity }) => {
                             />
                         </div>
                         <div className='flex flex-col w-full justify-center items-center'>
-                            <div className='flex items-center w-5/6 mb-4 pb-3'>
+                            <div className='flex items-center w-5/6 mb-1 pb-1'>
                                 <label className='w-1/2 text-left pr-4'>입고량</label>
                                 <input
                                     className='border p-2 flex-grow rounded-xl w-full text-right'
@@ -83,16 +72,6 @@ const InventoryEditModal = ({ name, isOpen, onClose, quantity }) => {
                                     placeholder="0"
                                 />
                                 <span className="ml-2">kg</span>
-                            </div>
-                            <div className='flex items-center w-5/6 mb-4'>
-                                <label className='w-1/2 text-left pr-4'>입고 금액</label>
-                                <input
-                                    className='border p-2 flex-grow rounded-xl w-full text-right'
-                                    value={afterPrice}
-                                    onChange={handlePriceChange}
-                                    placeholder="0"
-                                />
-                                <span className="ml-2">원</span>
                             </div>
                         </div>
 
@@ -103,7 +82,7 @@ const InventoryEditModal = ({ name, isOpen, onClose, quantity }) => {
                                 onClick={handleEditComplete}
                                 disabled={isCompleteDisabled}
                             >
-                                수정 완료
+                                수정
                             </button>
                             <button
                                 type="button"
@@ -121,10 +100,10 @@ const InventoryEditModal = ({ name, isOpen, onClose, quantity }) => {
                     onClose={() => setIsCheckModalOpen(false)}
                     success={true}
                     onSuccessClick={() => setIsCheckModalOpen(false)}
-                    currentQuantity={currentQuantity}
+                    currentQuantity={quantity}
                     afterQuantity={afterQuantity}
-                    currentPrice={currentPrice}
-                    afterPrice={afterPrice}
+                    inventoryId={inventoryId}
+                    reason={editOption.label}
                 />
             )}
         </div>
