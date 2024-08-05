@@ -1,12 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { updateInventoryQuantity } from '../../../api/inventory/inventoryApi';
 
-const InventoryEditCheckModal = ({ onClose, currentQuantity, afterQuantity, currentPrice, afterPrice }) => {
+const InventoryEditCheckModal = ({ onClose, currentQuantity, afterQuantity, inventoryId, reason }) => {
     const navigate = useNavigate();
 
-    const handleConfirmClick = () => {
-        navigate(0); // 현재 페이지를 새로고침
+    const handleConfirmClick = async () => {
+        try {
+            await updateInventoryQuantity(inventoryId, reason, afterQuantity);
+            navigate(0);
+        } catch (error) {
+            console.error('Error updating inventory:', error);
+        }
     };
+
 
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -24,16 +31,8 @@ const InventoryEditCheckModal = ({ onClose, currentQuantity, afterQuantity, curr
                         <span>변경 재고량:</span>
                         <span className="ml-2">{afterQuantity}</span>
                     </div>
-                    <div className="flex justify-between">
-                        <span>현재 가격:</span>
-                        <span className="ml-2">{currentPrice}</span>
-                    </div>
-                    <div className="flex justify-between">
-                        <span>변경 가격:</span>
-                        <span className="ml-2">{afterPrice}</span>
-                    </div>
                 </div>
-                <p className="text-center mb-4 text-black">
+                <p className="text-center mb-2 text-black">
                     정말 수정하시겠습니까?
                 </p>
                 <div className="w-full flex justify-around">
