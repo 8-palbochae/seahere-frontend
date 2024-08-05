@@ -7,14 +7,19 @@ import OutgoingItemDetails from "./OutgoingItemDetails";
 const OutgoingListItem = ({ item }) => {
 	const [isSwiped, setIsSwiped] = useState(false);
 	const [showOutgoingComplete, setShowOutgoingComplete] = useState(false);
-
+	const isNotComplete = item.state !== "COMPLETE";
+	console.log(item.state);
 	// 핸들러 함수들
 	const handleSwipeLeft = () => {
-		setIsSwiped(true);
+		if (isNotComplete) {
+			setIsSwiped(true);
+		}
 	};
 
 	const handleSwipeRight = () => {
-		setIsSwiped(false);
+		if (isNotComplete) {
+			setIsSwiped(false);
+		}
 	};
 
 	const handleOutgoingDeleteClose = () => {
@@ -46,10 +51,10 @@ const OutgoingListItem = ({ item }) => {
 					className={`flex w-full h-[98px] bg-white rounded-[20px] shadow-lg border-solid items-center px-4 transition-transform duration-300 ease-in-out ${
 						isSwiped ? "translate-x-[-100px]" : "translate-x-0"
 					}`}
-					onTouchStart={handleTouchStart}
-					onTouchMove={handleTouchMove}
-					onTouchEnd={handleTouchEnd}
-					onMouseDown={handleMouseDown}
+					onTouchStart={isNotComplete ? handleTouchStart : null}
+					onTouchMove={isNotComplete ? handleTouchMove : null}
+					onTouchEnd={isNotComplete ? handleTouchEnd : null}
+					onMouseDown={isNotComplete ? handleMouseDown : null}
 					onClick={handleToggle}
 				>
 					<div className="flex-1 flex justify-center items-center">
@@ -69,16 +74,19 @@ const OutgoingListItem = ({ item }) => {
 						</div>
 					</div>
 				</div>
-				{isSwiped && (
+				{isSwiped && isNotComplete && (
 					<button
 						className="absolute right-0 h-[98px] bg-blue-600 text-white py-2 px-4 rounded-r-lg shadow-lg flex items-center justify-center transition-width duration-300 ease-in-out block"
 						style={{ width: "100px" }}
-						onClick={() => setShowOutgoingComplete(true)}
+						onClick={() => {
+							setShowOutgoingComplete(true);
+							setIsSwiped(false);
+						}}
 					>
 						출고 완료
 					</button>
 				)}
-				{showOutgoingComplete && (
+				{showOutgoingComplete && isNotComplete && (
 					<OutgoingComplete
 						onClose={handleOutgoingDeleteClose}
 						outgoingId={item.outgoingId}
