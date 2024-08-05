@@ -21,4 +21,16 @@ const getHistoryIncomingList = async (date) => {
 	}
 };
 
-export { getHistoryList, getHistoryIncomingList };
+const getHistoryOutgoingList = async (date, search) => {
+	try {
+		const res = await axios.get(
+			`${url}/histories/outgoings/${date}?search=${search}`
+		);
+		console.log(res.data);
+		return res.data;
+	} catch (error) {
+		throw new Error("서버 연결 실패");
+	}
+};
+
+export { getHistoryList, getHistoryIncomingList, getHistoryOutgoingList };
