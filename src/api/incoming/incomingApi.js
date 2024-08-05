@@ -20,7 +20,7 @@ const getProductList = async (value) => {
 }
 const saveIncomingData = async (data) => {
     try {
-        const res = await axios.post(`${url}/saveIncomingData`, data,{
+        const res = await axios.post(`${url}/incoming`, data,{
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
             },
