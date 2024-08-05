@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import dayjs from "dayjs";
 import useDragHandler from "../../../../hooks/useDragHandler";
 import "../../../inventory/styles/InventoryItem.css";
-import OutgoingDelete from "./OutgoingDelete";
+import OutgoingComplete from "./OutgoingComplete";
 import OutgoingItemDetails from "./OutgoingItemDetails";
 
 const OutgoingListItem = ({ item }) => {
 	const [isSwiped, setIsSwiped] = useState(false);
-	const [showOutgoingDelete, setShowOutgoingDelete] = useState(false);
+	const [showOutgoingComplete, setShowOutgoingComplete] = useState(false);
 
 	// 핸들러 함수들
 	const handleSwipeLeft = () => {
@@ -19,7 +18,7 @@ const OutgoingListItem = ({ item }) => {
 	};
 
 	const handleOutgoingDeleteClose = () => {
-		setShowOutgoingDelete(false);
+		setShowOutgoingComplete(false);
 	};
 
 	const {
@@ -35,7 +34,6 @@ const OutgoingListItem = ({ item }) => {
 	const handleToggle = () => {
 		setIsExpanded((prevState) => !prevState);
 	};
-	const date = "2024-07-10";
 
 	return (
 		<div className="relative w-full flex flex-col">
@@ -75,13 +73,16 @@ const OutgoingListItem = ({ item }) => {
 					<button
 						className="absolute right-0 h-[98px] bg-blue-600 text-white py-2 px-4 rounded-r-lg shadow-lg flex items-center justify-center transition-width duration-300 ease-in-out block"
 						style={{ width: "100px" }}
-						onClick={() => setShowOutgoingDelete(true)}
+						onClick={() => setShowOutgoingComplete(true)}
 					>
 						출고 완료
 					</button>
 				)}
-				{showOutgoingDelete && (
-					<OutgoingDelete onClose={handleOutgoingDeleteClose} />
+				{showOutgoingComplete && (
+					<OutgoingComplete
+						onClose={handleOutgoingDeleteClose}
+						outgoingId={item.outgoingId}
+					/>
 				)}
 			</div>
 			<div

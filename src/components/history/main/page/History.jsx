@@ -1,9 +1,8 @@
 import Period from "../itemcomponent/Period";
 import HistoryList from "../itemcomponent/HistoryList";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import dayjs from "dayjs";
 import { getHistoryList } from "../../../../api/history/historyApi";
-import { useQuery } from "@tanstack/react-query";
 
 const getCurrentDate = () => {
 	return dayjs().format("YYYY-MM-DD");
@@ -27,6 +26,8 @@ const History = () => {
 		<div className="flex flex-col gap-3 w-full ">
 			<div className=" w-full">
 				<Period
+					startDate={startDate}
+					endDate={endDate}
 					setStartDate={setStartDate}
 					setEndDate={setEndDate}
 					handleClick={handleClick}

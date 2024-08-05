@@ -33,7 +33,8 @@ const AdjustListItem = ({ item }) => {
 
 				<div className="text-center flex-1 text-blue-600 text-base font-bold">
 					<span className="text-black font-normal inline-block text-center mr-5">
-						{item.beforeQuantity} <br />↓<br /> {item.afterQuantity}
+						{item.beforeQuantity}kg <br />↓<br />{" "}
+						{item.afterQuantity}kg
 					</span>
 				</div>
 			</div>
