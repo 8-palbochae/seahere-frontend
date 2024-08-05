@@ -56,6 +56,7 @@ const IncomingListItem = ({ item }) => {
 				</div>
 			</div>
 			<IncomingModifiedModal
+				incomingId={item.incomingId}
 				isOpen={isModalOpen}
 				onClose={handleCloseModal}
 				onSave={handleSaveAmount}
