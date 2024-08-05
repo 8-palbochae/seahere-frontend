@@ -21,7 +21,7 @@ const IncomingInfo = ({ onAmountChange, onPriceChange, isAmountValid, isPriceVal
     const handleAmountChange = (e) => {
         let value = e.target.value;
         value = value.replaceAll(',','');
-        if(!isNaN(value)&&value.trim()!=''){
+        if(!isNaN(value)&&value.trim()!==''){
             const numericValue = Number(value);
             setQuantity(numericValue);
             const valid = numericValue!==0;
@@ -33,12 +33,10 @@ const IncomingInfo = ({ onAmountChange, onPriceChange, isAmountValid, isPriceVal
         }
         
     };
-
-    
     const handlePriceChange = (e) => {
         let value = e.target.value;
         value = value.replaceAll(',','');
-        if(!isNaN(value)&&value.trim()!=''){
+        if(!isNaN(value)&&value.trim()!==''){
             const numericValue = Number(value);
             setIncomingPrice(numericValue);
             const valid = numericValue!==0;
