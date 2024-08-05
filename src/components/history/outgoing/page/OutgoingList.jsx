@@ -10,7 +10,7 @@ const OutgoingList = () => {
 	const date = useParams();
 	const [search, setSearch] = useState("");
 	const { data, isPending, isError, error } = useQuery({
-		queryKey: ["incomings", date],
+		queryKey: ["incomings", { date, search }],
 		queryFn: () => getHistoryOutgoingList(date.date, search),
 	});
 	if (isPending) {
