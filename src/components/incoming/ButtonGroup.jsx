@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import MessageModal from './MessageModal';
+import { useNavigate } from 'react-router-dom';
 
 const ButtonGroup = ({ quantity, incomingPrice, onSubmit }) => {
     const [showModal, setShowModal] = useState(false);
     const [modalTitle, setModalTitle] = useState('');
     const [modalMessage, setModalMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleAddClick = () => {
         let errorMessage = '';
@@ -30,10 +32,6 @@ const ButtonGroup = ({ quantity, incomingPrice, onSubmit }) => {
         }
     };
 
-    // const handleModalClose = async () => {
-    //     setShowModal(false);
-    //     await onSubmit();
-    // };
 
     const handleModalClose = async () => {
         setShowModal(false);
@@ -42,10 +40,14 @@ const ButtonGroup = ({ quantity, incomingPrice, onSubmit }) => {
         }
     };
 
+    const handleCancel = () =>{
+            navigate("/main");
+    };
+
     return (
         <div className='mt-5 flex flex-row justify-around items-center mb-6'>
             <div className='w-11/12 flex flex-row gap-5'>
-                <button className='w-full bg-gray-200 text-black font-bold py-2 px-4 rounded-lg'>취소</button>
+                <button className='w-full bg-gray-200 text-black font-bold py-2 px-4 rounded-lg' onClick={handleCancel}>취소</button>
                 <button
                     className='w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg  focus:ring-opacity-50'
                     onClick={handleAddClick}

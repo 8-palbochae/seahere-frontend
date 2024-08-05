@@ -7,7 +7,7 @@ import { saveIncomingData } from '../../api/incoming/incomingApi';
 const IncomingInfo = ({ onAmountChange, onPriceChange, isAmountValid, isPriceValid, selectedProduct}) => {
     
     const [quantity, setQuantity] = useState('');
-    const [incomingPrice, setIncomingPrice] = useState('');
+    const [incomingPrice, setIncomingPrice] = useState(0);
     const [countryDetail, setCountryDetail] = useState('');
     const [memo, setMemo] = useState('');
 
@@ -19,17 +19,33 @@ const IncomingInfo = ({ onAmountChange, onPriceChange, isAmountValid, isPriceVal
     });
 
     const handleAmountChange = (e) => {
-        const value = e.target.value;
-        setQuantity(value);
-        const valid = value.trim() !== '' && !isNaN(value);
-        onAmountChange(value, valid);
+        let value = e.target.value;
+        value = value.replaceAll(',','');
+        if(!isNaN(value)&&value.trim()!==''){
+            const numericValue = Number(value);
+            setQuantity(numericValue);
+            const valid = numericValue!==0;
+            onAmountChange(numericValue,valid);
+        }
+        else{
+            setQuantity(0);
+            onAmountChange(0,false);
+        }
+        
     };
-
     const handlePriceChange = (e) => {
-        const value = e.target.value;
-        setIncomingPrice(value);
-        const valid = value.trim() !== '' && !isNaN(value);
-        onPriceChange(value, valid);
+        let value = e.target.value;
+        value = value.replaceAll(',','');
+        if(!isNaN(value)&&value.trim()!==''){
+            const numericValue = Number(value);
+            setIncomingPrice(numericValue);
+            const valid = numericValue!==0;
+            onPriceChange(numericValue,valid);
+        }
+        else{
+            setIncomingPrice(0);
+            onPriceChange(0,false);
+        }
     };
 
     const handleSubmit = async () => {
@@ -80,7 +96,7 @@ const IncomingInfo = ({ onAmountChange, onPriceChange, isAmountValid, isPriceVal
                         <input
                             className='border p-2 flex-grow rounded-xl'
                             type="text"
-                            value={quantity}
+                            value={quantity === 0?'':quantity.toLocaleString('ko-KR')}
                             onChange={handleAmountChange}
                         />
                         <span className='ml-2 font-bold text-lg'>Kg</span>
@@ -103,7 +119,7 @@ const IncomingInfo = ({ onAmountChange, onPriceChange, isAmountValid, isPriceVal
                         <input
                             className='border p-2 flex-grow rounded-xl'
                             type="text"
-                            value={incomingPrice}
+                            value={incomingPrice === 0?'':incomingPrice.toLocaleString('ko-KR')}
                             onChange={handlePriceChange}
                         />
                         <span className='ml-2 font-bold text-lg'>원</span>
