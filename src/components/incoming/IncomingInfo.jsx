@@ -19,10 +19,19 @@ const IncomingInfo = ({ onAmountChange, onPriceChange, isAmountValid, isPriceVal
     });
 
     const handleAmountChange = (e) => {
-        const value = e.target.value;
-        setQuantity(value);
-        const valid = value.trim() !== '' && !isNaN(value);
-        onAmountChange(value, valid);
+        let value = e.target.value;
+        value = value.replaceAll(',','');
+        if(!isNaN(value)&&value.trim()!=''){
+            const numericValue = Number(value);
+            setQuantity(numericValue);
+            const valid = numericValue!==0;
+            onAmountChange(numericValue,valid);
+        }
+        else{
+            setQuantity(0);
+            onAmountChange(0,false);
+        }
+        
     };
 
     
@@ -89,7 +98,7 @@ const IncomingInfo = ({ onAmountChange, onPriceChange, isAmountValid, isPriceVal
                         <input
                             className='border p-2 flex-grow rounded-xl'
                             type="text"
-                            value={quantity}
+                            value={quantity === 0?'':quantity.toLocaleString('ko-KR')}
                             onChange={handleAmountChange}
                         />
                         <span className='ml-2 font-bold text-lg'>Kg</span>
