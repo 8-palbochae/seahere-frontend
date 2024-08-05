@@ -20,10 +20,10 @@ const MainInventory = () => {
   }, []);
 
   function calculateSize(height) {
-    const itemHeight = 100; // `InventoryListItem` 하나의 대략적인 높이 (픽셀 단위)
-    const headerHeight = 64; // 헤더의 높이 (픽셀 단위)
-    const footerHeight = 64; // 푸터의 높이 (픽셀 단위)
-    const searchInputHeight = 56; // 서치 인풋의 높이 (픽셀 단위)
+    const itemHeight = 100;
+    const headerHeight = 64;
+    const footerHeight = 64;
+    const searchInputHeight = 56;
     const availableHeight = height - headerHeight - footerHeight - searchInputHeight;
     return Math.floor(availableHeight / itemHeight);
   }

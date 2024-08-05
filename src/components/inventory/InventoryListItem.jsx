@@ -39,7 +39,7 @@ const InventoryListItem = ({ product }) => {
                     <span className="text-gray-800">{name}</span>
                 </div>
                 <div className='w-1/5 text-center font-bold text-lg text-gray-800'>{category}</div>
-                <div className='w-1/5 text-center text-lg text-gray-700'>{totalQuantity}kg</div>
+                <div className='w-1/5 text-center text-lg text-gray-700'>{totalQuantity.toLocaleString()}kg</div>
                 <div className='w-1/5 text-center text-sm text-gray-500 whitespace-nowrap'>{dayjs(latestIncoming).format('YYYY-MM-DD')}</div>
             </div>
             {isExpanded && (
