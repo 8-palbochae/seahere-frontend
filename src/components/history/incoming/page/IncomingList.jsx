@@ -7,12 +7,12 @@ import { getHistoryIncomingList } from "../../../../api/history/historyApi";
 
 const IncomingList = () => {
 	const date = useParams();
-	console.log(date.get);
+
 	const { data, isPending, isError, error } = useQuery({
 		queryKey: ["incomings", date],
 		queryFn: () => getHistoryIncomingList(date.date),
 	});
-
+	console.log(data);
 	if (isPending) {
 		return (
 			<div>
@@ -29,7 +29,7 @@ const IncomingList = () => {
 				<IncomingListTitle />
 			</div> */}
 			<div className="mt-1">
-				<IncomingListComponent />
+				<IncomingListComponent data={data} />
 			</div>
 		</div>
 	);
