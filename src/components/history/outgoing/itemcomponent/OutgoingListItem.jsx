@@ -91,10 +91,12 @@ const OutgoingListItem = ({ item }) => {
 			>
 				{isExpanded && (
 					<>
-						<InventoryItemDetails />
-						<InventoryItemDetails />
-						<InventoryItemDetails />
-						<InventoryItemDetails />
+						{item.details.map((item) => (
+							<InventoryItemDetails
+								key={item.outgoingDetailId}
+								detailData={item}
+							/>
+						))}
 					</>
 				)}
 			</div>
