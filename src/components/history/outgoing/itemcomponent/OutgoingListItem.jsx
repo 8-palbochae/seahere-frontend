@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import dayjs from "dayjs";
 import useDragHandler from "../../../../hooks/useDragHandler";
 import "../../../inventory/styles/InventoryItem.css";
-import InventoryItemDetails from "../../../inventory/InventoryItemDetails";
 import OutgoingDelete from "./OutgoingDelete";
+import OutgoingItemDetails from "./OutgoingItemDetails";
 
 const OutgoingListItem = ({ item }) => {
 	const [isSwiped, setIsSwiped] = useState(false);
@@ -92,7 +92,7 @@ const OutgoingListItem = ({ item }) => {
 				{isExpanded && (
 					<>
 						{item.details.map((item) => (
-							<InventoryItemDetails
+							<OutgoingItemDetails
 								key={item.outgoingDetailId}
 								detailData={item}
 							/>

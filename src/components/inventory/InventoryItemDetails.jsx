@@ -16,10 +16,12 @@ const InventoryItemDetails = ({ detailData }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 	const {
+		inventoryId,
+		companyId,
 		name,
 		category,
-		outgoingQuantity,
-		productName,
+		quantity,
+		incomingDate,
 		country,
 		naturalStatus,
 	} = detailData;
@@ -52,19 +54,16 @@ const InventoryItemDetails = ({ detailData }) => {
 				>
 					<div className="flex justify-around items-center mb-2">
 						<span className="w-1/6 text-sm font-medium truncate text-center">
-							{productName}
-						</span>
-						<span className="w-1/6 text-sm font-medium truncate text-center">
-							{category}
+							{country}
 						</span>
 						<span className="w-1/6 text-sm truncate text-center">
 							{naturalStatus}
 						</span>
-						<span className="w-1/6 text-sm truncate text-center">
-							{country}
-						</span>
 						<span className="w-1/6 text-sm font-semibold truncate text-center text-blue-600">
-							{outgoingQuantity} Kg
+							{quantity} Kg
+						</span>
+						<span className="w-1/6 text-sm truncate text-center">
+							{incomingDate}
 						</span>
 					</div>
 				</div>
@@ -94,9 +93,10 @@ const InventoryItemDetails = ({ detailData }) => {
 			</div>
 			<InventoryEditModal
 				name={name}
-				quantity={outgoingQuantity}
+				quantity={quantity}
 				isOpen={isModalOpen}
 				onClose={closeModal}
+				inventoryId={inventoryId}
 			/>
 			{/* <InventoryDeleteModal
                 isOpen={isDeleteConfirmOpen}
@@ -108,12 +108,15 @@ const InventoryItemDetails = ({ detailData }) => {
 };
 
 InventoryItemDetails.propTypes = {
-	country: PropTypes.string.isRequired,
-	naturalStatus: PropTypes.string.isRequired,
 	detailData: PropTypes.shape({
 		inventoryId: PropTypes.number.isRequired,
-		inventoryQuantity: PropTypes.number.isRequired,
-		price: PropTypes.number.isRequired,
+		companyId: PropTypes.number,
+		name: PropTypes.string,
+		category: PropTypes.string,
+		quantity: PropTypes.number.isRequired,
+		incomingDate: PropTypes.string,
+		country: PropTypes.string,
+		naturalStatus: PropTypes.string,
 	}).isRequired,
 };
 
