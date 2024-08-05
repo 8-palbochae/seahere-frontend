@@ -30,4 +30,24 @@ const getInventoryDetails = async (companyId, name, category) => {
     }
 };
 
-export { getInventoryList, getInventoryDetails };
+const updateInventoryQuantity = async (inventoryId, reason, afterQuantity) => {
+    try {
+        const target = `${url}/adjust`;
+        const requestBody = {
+            inventoryId: inventoryId,
+            reason: reason,
+            afterQuantity: parseFloat(afterQuantity)
+        };
+        const response = await axios.post(target, requestBody, {
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        });
+
+    } catch (error) {
+        console.error('Error updating inventory:', error.message);
+        throw new Error("서버 연결 실패");
+    }
+}
+
+export { getInventoryList, getInventoryDetails, updateInventoryQuantity };
