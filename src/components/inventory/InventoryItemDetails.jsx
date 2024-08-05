@@ -38,7 +38,7 @@ const InventoryItemDetails = ({ detailData }) => {
                     <div className="flex justify-around items-center mb-2">
                         <span className="w-1/6 text-sm font-medium truncate text-center">{country}</span>
                         <span className="w-1/6 text-sm truncate text-center">{naturalStatus}</span>
-                        <span className="w-1/6 text-sm font-semibold truncate text-center text-blue-600">{quantity} Kg</span>
+                        <span className="w-1/6 text-sm font-semibold truncate text-center text-blue-600">{quantity.toLocaleString()} Kg</span>
                         <span className="w-1/6 text-sm truncate text-center">{incomingDate}</span>
                     </div>
                 </div>
@@ -57,7 +57,9 @@ const InventoryItemDetails = ({ detailData }) => {
                     */}
                 </div>
             </div>
-            <InventoryEditModal name={name} quantity={quantity}
+            <InventoryEditModal
+                name={name}
+                quantity={quantity}
                 isOpen={isModalOpen}
                 onClose={closeModal}
                 inventoryId={inventoryId}
