@@ -7,27 +7,19 @@ import { getHistoryIncomingList } from "../../../../api/history/historyApi";
 
 const IncomingList = () => {
 	const date = useParams();
-
 	const { data, isPending, isError, error } = useQuery({
 		queryKey: ["incomings", date],
 		queryFn: () => getHistoryIncomingList(date.date),
 	});
-	console.log(data);
 	if (isPending) {
 		return (
 			<div>
-				{/* 			<div className="mt-2">
-                    <IncomingListTitle />
-                </div> */}
 				<div className="mt-1"></div>
 			</div>
 		);
 	}
 	return (
 		<div>
-			{/* 			<div className="mt-2">
-				<IncomingListTitle />
-			</div> */}
 			<div className="mt-1">
 				<IncomingListComponent data={data} />
 			</div>

@@ -6,7 +6,6 @@ const getHistoryList = async (startDate, endDate) => {
 		const res = await axios.get(`${url}/histories`, {
 			params: { startDate, endDate },
 		});
-		console.log(res.data);
 		return res.data;
 	} catch (error) {
 		throw new Error("서버 연결 실패");
@@ -16,7 +15,6 @@ const getHistoryList = async (startDate, endDate) => {
 const getHistoryIncomingList = async (date) => {
 	try {
 		const res = await axios.get(`${url}/histories/incomings/${date}`);
-		console.log(res.data);
 		return res.data;
 	} catch (error) {
 		throw new Error("서버 연결 실패");
