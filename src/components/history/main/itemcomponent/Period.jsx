@@ -48,14 +48,6 @@ function Period({ startDate, endDate, setStartDate, setEndDate, handleClick }) {
 					한 달
 				</button>
 			</div>
-			<div className="flex w-full justify-center space-x-4 px-4">
-				<button
-					className="flex-grow bg-gray-100 text-black py-2 px-4 rounded"
-					onClick={handleClick}
-				>
-					조회
-				</button>
-			</div>
 		</div>
 	);
 }

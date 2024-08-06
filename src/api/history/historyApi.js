@@ -1,10 +1,10 @@
 import axios from "axios";
 import { url } from "../../constants/defaultUrl";
 
-const getHistoryList = async (startDate, endDate) => {
+const getHistoryList = async ({ startDate, endDate, page }) => {
 	try {
 		const res = await axios.get(`${url}/histories`, {
-			params: { startDate, endDate },
+			params: { startDate, endDate, page },
 		});
 		return res.data;
 	} catch (error) {
