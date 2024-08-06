@@ -60,7 +60,7 @@ const InventoryItemDetails = ({ detailData }) => {
 							{naturalStatus}
 						</span>
 						<span className="w-1/6 text-sm font-semibold truncate text-center text-blue-600">
-							{quantity} Kg
+							{quantity.toLocaleString()} Kg
 						</span>
 						<span className="w-1/6 text-sm truncate text-center">
 							{incomingDate}

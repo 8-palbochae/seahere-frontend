@@ -6,8 +6,9 @@ const InventoryEditCheckModal = ({ onClose, currentQuantity, afterQuantity, inve
     const navigate = useNavigate();
 
     const handleConfirmClick = async () => {
+        const numericAfterQuantity = parseInt(afterQuantity.replace(/,/g, ''), 10);
         try {
-            await updateInventoryQuantity(inventoryId, reason, afterQuantity);
+            await updateInventoryQuantity(inventoryId, reason, numericAfterQuantity);
             navigate(0);
         } catch (error) {
             console.error('Error updating inventory:', error);
