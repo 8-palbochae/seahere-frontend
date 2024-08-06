@@ -3,7 +3,7 @@ import InventoryListItem from './InventoryListItem';
 import { useInView } from 'react-intersection-observer';
 import { getInventoryList } from '../../api/inventory/inventoryApi';
 
-const InventoryList = ({ companyId, size, searchOption }) => {
+const InventoryList = ({ size, searchOption }) => {
     const [products, setProducts] = useState([]);
     const [pageNum, setPageNum] = useState(0);
     const [hasMore, setHasMore] = useState(true);
@@ -15,14 +15,14 @@ const InventoryList = ({ companyId, size, searchOption }) => {
     const fetchData = useCallback(async (reset = false) => {
         setLoading(true);
         try {
-            const newProducts = await getInventoryList(companyId, reset ? 0 : pageNum, size, reset ? searchOption : currentSearchOption);
+            const newProducts = await getInventoryList(reset ? 0 : pageNum, size, reset ? searchOption : currentSearchOption);
             setProducts(prevProducts => reset ? newProducts : [...prevProducts, ...newProducts]);
             setHasMore(newProducts.length > 0);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
         setLoading(false);
-    }, [companyId, pageNum, size, currentSearchOption, searchOption]);
+    }, [pageNum, size, currentSearchOption, searchOption]);
 
     useEffect(() => {
         if (searchOption !== currentSearchOption) {
