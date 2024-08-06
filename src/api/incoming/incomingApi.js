@@ -1,9 +1,10 @@
 import axios from "axios";
 import { url } from "../../constants/defaultUrl";
+import { axiosInstance } from "../common/axiosInstance";
 
 const getProductList = async (value) => {
 	try {
-		const res = await axios.get(`${url}/product-search-${value}`, {
+		const res = await axiosInstance.get(`${url}/product-search-${value}`, {
 			headers: {
 				"Content-Type": "application/json; charset=UTF-8",
 			},
@@ -16,7 +17,7 @@ const getProductList = async (value) => {
 };
 const saveIncomingData = async (data) => {
 	try {
-		const res = await axios.post(`${url}/incoming`, data, {
+		const res = await axiosInstance.post(`${url}/incoming`, data, {
 			headers: {
 				"Content-Type": "application/json; charset=UTF-8",
 			},
@@ -36,7 +37,7 @@ const modifyIncomingPrice = async (incomingId, price) => {
 		price: price,
 	};
 	try {
-		const res = await axios.patch(`${url}/incoming`, JSON.stringify(data), {
+		const res = await axiosInstance.patch(`${url}/incoming`, JSON.stringify(data), {
 			headers: {
 				"Content-Type": "application/json",
 			},

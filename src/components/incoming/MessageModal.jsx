@@ -1,6 +1,14 @@
 import React from 'react';
-
+import { useNavigate } from 'react-router-dom';
 const MessageModal = ({ onClose, title, message }) => {
+    
+    const navigate = useNavigate();
+
+    const handleClose = () => {
+        onClose(); 
+        navigate('/main'); 
+    };
+
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50">
             <div className="fixed inset-0 bg-black opacity-50 z-10" onClick={onClose}></div>
@@ -14,7 +22,7 @@ const MessageModal = ({ onClose, title, message }) => {
                 <div className="w-full flex justify-center">
                     <button
                         className="w-[100px] h-8 bg-blue-600 rounded-[10px] text-white text-center font-medium"
-                        onClick={onClose}
+                        onClick={handleClose}
                     >
                         확인
                     </button>

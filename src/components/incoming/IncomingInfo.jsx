@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ProductInfo from './ProductInfo';
 import ButtonGroup from './ButtonGroup';
+import MessageModal from './MessageModal'; 
 import { saveIncomingData } from '../../api/incoming/incomingApi';
 
 const IncomingInfo = ({ onAmountChange, onPriceChange, isAmountValid, isPriceValid, selectedProduct}) => {
@@ -10,6 +11,10 @@ const IncomingInfo = ({ onAmountChange, onPriceChange, isAmountValid, isPriceVal
     const [incomingPrice, setIncomingPrice] = useState(0);
     const [countryDetail, setCountryDetail] = useState('');
     const [memo, setMemo] = useState('');
+
+    const [showModal, setShowModal] = useState(false); // 모달 창 표시 상태
+    const [modalTitle, setModalTitle] = useState(''); // 모달 창 제목
+    const [modalMessage, setModalMessage] = useState('');
 
 
     const [selectedProductDetails, setSelectedProductDetails] = useState({
@@ -64,7 +69,16 @@ const IncomingInfo = ({ onAmountChange, onPriceChange, isAmountValid, isPriceVal
         console.log(data);
 
         try {
-            await saveIncomingData(data);
+            const response = await saveIncomingData(data);
+            if(!response.ok){
+                throw new Error("데이터 저장 실패");
+            }
+            else{
+                setModalTitle('입고 등록');
+                setModalMessage('입고 등록이 완료되었습니다');
+                setShowModal(true);
+                
+            }
         } catch (error) {
             console.error('Error saving data:', error);
         }
