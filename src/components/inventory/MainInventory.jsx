@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import InventoryList from './InventoryList';
 import InventorySearchInput from './itemcomponent/InventorySearchInput';
+import { useHeaderText } from '../../stores/headerText';
 
 const MainInventory = () => {
+
+  const { setHeaderText } = useHeaderText();
+
+    useEffect(() => {
+        setHeaderText("재고 확인");
+    }, [setHeaderText]);
+
   const [searchOption, setSearchOption] = useState("");
   const [size, setSize] = useState(calculateSize(window.innerHeight));
 

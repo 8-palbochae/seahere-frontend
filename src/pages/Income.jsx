@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import IncomingInfo from '../components/incoming/IncomingInfo';
 import { useLocation } from "react-router-dom";
+import { useHeaderText } from '../stores/headerText';
 
 const Income = () => {
     const location = useLocation();
@@ -10,6 +11,13 @@ const Income = () => {
     const [price, setPrice] = useState('');
     const [isAmountValid, setIsAmountValid] = useState(false);
     const [isPriceValid, setIsPriceValid] = useState(false);
+
+
+    const { setHeaderText } = useHeaderText();
+
+    useEffect(() => {
+        setHeaderText("입고 상품 추가");
+    }, [setHeaderText]);
 
     const handleAmountChange = (value, valid) => {
         setAmount(value);
