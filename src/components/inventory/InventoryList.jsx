@@ -32,8 +32,6 @@ const InventoryList = ({ size, searchOption }) => {
             fetchData(true);
         } else if (pageNum === 0) {
             fetchData(true);
-        } else {
-            fetchData();
         }
     }, [searchOption, currentSearchOption, fetchData, pageNum]);
 

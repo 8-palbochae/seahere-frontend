@@ -11,7 +11,7 @@ export const certifyCompany = async (regNumber, ceoName, startDate) => {
         ]
     };
 
-    const serviceKey = "";
+    const serviceKey = "w%2F9mQZHK9naA0VQgcCPay%2B%2BAFoyLPVRNclaFvbIOC8%2B8BPTu%2FTAt1K9EdqkqnUlyJx4GEXMD4tsK22jqm7NLuA%3D%3D";
 
     try {
         const response = await axios.post(

@@ -2,13 +2,17 @@ import axios from "axios";
 import { url } from "../../constants/defaultUrl";
 import { axiosInstance } from "../common/axiosInstance";
 
-const getInventoryList = async (companyId, pageNum, size, searchOption) => {
+const getInventoryList = async (pageNum, size, searchOption) => {
     try {
+        console.log("pageNum, size, search:", pageNum, size, searchOption)
         const response = await axiosInstance.get(`${url}/inventories?page=${pageNum}&size=${size}&search=${searchOption}`, {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
             }
         });
+
+        console.log(response)
+
         return response.data.content.content;
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -16,7 +20,7 @@ const getInventoryList = async (companyId, pageNum, size, searchOption) => {
     }
 };
 
-const getInventoryDetails = async (companyId, name, category) => {
+const getInventoryDetails = async (name, category) => {
     try {
         const target = `${url}/inventories/details?page=0&size=5&search=&name=${name}&category=${category}`;
         const response = await axiosInstance.get(target, {
