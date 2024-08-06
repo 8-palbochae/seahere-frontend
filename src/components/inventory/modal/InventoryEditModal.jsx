@@ -7,14 +7,15 @@ const InventoryEditModal = ({ name, quantity, isOpen, onClose, inventoryId }) =>
     const [isCheckModalOpen, setIsCheckModalOpen] = useState(false);
     const [afterQuantity, setAfterQuantity] = useState('');
     const [isCompleteDisabled, setIsCompleteDisabled] = useState(true);
+    const [showError, setShowError] = useState(false);
 
     useEffect(() => {
-        if (!afterQuantity) {
+        if (!afterQuantity || showError) {
             setIsCompleteDisabled(true);
         } else {
             setIsCompleteDisabled(false);
         }
-    }, [afterQuantity]);
+    }, [afterQuantity, showError]);
 
     if (!isOpen) return null;
 
@@ -37,8 +38,12 @@ const InventoryEditModal = ({ name, quantity, isOpen, onClose, inventoryId }) =>
     };
 
     const handleQuantityChange = (e) => {
-        const value = e.target.value.replace(/[^0-9]/g, '');
-        setAfterQuantity(value.replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+        const value = e.target.value;
+        const regex = /^[0-9]*\.?[0-9]*$/;
+        if (regex.test(value)) {
+            setShowError((value.match(/\./g) || []).length > 1);
+            setAfterQuantity(value);
+        }
     };
 
     return (
@@ -63,15 +68,16 @@ const InventoryEditModal = ({ name, quantity, isOpen, onClose, inventoryId }) =>
                             />
                         </div>
                         <div className='flex flex-col w-full justify-center items-center'>
-                            <div className='flex items-center w-5/6 mb-1 pb-1'>
+                            <div className='flex items-center w-5/6 mb-1 pb-1 relative'>
                                 <label className='w-1/2 text-left pr-4'>입고량</label>
                                 <input
-                                    className='border p-2 flex-grow rounded-xl w-full text-right'
+                                    className={`border p-2 flex-grow rounded-xl w-full text-right ${showError ? 'border-red-500' : ''}`}
                                     value={afterQuantity}
                                     onChange={handleQuantityChange}
                                     placeholder="0"
                                 />
                                 <span className="ml-2">kg</span>
+                                {showError && <span className="absolute right-0 text-red-500">x</span>}
                             </div>
                         </div>
 

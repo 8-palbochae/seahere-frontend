@@ -3,14 +3,14 @@ import { persist } from 'zustand/middleware';
 
 const useAuthenticationStore = create(persist(
   (set) => ({
-    accessToken: "1234123541", 
+    accessToken: "1234123541",
     refreshToken: "1234123412",
-    setAccessToken: (token) => set({ accessToken: token }), 
-    setRefreshToken: (token) => set({ refreshToken: token }), 
+    setAccessToken: (token) => set({ accessToken: token }),
+    setRefreshToken: (token) => set({ refreshToken: token }),
   }),
   {
-    name: 'jwt-storage', 
-    getStorage: () => localStorage, 
+    name: 'jwt-storage',
+    getStorage: () => localStorage,
   }
 ));
 
@@ -28,4 +28,4 @@ const deleteCookie = (name) => {
   document.cookie = `${name}=; Max-Age=0; path=/;`;
 };
 
-export {useAuthenticationStore,getCookie,deleteCookie};
+export { useAuthenticationStore, getCookie, deleteCookie };

@@ -7,7 +7,7 @@ import { getInventoryDetails } from '../../api/inventory/inventoryApi';
 const InventoryListItem = ({ product }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [details, setDetails] = useState([]);
-    const { companyId, name, category, totalQuantity, latestIncoming } = product;
+    const { name, category, totalQuantity, latestIncoming } = product;
 
     const handleToggle = () => {
         setIsExpanded(prevState => !prevState);
@@ -17,7 +17,7 @@ const InventoryListItem = ({ product }) => {
         if (isExpanded) {
             const fetchData = async () => {
                 try {
-                    const detailsData = await getInventoryDetails(companyId, name, category);
+                    const detailsData = await getInventoryDetails(name, category);
                     setDetails(detailsData);
                 } catch (error) {
                     console.error('데이터를 가져오는 중 오류 발생:', error);
@@ -25,7 +25,7 @@ const InventoryListItem = ({ product }) => {
             };
             fetchData();
         }
-    }, [isExpanded, companyId, name, category]);
+    }, [isExpanded, name, category]);
 
     return (
         <div className="inventory-list-item">
