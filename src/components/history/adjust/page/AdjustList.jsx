@@ -29,7 +29,7 @@ const AdjustList = () => {
 				<AdjustListTitle />
 			</div>
 			<div className="mt-1">
-				<AdjustListComponent data={data} />
+				<AdjustListComponent data={data} date={date.date} />
 			</div>
 		</div>
 	);

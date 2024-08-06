@@ -24,7 +24,7 @@ const OutgoingList = () => {
 		<div>
 			<div>
 				<SearchInputFilter setSearch={setSearch} search={search} />
-				<OutgoingListComponent data={data} />
+				<OutgoingListComponent data={data} date={date.date} />
 			</div>
 		</div>
 	);

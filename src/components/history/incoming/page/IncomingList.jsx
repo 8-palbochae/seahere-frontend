@@ -21,7 +21,7 @@ const IncomingList = () => {
 	return (
 		<div>
 			<div className="mt-1">
-				<IncomingListComponent data={data} />
+				<IncomingListComponent data={data} date={date.date} />
 			</div>
 		</div>
 	);
