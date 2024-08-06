@@ -1,8 +1,12 @@
 import React from "react";
 
 const OutgoingItemDetails = ({ detailData }) => {
+	const textColor = detailData.delete ? "text-red-600" : "text-black";
+
 	return (
-		<div className="flex flex-col justify-center w-11/12 p-3 border-t border-gray-200">
+		<div
+			className={`flex flex-col justify-center w-11/12 p-3 border-t border-gray-200 ${textColor}`}
+		>
 			<div className="flex justify-around items-center mb-2">
 				<div className="flex justify-between w-full">
 					<div className="w-1/6 text-sm font-medium  text-center">
