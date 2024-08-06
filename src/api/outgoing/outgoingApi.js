@@ -1,5 +1,6 @@
 import axios from "axios";
 import { url } from "../../constants/defaultUrl";
+import { axiosInstance } from "../common/axiosInstance";
 
 const getOutgoingReqListSlice = async ({
 	startDate,
@@ -9,7 +10,7 @@ const getOutgoingReqListSlice = async ({
 	search,
 }) => {
 	try {
-		const res = await axios.get(`${url}/outgoings`, {
+		const res = await axiosInstance.get(`${url}/outgoings`, {
 			params: { startDate, endDate, search, page, size },
 		});
 		return res.data;
@@ -20,7 +21,7 @@ const getOutgoingReqListSlice = async ({
 
 const getOutgoingReqDetailList = async (outgoingId) => {
 	try {
-		const res = await axios.get(`${url}/outgoings/${outgoingId}`);
+		const res = await axiosInstance.get(`${url}/outgoings/${outgoingId}`);
 		return res.data;
 	} catch (error) {
 		throw new Error("Failed to fetch data");
@@ -33,7 +34,7 @@ const changeOutgoingReqState = async (outgoingId, state) => {
 	};
 
 	try {
-		const res = await axios.patch(
+		const res = await axiosInstance.patch(
 			`${url}/outgoings/${outgoingId}`,
 			JSON.stringify(data),
 			{
@@ -50,7 +51,7 @@ const changeOutgoingReqState = async (outgoingId, state) => {
 
 const deleteOutgoingReqDetail = async (outgoingDetailId) => {
 	try {
-		const res = await axios.delete(
+		const res = await axiosInstance.delete(
 			`${url}/outgoings/details/${outgoingDetailId}`
 		);
 		return res.data;
@@ -60,7 +61,7 @@ const deleteOutgoingReqDetail = async (outgoingDetailId) => {
 };
 const recoveryOutgoingReqDetail = async (outgoingId) => {
 	try {
-		const res = await axios.put(`${url}/outgoings/${outgoingId}`);
+		const res = await axiosInstance.put(`${url}/outgoings/${outgoingId}`);
 		return res.data;
 	} catch (error) {
 		throw new Error("Failed to fetch data");

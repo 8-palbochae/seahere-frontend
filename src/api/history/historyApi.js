@@ -1,9 +1,10 @@
 import axios from "axios";
 import { url } from "../../constants/defaultUrl";
+import { axiosInstance } from "../common/axiosInstance";
 
 const getHistoryList = async ({ startDate, endDate, page }) => {
 	try {
-		const res = await axios.get(`${url}/histories`, {
+		const res = await axiosInstance.get(`${url}/histories`, {
 			params: { startDate, endDate, page },
 		});
 		return res.data;
@@ -14,7 +15,9 @@ const getHistoryList = async ({ startDate, endDate, page }) => {
 
 const getHistoryIncomingList = async (date) => {
 	try {
-		const res = await axios.get(`${url}/histories/incomings/${date}`);
+		const res = await axiosInstance.get(
+			`${url}/histories/incomings/${date}`
+		);
 		return res.data;
 	} catch (error) {
 		throw new Error("서버 연결 실패");
@@ -22,7 +25,7 @@ const getHistoryIncomingList = async (date) => {
 };
 const getHistoryAdjustList = async (date) => {
 	try {
-		const res = await axios.get(`${url}/histories/adjusts/${date}`);
+		const res = await axiosInstance.get(`${url}/histories/adjusts/${date}`);
 		console.log(res.data);
 		return res.data;
 	} catch (error) {
@@ -32,7 +35,7 @@ const getHistoryAdjustList = async (date) => {
 
 const getHistoryOutgoingList = async (date, search) => {
 	try {
-		const res = await axios.get(
+		const res = await axiosInstance.get(
 			`${url}/histories/outgoings/${date}?search=${search}`
 		);
 		console.log(res.data);
