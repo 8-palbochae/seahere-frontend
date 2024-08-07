@@ -1,5 +1,5 @@
 import React from "react";
-import SearchInput from "../../common/SearchInput";
+import InventoryPageSearchInput from "../../inventory/itemcomponent/InventoryPageSearchInput";
 
 const InventorySearch = () => {
 	return (
@@ -8,7 +8,7 @@ const InventorySearch = () => {
 				<div className=" border-r border-gray-300 pr-1">여데이~</div>
 				<div>재고</div>
 			</div>
-			<SearchInput />
+			<InventoryPageSearchInput />
 		</div>
 	);
 };
