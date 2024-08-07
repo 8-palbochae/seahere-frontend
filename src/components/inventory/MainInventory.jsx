@@ -7,9 +7,9 @@ const MainInventory = () => {
 
   const { setHeaderText } = useHeaderText();
 
-    useEffect(() => {
-        setHeaderText("재고 확인");
-    }, [setHeaderText]);
+  useEffect(() => {
+    setHeaderText("재고 확인");
+  }, [setHeaderText]);
 
   const [searchOption, setSearchOption] = useState("");
   const [size, setSize] = useState(calculateSize(window.innerHeight));
@@ -43,7 +43,6 @@ const MainInventory = () => {
       </div>
       <div className="flex-1 overflow-y-auto w-full mt-4">
         <InventoryList
-          companyId={101}
           size={size}
           searchOption={searchOption}
         />
