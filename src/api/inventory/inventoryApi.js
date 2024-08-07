@@ -10,8 +10,6 @@ const getInventoryList = async (pageNum, size, searchOption) => {
             }
         });
 
-        console.log(response)
-
         return response.data.content.content;
     } catch (error) {
         console.error('Error fetching data:', error);
