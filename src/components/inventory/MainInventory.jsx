@@ -4,7 +4,6 @@ import InventorySearchInput from './itemcomponent/InventorySearchInput';
 import { useHeaderText } from '../../stores/headerText';
 
 const MainInventory = () => {
-
   const { setHeaderText } = useHeaderText();
 
   useEffect(() => {

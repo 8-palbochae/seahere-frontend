@@ -12,28 +12,27 @@ const InventoryList = ({ size, searchOption }) => {
 
     const { ref, inView } = useInView();
 
-    const fetchData = useCallback(async (reset = false) => {
+    const fetchData = useCallback(async (page, searchOpt) => {
         setLoading(true);
         try {
-            const newProducts = await getInventoryList(reset ? 0 : pageNum, size, reset ? searchOption : currentSearchOption);
-            setProducts(prevProducts => reset ? newProducts : [...prevProducts, ...newProducts]);
+            const newProducts = await getInventoryList(page, size, searchOpt);
+            setProducts(prevProducts => page === 0 ? newProducts : [...prevProducts, ...newProducts]);
             setHasMore(newProducts.length > 0);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
         setLoading(false);
-    }, [pageNum, size, currentSearchOption, searchOption]);
+    }, [size]);
 
     useEffect(() => {
-        if (searchOption !== currentSearchOption) {
-            setCurrentSearchOption(searchOption);
-            setPageNum(0);
-            setProducts([]);
-            fetchData(true);
-        } else if (pageNum === 0) {
-            fetchData(true);
+        fetchData(0, searchOption);
+    }, [fetchData, searchOption]);
+
+    useEffect(() => {
+        if (pageNum > 0) {
+            fetchData(pageNum, currentSearchOption);
         }
-    }, [searchOption, currentSearchOption, fetchData, pageNum]);
+    }, [pageNum, fetchData, currentSearchOption]);
 
     useEffect(() => {
         if (inView && hasMore && !loading) {
