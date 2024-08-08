@@ -11,6 +11,8 @@ import Background from '../itemcomponent/Background';
 import InputField from '../itemcomponent/InputField';
 import SubmitButton from '../itemcomponent/SubmitButton';
 import BrokerCheckModal from '../itemcomponent/BrokerCheckModal';
+import CameraCapture from '../../common/CameraCapture';
+import { uploadImageForOCR } from '../../../api/ocr/ocrApi';
 import { certifyCompany } from '../../../api/broker/brokerCertificationApi';
 import { useDatePicker } from '../../../hooks/signup/useDatePicker';
 import { useAddress } from '../../../hooks/signup/useAddress';
@@ -31,6 +33,7 @@ const SignUpBroker = () => {
   const [representativeName, setRepresentativeName] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [businessNumber, setBusinessNumber] = useState('');
+  const [isCameraOpen, setIsCameraOpen] = useState(false); // 카메라 상태 추가
 
   const { setCompanyId } = useUserTypeStore.getState();
 
@@ -42,7 +45,6 @@ const SignUpBroker = () => {
       openModal();
     } catch (error) {
       console.error('Error during certification:', error);
-      // Handle error (e.g., show a notification or message to the user)
     }
   };
 
@@ -60,14 +62,38 @@ const SignUpBroker = () => {
       const response = await postCompany(company);
       setCompanyId(response);
     } catch (error) {
+      console.error('Error during company post:', error);
     }
+  };
+
+  const handleOpenCamera = () => {
+    setIsCameraOpen(true);
+  };
+
+  const handleCapture = async (imageDataUrl) => {
+    try {
+      const ocrResult = await uploadImageForOCR(imageDataUrl);
+      // OCR 결과를 이용하여 input 값들을 설정하는 로직 추가
+      setRepresentativeName(ocrResult.representativeName);
+      setCompanyName(ocrResult.companyName);
+      setBusinessNumber(ocrResult.businessNumber);
+      setDetailAddress(ocrResult.address);
+    } catch (error) {
+      console.error('Error during OCR processing:', error);
+    } finally {
+      setIsCameraOpen(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsCameraOpen(false);
   };
 
   return (
     <Background backgroundSrc={background} logoSrc={MainLogo} backButtonSrc={back} backLink="/signup/broker-choice">
       <div className="absolute top-[350px] left-1/2 transform -translate-x-1/2 w-full max-w-[276px] text-center">
         <div className="mb-4">
-          <img className="mx-auto" src={camera} alt="Camera" />
+          <img className="mx-auto" src={camera} alt="Camera" onClick={handleOpenCamera} />
         </div>
         <form className="relative w-full space-y-4" onSubmit={handleSubmit}>
           <InputField
@@ -127,7 +153,6 @@ const SignUpBroker = () => {
           onSuccessClick={onSuccessClick}
         />
       )}
-
       {isPostcodeOpen && (
         <div className="absolute top-0 left-0 w-full h-full bg-gray-500 bg-opacity-50 flex items-center justify-center z-10">
           <div className="bg-white p-4 rounded-lg max-w-[500px] w-full">
@@ -139,6 +164,11 @@ const SignUpBroker = () => {
               닫기
             </button>
           </div>
+        </div>
+      )}
+      {isCameraOpen && (
+        <div className="absolute top-0 left-0 w-full h-full z-50">
+          <CameraCapture onCapture={handleCapture} onCancel={handleCancel} />
         </div>
       )}
     </Background>
