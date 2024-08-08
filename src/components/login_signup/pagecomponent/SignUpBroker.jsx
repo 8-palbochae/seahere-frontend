@@ -33,7 +33,7 @@ const SignUpBroker = () => {
   const [representativeName, setRepresentativeName] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [businessNumber, setBusinessNumber] = useState('');
-  const [isCameraOpen, setIsCameraOpen] = useState(false); // 카메라 상태 추가
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
 
   const { setCompanyId } = useUserTypeStore.getState();
 
@@ -73,7 +73,6 @@ const SignUpBroker = () => {
   const handleCapture = async (imageDataUrl) => {
     try {
       const ocrResult = await uploadImageForOCR(imageDataUrl);
-      // OCR 결과를 이용하여 input 값들을 설정하는 로직 추가
       setRepresentativeName(ocrResult.representativeName);
       setCompanyName(ocrResult.companyName);
       setBusinessNumber(ocrResult.businessNumber);
