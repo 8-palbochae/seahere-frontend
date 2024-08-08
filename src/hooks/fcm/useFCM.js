@@ -45,7 +45,7 @@ const useFCM = ({ accessToken, refreshToken }) => {
 					console.error("Service Worker registration failed: ", err);
 				});
 		}
-	}, [setToken]);
+	}, [setToken, accessToken, refreshToken]);
 };
 
 export default useFCM;
