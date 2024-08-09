@@ -25,4 +25,4 @@ yarn-error.log*
 .cert.pem
 install-key.pem
 key.pem
-intall.pem
+install.pem
