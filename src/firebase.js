@@ -13,19 +13,25 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const messaging = getMessaging(app);
 
-onMessage(messaging, (payload) => {
-	console.log("Message received. ", payload);
-	// Customize notification here
-	const notificationTitle = payload.notification.title;
-	const notificationOptions = {
-		body: payload.notification.body,
-		icon: payload.notification.icon,
-	};
+let messaging;
+if ("Notification" in window && "serviceWorker" in navigator) {
+	messaging = getMessaging(app);
 
-	if (Notification.permission === "granted") {
-		new Notification(notificationTitle, notificationOptions);
-	}
-});
+	onMessage(messaging, (payload) => {
+		console.log("Message received. ", payload);
+		// Customize notification here
+		if ("serviceWorker" in navigator) {
+			navigator.serviceWorker.ready.then((registration) => {
+				registration.showNotification(payload.notification.title, {
+					body: payload.notification.body,
+					icon: payload.notification.icon,
+				});
+			});
+		}
+	});
+} else {
+	console.warn("This browser does not support FCM or service workers.");
+}
+
 export { messaging, getToken, onMessage };

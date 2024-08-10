@@ -6,7 +6,10 @@ const useFCM = ({ accessToken, refreshToken }) => {
 	const { setToken } = useToken();
 
 	useEffect(() => {
-		if ("serviceWorker" in navigator) {
+		const isSupportedBrowser =
+			"serviceWorker" in navigator && "PushManager" in window;
+
+		if (isSupportedBrowser) {
 			navigator.serviceWorker
 				.register(
 					"/firebase-messaging-sw.js?timestamp=" +
@@ -17,6 +20,7 @@ const useFCM = ({ accessToken, refreshToken }) => {
 						"Service Worker registered with scope:",
 						registration.scope
 					);
+
 					if (accessToken || refreshToken) {
 						getToken(messaging, {
 							vapidKey:
@@ -44,6 +48,8 @@ const useFCM = ({ accessToken, refreshToken }) => {
 				.catch((err) => {
 					console.error("Service Worker registration failed: ", err);
 				});
+		} else {
+			console.warn("FCM is not supported in this browser environment.");
 		}
 	}, [setToken, accessToken, refreshToken]);
 };
