@@ -1,10 +1,28 @@
 import React, { useState } from "react";
 import PeriodStart from "../../history/main/itemcomponent/PeriodStart"; 
 import PeriodEnd from "../../history/main/itemcomponent/PeriodEnd";     
+import dayjs from "dayjs";
 
 const SalesPeriodModal = ({ isOpen, onClose }) => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+
+    const dateFormat = "YYYY-MM-DD";
+	const date = dayjs(endDate);
+
+    const weekCalc = () => {
+		setStartDate(date.subtract(7, "day").format(dateFormat));
+	};
+
+
+    const threemonthCalc = () => {
+		setStartDate(date.subtract(3, "month").format(dateFormat));
+	};
+
+
+    const sixmonthCalc = () => {
+		setStartDate(date.subtract(6, "month").format(dateFormat));
+	};
 
     return (
         <>
@@ -41,13 +59,16 @@ const SalesPeriodModal = ({ isOpen, onClose }) => {
                         <PeriodEnd setEndDate={setEndDate} endDate={endDate} />
                     </div>
                     <div className="flex gap-2 mb-4">
-                        <button className="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                        <button className="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+                        onClick={weekCalc}>
                             1주일
                         </button>
-                        <button className="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                        <button className="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+                        onClick={threemonthCalc}>
                             3개월
                         </button>
-                        <button className="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                        <button className="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+                        onClick={sixmonthCalc}>
                             6개월
                         </button>
                     </div>
