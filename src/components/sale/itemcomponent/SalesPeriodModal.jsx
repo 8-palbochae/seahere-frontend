@@ -1,30 +1,59 @@
-import React, { useState } from "react";
-import './SalesPeriodModal.css'; // 모달에 대한 스타일을 별도의 CSS 파일로 관리
+import React from "react";
 
 const SalesPeriodModal = ({ isOpen, onClose }) => {
     return (
-        <div className={`modal ${isOpen ? 'modal-open' : ''}`}>
-            <div className="modal-content">
-                <button className="modal-close" onClick={onClose}>X</button>
-                <div className="modal-header">
-                    <h3>조회기간</h3>
+        <>
+            {/* 배경 오버레이 */}
+            <div
+                className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-40 ${
+                    isOpen ? "block" : "hidden"
+                }`}
+                onClick={onClose}
+            ></div>
+            
+            {/* 모달창 */}
+            <div
+                className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-lg shadow-lg ${
+                    isOpen ? "translate-y-0" : "translate-y-full"
+                } transition-transform transform z-50`}
+                style={{ height: "50%" }}
+            >
+                <button
+                    className="absolute top-4 right-5 text-gray-600 hover:text-gray-900"
+                    onClick={onClose}
+                >
+                    X
+                </button>
+                <div className="text-center py-4 border-b border-gray-200">
+                    <h3 className="text-lg font-bold">조회 설정</h3>
                 </div>
-                <div className="modal-body">
-                    <div className="period-buttons">
-                        <button className="period-button">1주일</button>
-                        <button className="period-button">3개월</button>
-                        <button className="period-button">6개월</button>
+                <div className="p-4">
+                    <div className="mb-2 text-sm text-gray-600">
+                        조회기간
                     </div>
-                    <div className="date-selector">
-                        {/* 날짜를 선택하는 입력 필드 추가 */}
-                        <input type="date" />
+                    <div className="flex gap-2 mb-4">
+                        <button className="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                            1주일
+                        </button>
+                        <button className="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                            3개월
+                        </button>
+                        <button className="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                            6개월
+                        </button>
                     </div>
-                </div>
-                <div className="modal-footer">
-                    <button className="submit-button">조회</button>
+                    <div className="mb-4">
+                        <input
+                            type="date"
+                            className="w-full border border-gray-300 rounded py-2 px-3"
+                        />
+                    </div>
+                    <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                        조회
+                    </button>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 
