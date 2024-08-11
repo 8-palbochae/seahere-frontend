@@ -41,6 +41,8 @@ import BrokerMain from "./components/main/broker/BrokerMain";
 import AxiosInstanceTest from "./components/common/AxiosInstanceTest";
 import PrivateRoute from "./components/common/PrivateRoute";
 import SocialLoading from "./components/login_signup/SocialLoading";
+import Sales from "./pages/Sales";
+import SalesMain from "./components/sale/page/SalesMain";
 import { TokenProvider } from "./hooks/fcm/TokenContext";
 
 function App() {
@@ -133,6 +135,9 @@ function App() {
 									path="/alarm-history"
 									element={<AlarmHistory />}
 								/>
+								<Route path="/sales" element={<Sales />}>
+									<Route path="" element={<SalesMain />} />
+								</Route>
 							</Route>
 						</Route>
 
