@@ -2,27 +2,51 @@ import React, { useState } from "react";
 import PeriodStart from "../../history/main/itemcomponent/PeriodStart"; 
 import PeriodEnd from "../../history/main/itemcomponent/PeriodEnd";     
 import dayjs from "dayjs";
+import { weekSalesData } from "../../../api/sale/salesApi";
 
 const SalesPeriodModal = ({ isOpen, onClose }) => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [periodType, setPeriodType] = useState(""); 
+
 
     const dateFormat = "YYYY-MM-DD";
 	const date = dayjs(endDate);
 
     const weekCalc = () => {
-		setStartDate(date.subtract(7, "day").format(dateFormat));
-	};
+		setStartDate(date.subtract(6, "day").format(dateFormat));
+        setPeriodType('week');
+    };
 
 
     const threemonthCalc = () => {
 		setStartDate(date.subtract(3, "month").format(dateFormat));
-	};
+        setPeriodType('month');
+    };
 
 
     const sixmonthCalc = () => {
 		setStartDate(date.subtract(6, "month").format(dateFormat));
-	};
+        setPeriodType('month');
+    };
+
+    const handleSearch = async ()=>{
+        if(startDate && endDate){
+            try{
+                const data = {startDate, endDate};
+
+                if(periodType === 'week'){
+                    await weekSalesData(data);
+                    
+                }
+                onClose();
+            }catch(error){
+                alert("조회 실패: " + error.message);
+            }
+        }else{
+            alert("날짜를 설정해주세요.");
+        }
+    }
 
     return (
         <>
@@ -72,7 +96,8 @@ const SalesPeriodModal = ({ isOpen, onClose }) => {
                             6개월
                         </button>
                     </div>
-                    <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                    <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+                    onClick={handleSearch}>
                         조회
                     </button>
                 </div>
