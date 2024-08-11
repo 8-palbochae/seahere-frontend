@@ -1,9 +1,8 @@
-// ChartComponent.jsx
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const Chart = ({ data }) => {
     if (!data) return null;
@@ -12,48 +11,50 @@ const Chart = ({ data }) => {
         labels: data.map(item => item.incomingDate),
         datasets: [
             {
-                label: '매출',
+                label: '입고액',
                 data: data.map(item => item.incomingPrice),
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-            }
-        ]
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                fill: false,
+                tension: 0.1
+            },
+        ],
     };
 
     const options = {
         responsive: true,
+        maintainAspectRatio: false, // 이 옵션을 추가하여 차트의 비율을 고정하지 않음
         plugins: {
             legend: {
                 position: 'top',
             },
             tooltip: {
                 callbacks: {
-                    label: function(context) {
-                        return `${context.label}: ${context.raw}원`;
-                    }
-                }
-            }
+                    label: function (context) {
+                        return `${context.label}: ${context.raw.toLocaleString()}원`;
+                    },
+                },
+            },
         },
         scales: {
             x: {
-                title: {
-                    display: true,
-                    text: '날짜'
-                }
+                // 추가 설정이 필요하면 여기에서 설정합니다.
             },
             y: {
-                title: {
-                    display: true,
-                    text: '매출'
-                }
-            }
-        }
+                suggestedMin: 0,
+                ticks: {
+                    stepSize: 10000,
+                    callback: function(value) {
+                        return `${value.toLocaleString()}원`;
+                    },
+                },
+            },
+        },
     };
 
     return (
-        <div className="p-4 mt-4">
-            <Bar data={chartData} options={options} />
+        <div className="p-4 mt-4" style={{ height: '250px' }}> {/* height 값을 조정하여 차트의 높이를 키움 */}
+            <Line data={chartData} options={options} />
         </div>
     );
 };

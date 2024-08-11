@@ -8,13 +8,12 @@ const weekSalesData = async (data) => {
 				"Content-Type": "application/json; charset=UTF-8",
 			},
 		});
-        console.log(res);
-		if (!res.ok) {
-			throw new Error("데이터 저장 실패");
-		}
+
+        console.log(res); // 응답 데이터 출력
 		return res.data;
 	} catch (error) {
-		throw error;
+		console.error("API 요청 실패:", error); // 에러 로그 출력
+		throw new Error("데이터 저장 실패");
 	}
 };
 

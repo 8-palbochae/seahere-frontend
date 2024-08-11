@@ -36,14 +36,16 @@ const SalesPeriodModal = ({ isOpen, onClose, onSearch }) => {
                 const data = {startDate, endDate};
             
                 if(periodType === 'week'){
-                   console.log(data);
                    const result = await weekSalesData(data);
                     onSearch(result);
+                    console.log(result);
                 }
                
-                onClose();
             }catch(error){
                 alert("조회 실패: " + error.message);
+                console.error("조회 실패:", error); 
+            }finally{
+                onClose();
             }
         }else{
             alert("날짜를 설정해주세요.");
