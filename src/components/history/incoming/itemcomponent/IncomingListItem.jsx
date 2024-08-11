@@ -23,9 +23,6 @@ const IncomingListItem = ({ item }) => {
 
 	return (
 		<div className="w-full px-2 my-2">
-			<div className="text-gray-700 text-base mb-1 border-b border-gray-300 pb-1">
-				{item.incomingDate}
-			</div>
 			<div
 				className="flex w-full bg-white rounded-lg shadow-xl px-3 py-2 items-center justify-between"
 				onClick={handleOpenModal}

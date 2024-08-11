@@ -4,14 +4,11 @@ import { axiosInstance } from "../common/axiosInstance";
 
 const getInventoryList = async (pageNum, size, searchOption) => {
     try {
-        console.log("pageNum, size, search:", pageNum, size, searchOption)
         const response = await axiosInstance.get(`${url}/inventories?page=${pageNum}&size=${size}&search=${searchOption}`, {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
             }
         });
-
-        console.log(response)
 
         return response.data.content.content;
     } catch (error) {
