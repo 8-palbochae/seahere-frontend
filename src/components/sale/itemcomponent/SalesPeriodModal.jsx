@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+import PeriodStart from "../../history/main/itemcomponent/PeriodStart"; 
+import PeriodEnd from "../../history/main/itemcomponent/PeriodEnd";     
 
 const SalesPeriodModal = ({ isOpen, onClose }) => {
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+
     return (
         <>
-            {/* 배경 오버레이 */}
+            
             <div
                 className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-40 ${
                     isOpen ? "block" : "hidden"
@@ -11,7 +16,6 @@ const SalesPeriodModal = ({ isOpen, onClose }) => {
                 onClick={onClose}
             ></div>
             
-            {/* 모달창 */}
             <div
                 className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-lg shadow-lg ${
                     isOpen ? "translate-y-0" : "translate-y-full"
@@ -31,6 +35,11 @@ const SalesPeriodModal = ({ isOpen, onClose }) => {
                     <div className="mb-2 text-sm text-gray-600">
                         조회기간
                     </div>
+                    <div className="flex items-center gap-4 mb-4">
+                        <PeriodStart setStartDate={setStartDate} startDate={startDate} />
+                        <span className="text-gray-600">~</span>
+                        <PeriodEnd setEndDate={setEndDate} endDate={endDate} />
+                    </div>
                     <div className="flex gap-2 mb-4">
                         <button className="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
                             1주일
@@ -41,12 +50,6 @@ const SalesPeriodModal = ({ isOpen, onClose }) => {
                         <button className="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
                             6개월
                         </button>
-                    </div>
-                    <div className="mb-4">
-                        <input
-                            type="date"
-                            className="w-full border border-gray-300 rounded py-2 px-3"
-                        />
                     </div>
                     <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
                         조회
