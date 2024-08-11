@@ -4,11 +4,11 @@ import PeriodEnd from "../../history/main/itemcomponent/PeriodEnd";
 import dayjs from "dayjs";
 import { weekSalesData } from "../../../api/sale/salesApi";
 
-const SalesPeriodModal = ({ isOpen, onClose }) => {
+const SalesPeriodModal = ({ isOpen, onClose, onSearch }) => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [periodType, setPeriodType] = useState(""); 
-
+    const [chartData, setChartData] = useState(null);
 
     const dateFormat = "YYYY-MM-DD";
 	const date = dayjs(endDate);
@@ -34,11 +34,13 @@ const SalesPeriodModal = ({ isOpen, onClose }) => {
         if(startDate && endDate){
             try{
                 const data = {startDate, endDate};
-
+            
                 if(periodType === 'week'){
-                    await weekSalesData(data);
-                    
+                   console.log(data);
+                   const result = await weekSalesData(data);
+                    onSearch(result);
                 }
+               
                 onClose();
             }catch(error){
                 alert("조회 실패: " + error.message);
@@ -50,7 +52,6 @@ const SalesPeriodModal = ({ isOpen, onClose }) => {
 
     return (
         <>
-            
             <div
                 className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-40 ${
                     isOpen ? "block" : "hidden"

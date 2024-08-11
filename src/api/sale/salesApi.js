@@ -8,6 +8,7 @@ const weekSalesData = async (data) => {
 				"Content-Type": "application/json; charset=UTF-8",
 			},
 		});
+        console.log(res);
 		if (!res.ok) {
 			throw new Error("데이터 저장 실패");
 		}
