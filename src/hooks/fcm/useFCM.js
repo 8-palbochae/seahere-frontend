@@ -23,8 +23,7 @@ const useFCM = ({ accessToken, refreshToken }) => {
 
 					if (accessToken || refreshToken) {
 						getToken(messaging, {
-							vapidKey:
-								"BMdVMnAGVkYaOyWrKqvE2vCtn3KYgw2eZEcjn6xMXOVbJ8_bqDyrWTeN7SMO7H-b1zuUWcfA75iNtyKOhxnR1I0",
+							vapidKey: process.env.REACT_APP_VAPID_KEY,
 							serviceWorkerRegistration: registration,
 						})
 							.then((currentToken) => {
