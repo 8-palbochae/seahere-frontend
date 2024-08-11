@@ -15,12 +15,15 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 let messaging;
-if ("Notification" in window && "serviceWorker" in navigator) {
+if (
+	"Notification" in window &&
+	"serviceWorker" in navigator &&
+	"PushManager" in window
+) {
 	messaging = getMessaging(app);
 
 	onMessage(messaging, (payload) => {
 		console.log("Message received. ", payload);
-		// Customize notification here
 		if ("serviceWorker" in navigator) {
 			navigator.serviceWorker.ready.then((registration) => {
 				registration.showNotification(payload.notification.title, {
