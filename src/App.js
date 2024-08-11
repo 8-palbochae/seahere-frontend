@@ -41,6 +41,9 @@ import BrokerMain from "./components/main/broker/BrokerMain";
 import AxiosInstanceTest from "./components/common/AxiosInstanceTest";
 import PrivateRoute from "./components/common/PrivateRoute";
 import SocialLoading from "./components/login_signup/SocialLoading";
+import Sales from "./pages/Sales";
+import SalesMain from "./components/sale/page/SalesMain";
+
 
 function App() {
 	return (
@@ -128,11 +131,15 @@ function App() {
 								path="/alarm-history"
 								element={<AlarmHistory />}
 							/>
+							<Route path="/sales" element={<Sales />} >
+								<Route path="" element={<SalesMain />} />
+							</Route>
 						</Route>
 					</Route>
 
 					{/* 테스트 라우트 - 로그인 상태와 관계없이 접근 가능 */}
 					<Route path="test" element={<AxiosInstanceTest />} />
+					
 				</Routes>
 			</BrowserRouter>
 		</div>
