@@ -8,25 +8,36 @@ const Chart = ({ data }) => {
     if (!data) return null;
 
     const chartData = {
-        labels: data.map(item => item.incomingDate),
+        labels: data.map(item => {
+            if (item.week !== undefined) {
+                console.log(item.week);
+                const [year, month, day] = item.incomingDate.split('-');
+                return `${month}-${day}`;
+            } else {
+                console.log(item.month);
+                const month = item.month;
+                return `${month}`;
+            }
+        }),
         datasets: [
             {
-                label: '입고액',
+
                 data: data.map(item => item.incomingPrice),
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 fill: false,
-                tension: 0.1
+                tension: 0.1,
             },
         ],
     };
 
     const options = {
         responsive: true,
-        maintainAspectRatio: false, // 이 옵션을 추가하여 차트의 비율을 고정하지 않음
+        maintainAspectRatio: false, 
         plugins: {
             legend: {
                 position: 'top',
+                display: false, 
             },
             tooltip: {
                 callbacks: {
@@ -38,14 +49,14 @@ const Chart = ({ data }) => {
         },
         scales: {
             x: {
-                // 추가 설정이 필요하면 여기에서 설정합니다.
+                
             },
             y: {
                 suggestedMin: 0,
                 ticks: {
-                    stepSize: 10000,
+                    stepSize: 100000,
                     callback: function(value) {
-                        return `${value.toLocaleString()}원`;
+                        return `${value / 10000}`; 
                     },
                 },
             },
@@ -53,7 +64,7 @@ const Chart = ({ data }) => {
     };
 
     return (
-        <div className="p-4 mt-4" style={{ height: '250px' }}> {/* height 값을 조정하여 차트의 높이를 키움 */}
+        <div style={{ height: '230px' }}>
             <Line data={chartData} options={options} />
         </div>
     );

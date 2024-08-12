@@ -1,8 +1,7 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import Icon from "../../../assets/sales/graph.svg";
-import SalesPeriodModal from "./SalesPeriodModal"; // 모달 경로 수정
+import SalesPeriodModal from "./SalesPeriodModal"; 
 import Chart from "./Chart";
-
 
 const IncomingSales = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -12,24 +11,26 @@ const IncomingSales = () => {
     const closeModal = () => setIsModalOpen(false);
 
     const handleSearch = (data) => {
-        setChartData(data); // 차트 데이터를 상태로 설정
-        closeModal(); // 모달 닫기
+        setChartData(data); 
+        closeModal(); 
     };
 
-    
     return (
         <div className="w-[370px] h-[314px] relative mx-auto mt-3">
             <div className="relative w-[90%] h-[314px] bg-blue-600 rounded-[10px] mx-auto">
-                <div className="absolute w-[95%] h-[263px] top-[38px] left-[50%] transform -translate-x-[50%] bg-white rounded-[10px]">
-                <div className="w-[33px] h-[18px] [font-family:'Inter-Regular',Helvetica] font-normal  text-gray-500 text-base whitespace-nowrap absolute text-center tracking-[0] leading-[normal] mt-2 ml-2">
-                        입고
+                <div className="absolute w-[95%] h-[263px] top-[40px] left-[50%] transform -translate-x-[50%] bg-white rounded-[10px]"> {/* top 값을 줄여서 더 위로 이동 */}
+                    <div className="flex justify-between items-center w-full h-[18px] [font-family:'Inter-Regular',Helvetica] font-normal text-base text-gray-500 mt-2 ml-2">
+                        <div className="whitespace-nowrap text-center tracking-[0] leading-[normal] text-sm">
+                            입고
+                        </div>
+                        <div className="whitespace-nowrap text-right tracking-[0] leading-[normal] mr-5 text-sm">
+                            (단위: 만 원)
+                        </div>
                     </div>
-                <div className="w-full h-full">
-                        {/* 차트 컴포넌트 렌더링 */}
+
+                    <div className="w-full h-full">
                         {chartData && <Chart data={chartData} />}
                     </div>
-                    
-                    
                 </div>
                 <div className="flex items-center justify-start w-[90%] h-[25px] [font-family:'Inter-Bold',Helvetica] font-bold text-white text-lg absolute tracking-[0] leading-[normal] mt-2 ml-4">
                     <div className="flex items-center">
@@ -44,7 +45,7 @@ const IncomingSales = () => {
                     </button>
                 </div>
             </div>
-            <SalesPeriodModal isOpen={isModalOpen} onClose={closeModal}  onSearch={handleSearch}/>
+            <SalesPeriodModal isOpen={isModalOpen} onClose={closeModal} onSearch={handleSearch} />
         </div>
     );
 };
