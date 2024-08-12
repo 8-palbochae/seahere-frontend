@@ -8,7 +8,10 @@ const Chart = ({ data }) => {
     if (!data) return null;
 
     const chartData = {
-        labels: data.map(item => item.incomingDate),
+        labels: data.map(item => {
+            const [year, month, day] = item.incomingDate.split('-');
+            return `${month}-${day}`; 
+        }),
         datasets: [
             {
                 label: '입고액',
@@ -16,14 +19,14 @@ const Chart = ({ data }) => {
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 fill: false,
-                tension: 0.1
+                tension: 0.1,
             },
         ],
     };
 
     const options = {
         responsive: true,
-        maintainAspectRatio: false, // 이 옵션을 추가하여 차트의 비율을 고정하지 않음
+        maintainAspectRatio: false, 
         plugins: {
             legend: {
                 position: 'top',
@@ -38,7 +41,7 @@ const Chart = ({ data }) => {
         },
         scales: {
             x: {
-                // 추가 설정이 필요하면 여기에서 설정합니다.
+                
             },
             y: {
                 suggestedMin: 0,
@@ -53,7 +56,7 @@ const Chart = ({ data }) => {
     };
 
     return (
-        <div className="p-4 mt-4" style={{ height: '250px' }}> {/* height 값을 조정하여 차트의 높이를 키움 */}
+        <div className="p-4 mt-4" style={{ height: '250px' }}>
             <Line data={chartData} options={options} />
         </div>
     );

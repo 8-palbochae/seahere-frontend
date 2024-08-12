@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from "react";
 import Icon from "../../../assets/sales/graph.svg";
-import SalesPeriodModal from "./SalesPeriodModal"; // 모달 경로 수정
+import SalesPeriodModal from "./SalesPeriodModal"; 
 import Chart from "./Chart";
 
 
@@ -12,8 +12,8 @@ const IncomingSales = () => {
     const closeModal = () => setIsModalOpen(false);
 
     const handleSearch = (data) => {
-        setChartData(data); // 차트 데이터를 상태로 설정
-        closeModal(); // 모달 닫기
+        setChartData(data); 
+        closeModal(); 
     };
 
     
@@ -25,7 +25,7 @@ const IncomingSales = () => {
                         입고
                     </div>
                 <div className="w-full h-full">
-                        {/* 차트 컴포넌트 렌더링 */}
+                       
                         {chartData && <Chart data={chartData} />}
                     </div>
                     
