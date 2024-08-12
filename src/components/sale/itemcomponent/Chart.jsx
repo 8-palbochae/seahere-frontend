@@ -9,12 +9,19 @@ const Chart = ({ data }) => {
 
     const chartData = {
         labels: data.map(item => {
-            const [year, month, day] = item.incomingDate.split('-');
-            return `${month}-${day}`; 
+            if (item.week !== undefined) {
+                console.log(item.week);
+                const [year, month, day] = item.incomingDate.split('-');
+                return `${month}-${day}`;
+            } else {
+                console.log(item.month);
+                const month = item.month;
+                return `${month}`;
+            }
         }),
         datasets: [
             {
-                label: '입고액',
+
                 data: data.map(item => item.incomingPrice),
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -30,6 +37,7 @@ const Chart = ({ data }) => {
         plugins: {
             legend: {
                 position: 'top',
+                display: false, 
             },
             tooltip: {
                 callbacks: {
@@ -46,9 +54,9 @@ const Chart = ({ data }) => {
             y: {
                 suggestedMin: 0,
                 ticks: {
-                    stepSize: 10000,
+                    stepSize: 100000,
                     callback: function(value) {
-                        return `${value.toLocaleString()}원`;
+                        return `${value / 10000}`; 
                     },
                 },
             },
@@ -56,7 +64,7 @@ const Chart = ({ data }) => {
     };
 
     return (
-        <div className="p-4 mt-4" style={{ height: '250px' }}>
+        <div style={{ height: '230px' }}>
             <Line data={chartData} options={options} />
         </div>
     );

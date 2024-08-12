@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PeriodStart from "../../history/main/itemcomponent/PeriodStart"; 
 import PeriodEnd from "../../history/main/itemcomponent/PeriodEnd";     
 import dayjs from "dayjs";
-import { weekSalesData } from "../../../api/sale/salesApi";
+import { monthSalesDate, weekSalesData } from "../../../api/sale/salesApi";
 
 const SalesPeriodModal = ({ isOpen, onClose, onSearch }) => {
     const [startDate, setStartDate] = useState("");
@@ -18,15 +18,14 @@ const SalesPeriodModal = ({ isOpen, onClose, onSearch }) => {
         setPeriodType('week');
     };
 
-
     const threemonthCalc = () => {
-		setStartDate(date.subtract(3, "month").format(dateFormat));
+		setStartDate(date.subtract(2, "month").format(dateFormat));
         setPeriodType('month');
     };
 
 
     const sixmonthCalc = () => {
-		setStartDate(date.subtract(6, "month").format(dateFormat));
+		setStartDate(date.subtract(5, "month").format(dateFormat));
         setPeriodType('month');
     };
 
@@ -37,6 +36,11 @@ const SalesPeriodModal = ({ isOpen, onClose, onSearch }) => {
             
                 if(periodType === 'week'){
                    const result = await weekSalesData(data);
+                    onSearch(result);
+                    console.log(result);
+                }
+                else if(periodType === 'month'){
+                    const result = await monthSalesDate(data);
                     onSearch(result);
                     console.log(result);
                 }
