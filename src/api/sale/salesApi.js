@@ -10,10 +10,10 @@ const IncomingWeekSales = async (data) => {
 			},
 		});
 
-        console.log(res); // 응답 데이터 출력
+        console.log(res); 
 		return res.data;
 	} catch (error) {
-		console.error("API 요청 실패:", error); // 에러 로그 출력
+		console.error("API 요청 실패:", error); 
 		throw new Error("데이터 저장 실패");
 	}
 };
@@ -32,7 +32,7 @@ const IncomingMonthSales = async(data) => {
     }
 } 
 
-const outgoingWeekSales = async (data) => {
+const OutgoingWeekSales = async (data) => {
 	try {
 		const res = await axiosInstance.post(`${url}/outgoing/week`, data, {
 			headers: {
@@ -40,13 +40,27 @@ const outgoingWeekSales = async (data) => {
 			},
 		});
 
-        console.log(res); // 응답 데이터 출력
+        console.log(res); 
 		return res.data;
 	} catch (error) {
-		console.error("API 요청 실패:", error); // 에러 로그 출력
+		console.error("API 요청 실패:", error); 
 		throw new Error("데이터 저장 실패");
 	}
 };
 
+const OutgoingMonthSales = async(data) => {
+    try{
+        const res = await axiosInstance.post(`${url}/outgoing/month`,data,{
+            headers: {
+				"Content-Type": "application/json; charset=UTF-8",
+			},
+        });
+        return res.data;
+    }catch(error){
+        console.error("API 요청 실패:",error);
+        throw new Error("데이터 저장 실패");
+    }
+} 
 
-export {IncomingWeekSales,IncomingMonthSales,outgoingWeekSales};
+
+export {IncomingWeekSales,IncomingMonthSales,OutgoingWeekSales, OutgoingMonthSales};

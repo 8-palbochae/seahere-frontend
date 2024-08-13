@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PeriodStart from "../../history/main/itemcomponent/PeriodStart"; 
 import PeriodEnd from "../../history/main/itemcomponent/PeriodEnd";     
 import dayjs from "dayjs";
-import { IncomingMonthSales, IncomingWeekSales, outgoingWeekSales,  } from "../../../api/sale/salesApi";
+import { IncomingMonthSales, IncomingWeekSales, OutgoingMonthSales, OutgoingWeekSales } from "../../../api/sale/salesApi";
 
 const SalesPeriodModal = ({ isOpen, onClose, onSearch }) => {
     const [startDate, setStartDate] = useState("");
@@ -36,15 +36,17 @@ const SalesPeriodModal = ({ isOpen, onClose, onSearch }) => {
             
                 if(periodType === 'week'){
                    const incomingWeekData = await IncomingWeekSales(data);
-                   const outgoingWeekData = await outgoingWeekSales(data);
+                   const outgoingWeekData = await OutgoingWeekSales(data);
 
                     onSearch(outgoingWeekData);
                     console.log(outgoingWeekData);
                 }
                 else if(periodType === 'month'){
                     const incomingMonthData = await IncomingMonthSales(data);
-                    onSearch(incomingMonthData);
-                    console.log(incomingMonthData);
+                    const outgoingMonthData = await OutgoingMonthSales(data);
+                    
+                    onSearch(outgoingMonthData);
+                    console.log(outgoingMonthData);
                 }
                
             }catch(error){
