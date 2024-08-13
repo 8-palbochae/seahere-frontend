@@ -10,18 +10,18 @@ import { useEffect } from 'react';
 const SignUpChoice = () => {
   const [params, setParams] = useSearchParams(); // 변수명 통일
   const guestId = params.get('guest');
-  
-  useEffect(() => {
-    if (guestId) {
-      setGuestId(guestId)
-    }
-  }, [guestId]); 
 
   const { userType, setUserType, setGuestId } = useUserTypeStore((state) => ({
     userType: state.userType,
     setUserType: state.setUserType,
-    setGuestId : state.setGuestId,
+    setGuestId: state.setGuestId,
   }));
+
+  useEffect(() => {
+    if (guestId) {
+      setGuestId(guestId)
+    }
+  }, [guestId]);
 
   const handleSetUserType = (type) => {
     setUserType(type);
