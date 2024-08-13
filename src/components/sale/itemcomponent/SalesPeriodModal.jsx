@@ -11,51 +11,49 @@ const SalesPeriodModal = ({ isOpen, onClose, onSearch }) => {
     const [chartData, setChartData] = useState(null);
 
     const dateFormat = "YYYY-MM-DD";
-	const date = dayjs(endDate);
+    const date = dayjs(endDate);
 
     const weekCalc = () => {
-		setStartDate(date.subtract(6, "day").format(dateFormat));
+        setStartDate(date.subtract(6, "day").format(dateFormat));
         setPeriodType('week');
     };
 
     const threemonthCalc = () => {
-		setStartDate(date.subtract(2, "month").format(dateFormat));
+        setStartDate(date.subtract(2, "month").format(dateFormat));
         setPeriodType('month');
     };
-
 
     const sixmonthCalc = () => {
-		setStartDate(date.subtract(5, "month").format(dateFormat));
+        setStartDate(date.subtract(5, "month").format(dateFormat));
         setPeriodType('month');
     };
 
-    const handleSearch = async ()=>{
-        if(startDate && endDate){
-            try{
-                const data = {startDate, endDate};
-            
-                if(periodType === 'week'){
-                   const incomingWeekData = await IncomingWeekSales(data);
-                   const outgoingWeekData = await OutgoingWeekSales(data);
+    const handleSearch = async () => {
+        if (startDate && endDate) {
+            try {
+                const data = { startDate, endDate };
 
-                    onSearch(outgoingWeekData);
-                    console.log(outgoingWeekData);
+                let incomingData, outgoingData;
+
+                if (periodType === 'week') {
+                    incomingData = await IncomingWeekSales(data);
+                    outgoingData = await OutgoingWeekSales(data);
+                } else if (periodType === 'month') {
+                    incomingData = await IncomingMonthSales(data);
+                    outgoingData = await OutgoingMonthSales(data);
                 }
-                else if(periodType === 'month'){
-                    const incomingMonthData = await IncomingMonthSales(data);
-                    const outgoingMonthData = await OutgoingMonthSales(data);
-                    
-                    onSearch(outgoingMonthData);
-                    console.log(outgoingMonthData);
-                }
-               
-            }catch(error){
+
+                console.log("Incoming Data:", incomingData);
+                console.log("Outgoing Data:", outgoingData);
+
+                onSearch({ incomingData, outgoingData });
+            } catch (error) {
                 alert("조회 실패: " + error.message);
                 console.error("조회 실패:", error); 
-            }finally{
+            } finally {
                 onClose();
             }
-        }else{
+        } else {
             alert("날짜를 설정해주세요.");
         }
     }
