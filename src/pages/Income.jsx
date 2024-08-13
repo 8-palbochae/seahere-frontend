@@ -12,7 +12,6 @@ const Income = () => {
     const [isAmountValid, setIsAmountValid] = useState(false);
     const [isPriceValid, setIsPriceValid] = useState(false);
 
-
     const { setHeaderText } = useHeaderText();
 
     useEffect(() => {
