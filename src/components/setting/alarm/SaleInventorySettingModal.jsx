@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Input } from "antd";
 import productImg from "../../../assets/income/product.svg";
-const SaleInventorySettingModal = ({ isModalOpen, setIsModalOpen }) => {
+const SaleInventorySettingModal = ({ isModalOpen, setIsModalOpen, item }) => {
 	const handleCancel = () => {
 		setIsModalOpen(false);
 	};
@@ -19,23 +19,25 @@ const SaleInventorySettingModal = ({ isModalOpen, setIsModalOpen }) => {
 					</div>
 					<div className="flex flex-col gap-2">
 						<div className="self-center">
-							<b>{"광어 / 활어"}</b>
+							<b>
+								{item.name} / {item.category}
+							</b>
 						</div>
 						<div className="self-center">
-							<b>{"입고처: 스파로스"}</b>
+							<b>
+								{item.country} / {item.naturalStatus}
+							</b>
 						</div>
-						<div className="flex justify-center items-center w-full self-center rounded-[20px] border border-black p-1 text-red-500 ">
-							<b>{"+3일"}</b>
-						</div>
+
 						<div className="self-center">
-							<b>{"현재재고: 40kg"}</b>
+							<b>{item.quantity}kg</b>
 						</div>
 					</div>
 				</div>
 				<div className="flex justify-around items-center  border-b-2 p-1">
 					<div className="w-2/3">{"현재 출고금액"}</div>
 					<div className="w-1/3">
-						<Input />
+						<Input readOnly value={item.price} />
 					</div>
 				</div>
 				<div className="flex justify-around items-center  border-b-2 p-1">
