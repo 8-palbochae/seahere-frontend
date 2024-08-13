@@ -6,7 +6,6 @@ const ProductInfo = ({ selectedProduct, setSelectedProductDetails }) => {
     const [selectedCountry, setSelectedCountry] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedNatural, setSelectedNatural] = useState("");
-    console.log("s: ", selectedProduct.productName, selectedProduct.productImg);
 
     useEffect(() => {
         setSelectedProductDetails({
