@@ -1,32 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Select } from 'antd';
 import { country, natural, category } from '../../constants/income/ProductType';
-import productImg from '../../assets/income/product.svg';
 
 const ProductInfo = ({ selectedProduct, setSelectedProductDetails }) => {
     const [selectedCountry, setSelectedCountry] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedNatural, setSelectedNatural] = useState("");
+    console.log("s: ", selectedProduct.productName, selectedProduct.productImg);
 
-    // useEffect to update selectedProductDetails when any of the selected values change
     useEffect(() => {
         setSelectedProductDetails({
             country: selectedCountry,
             natural: selectedNatural,
             category: selectedCategory
-        })
-
+        });
     }, [selectedCountry, selectedCategory, selectedNatural, setSelectedProductDetails]);
 
     const handleSelectChange = (type, value) => {
         if (type === 'country') {
             const selectedOption = country.find(option => option.value === value);
-            console.log(selectedOption.label);            
             setSelectedCountry(selectedOption.label);
         } else if (type === 'category') {
             const selectedOption = category.find(option => option.value === value);
             setSelectedCategory(selectedOption.label);
-        } else if (type === 'natural') {        
+        } else if (type === 'natural') {
             const selectedOption = natural.find(option => option.value === value);
             setSelectedNatural(selectedOption.label);
         }
@@ -35,11 +32,11 @@ const ProductInfo = ({ selectedProduct, setSelectedProductDetails }) => {
     return (
         <div className='shadow-md border border-gray-200 rounded-lg p-6 mt-6 mx-6'>
             <div className='flex justify-center'>
-                <span className='text-black font-bold text-2xl mb-6'>{selectedProduct}</span>
+                <span className='text-black font-bold text-2xl mb-6'>{selectedProduct.productName}</span>
             </div>
             <div className='flex justify-around '>
                 <div className='w-36 h-36 flex justify-center items-center overflow-hidden rounded-xl'>
-                    <img src={productImg} alt="" className='w-36 h-36 object-cover' />
+                    <img src={selectedProduct.productImg} alt={selectedProduct.productName} className='w-36 h-36 object-contain' />
                 </div>
                 <div className='w-3/5 flex flex-col pl-4 gap-4 justify-between'>
                     <Select

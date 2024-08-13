@@ -11,7 +11,6 @@ const SearchInput = ({ value }) => {
 		queryFn: () => getProductList(value),
 		enabled: value !== undefined && value !== null,
 	});
-
 	const [query, setQuery] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
 	const navigate = useNavigate();
@@ -19,7 +18,6 @@ const SearchInput = ({ value }) => {
 	useEffect(() => {
 		if (!isPending) {
 			if (query.length > 0) {
-				// Filter the data based on the query
 				const filteredSuggestions = data.filter(({ productName }) =>
 					productName.toLowerCase().includes(query.toLowerCase())
 				);
