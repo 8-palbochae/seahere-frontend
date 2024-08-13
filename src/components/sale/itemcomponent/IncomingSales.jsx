@@ -8,7 +8,8 @@ const IncomingSales = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [chartData, setChartData] = useState(null);
     const [outgoingChartData, setOutgoingChartData] = useState(null);
-    const [currentIndex, setCurrentIndex] = useState(0); // 0 for incoming, 1 for outgoing
+    const [profitChartData, setProfitChartData] = useState(null); // 수익 데이터 상태 추가
+    const [currentIndex, setCurrentIndex] = useState(0); // 0 for incoming, 1 for outgoing, 2 for profit
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -16,13 +17,25 @@ const IncomingSales = () => {
     const handleSearch = ({ incomingData, outgoingData }) => {
         console.log("Incoming Data:", incomingData);
         console.log("Outgoing Data:", outgoingData);
+        
+        // 수익 데이터 계산
+        const profitData = incomingData.map((item, index) => {
+            const outgoingItem = outgoingData.find(out => out.incomingDate === item.incomingDate);
+            const profit = (outgoingItem ? outgoingItem.incomingPrice : 0) - item.incomingPrice;
+            return {
+                ...item,
+                incomingPrice: profit // 수익으로 업데이트
+            };
+        });
+
         setChartData(incomingData);
         setOutgoingChartData(outgoingData);
+        setProfitChartData(profitData); // 수익 데이터 상태 업데이트
         closeModal();
     };
 
     const handleSwipe = (direction) => {
-        if (direction === "Left" && currentIndex < 1) {
+        if (direction === "Left" && currentIndex < 2) { // 2 for profit
             setCurrentIndex(currentIndex + 1);
         } else if (direction === "Right" && currentIndex > 0) {
             setCurrentIndex(currentIndex - 1);
@@ -33,7 +46,7 @@ const IncomingSales = () => {
         onSwipedLeft: () => handleSwipe("Left"),
         onSwipedRight: () => handleSwipe("Right"),
         preventDefaultTouchmoveEvent: true,
-        trackMouse: true, // Optional: enables mouse swipe events
+        trackMouse: true,
     });
 
     return (
@@ -42,7 +55,7 @@ const IncomingSales = () => {
                 <div className="absolute w-[95%] h-[263px] top-[40px] left-[50%] transform -translate-x-[50%] bg-white rounded-[10px]" {...swipeHandlers}>
                     <div className="flex justify-between items-center w-full h-[18px] [font-family:'Inter-Regular',Helvetica] font-normal text-base text-gray-500 mt-2 ml-2">
                         <div className="whitespace-nowrap text-center tracking-[0] leading-[normal] text-sm">
-                            {currentIndex === 0 ? "입고" : "출고"}
+                            {currentIndex === 0 ? "입고" : currentIndex === 1 ? "출고" : "수익"}
                         </div>
                         <div className="whitespace-nowrap text-right tracking-[0] leading-[normal] mr-5 text-sm">
                             (단위: 만 원)
@@ -55,6 +68,9 @@ const IncomingSales = () => {
                         )}
                         {currentIndex === 1 && outgoingChartData && (
                             <Chart data={outgoingChartData} />
+                        )}
+                        {currentIndex === 2 && profitChartData && (
+                            <Chart data={profitChartData} />
                         )}
                     </div>
                 </div>

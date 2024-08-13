@@ -8,7 +8,6 @@ const SalesPeriodModal = ({ isOpen, onClose, onSearch }) => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [periodType, setPeriodType] = useState(""); 
-    const [chartData, setChartData] = useState(null);
 
     const dateFormat = "YYYY-MM-DD";
     const date = dayjs(endDate);
@@ -105,10 +104,13 @@ const SalesPeriodModal = ({ isOpen, onClose, onSearch }) => {
                             6개월
                         </button>
                     </div>
-                    <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-                    onClick={handleSearch}>
-                        조회
-                    </button>
+                    <button
+    className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+    onClick={handleSearch}
+>
+    조회
+</button>
+
                 </div>
             </div>
         </>
