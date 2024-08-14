@@ -1,16 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
 import cancel from '../../assets/common/cancel.svg';
 import CameraCaptureIcon from '../../assets/common/camera-capture.svg';
+import CameraSwitchIcon from '../../assets/common/camera-switch.svg';
 
 const CameraCapture = ({ onCapture, onCancel }) => {
     const videoRef = useRef(null);
     const [isCameraOpen, setIsCameraOpen] = useState(false);
+    const [isFacingModeUser, setIsFacingModeUser] = useState(true);
 
     useEffect(() => {
         const openCamera = async () => {
             setIsCameraOpen(true);
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: isFacingModeUser ? 'user' : 'environment' }
+                });
                 if (videoRef.current) {
                     videoRef.current.srcObject = stream;
                 }
@@ -27,7 +31,7 @@ const CameraCapture = ({ onCapture, onCancel }) => {
                 tracks.forEach(track => track.stop());
             }
         };
-    }, []);
+    }, [isFacingModeUser]);
 
     const handleCapture = () => {
         if (videoRef.current) {
@@ -40,6 +44,10 @@ const CameraCapture = ({ onCapture, onCancel }) => {
                 onCapture(blob);
             }, 'image/jpeg');
         }
+    };
+
+    const handleSwitchCamera = () => {
+        setIsFacingModeUser(prevMode => !prevMode);
     };
 
     return (
@@ -71,8 +79,8 @@ const CameraCapture = ({ onCapture, onCancel }) => {
                 boxSizing: 'border-box',
                 zIndex: 1,
             }}>
-                <p style={{ marginBottom: '10px' }}>사업자 등록 번호를 찍어주세요</p>
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+                <p style={{ marginBottom: '10px' }}>사업자 등록 번호를 찍어주세요!</p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px' }}>
                     <button onClick={onCancel} style={{ border: 'none', background: 'none' }}>
                         <img src={cancel} alt="Cancel" />
                         <p>취소</p>
@@ -85,6 +93,18 @@ const CameraCapture = ({ onCapture, onCancel }) => {
                     </button>
                 </div>
             </div>
+            <button
+                onClick={handleSwitchCamera}
+                style={{
+                    position: 'absolute',
+                    bottom: '180px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    border: 'none',
+                    background: 'none'
+                }}>
+                <img src={CameraSwitchIcon} alt="Switch Camera" style={{ width: '36px', height: '36px' }} />
+            </button>
         </div>
     );
 };

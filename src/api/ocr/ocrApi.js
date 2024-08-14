@@ -5,7 +5,7 @@ export const uploadImageForOCR = async (imageSrc) => {
     formData.append('file', imageSrc);
 
     try {
-        const response = await axios.post('/api/clova-ocr', formData, {
+        const response = await axios.post('https://e5ca-14-44-120-104.ngrok-free.app/ocr', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
