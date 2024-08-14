@@ -35,7 +35,7 @@ const ProductInfo = ({ selectedProduct, setSelectedProductDetails }) => {
             </div>
             <div className='flex justify-around '>
                 <div className='w-36 h-36 flex justify-center items-center overflow-hidden rounded-xl'>
-                    <img src={selectedProduct.productImg} alt={selectedProduct.productName} className='w-36 h-36 object-contain' />
+                    <img src={selectedProduct.productImg} alt={selectedProduct.productName} className='w-full h-full object-fill' />
                 </div>
                 <div className='w-3/5 flex flex-col pl-4 gap-4 justify-between'>
                     <Select
