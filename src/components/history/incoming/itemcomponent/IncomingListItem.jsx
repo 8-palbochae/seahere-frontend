@@ -5,7 +5,7 @@ import IncomingModifiedModal from "./IncomingModifiedModal";
 const IncomingListItem = ({ item }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const price = item.incomingPrice / item.quantity;
-
+	console.log(item);
 	const [amount, setAmount] = useState(Math.floor(price)); // 초기 금액 설정
 
 	const handleOpenModal = () => {
@@ -30,9 +30,9 @@ const IncomingListItem = ({ item }) => {
 				<div className="flex flex-col items-center mr-3 w-1/4 p-2">
 					<div className="w-20 h-20 mb-1">
 						<img
-							className="w-full h-full object-cover"
+							className="w-full h-full object-fill rounded-xl"
 							alt="Image"
-							src={nupchiIcon}
+							src={item.productImg}
 						/>
 					</div>
 					<div className="text-center text-black text-base font-bold truncate w-full">

@@ -3,9 +3,8 @@ import PropTypes from "prop-types";
 import useInventorySlide from "../../hooks/inventory/useInventorySlide";
 import { inventoryIcon } from "../../constants/inventory/inventory.image";
 import InventoryEditModal from "./modal/InventoryEditModal";
-// import InventoryDeleteModal from './modal/InventoryDeleteModal';
 
-const InventoryItemDetails = ({ detailData }) => {
+const InventoryItemDetails = ({ detailData,productImg }) => {
 	const {
 		isSlid,
 		handleTouchStart,
@@ -97,6 +96,7 @@ const InventoryItemDetails = ({ detailData }) => {
 				isOpen={isModalOpen}
 				onClose={closeModal}
 				inventoryId={inventoryId}
+				productImg={productImg}
 			/>
 			{/* <InventoryDeleteModal
                 isOpen={isDeleteConfirmOpen}

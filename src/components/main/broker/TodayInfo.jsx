@@ -21,12 +21,20 @@ const TodayInfo = () => {
 					endDate: dayjs().format("YYYY-MM-DD"),
 					page: 0,
 				});
-				console.log(result.content[0])
-				setData({
-					incoming: result.content[0].incomingCount || 0,
-					outgoing: result.content[0].outgoingCount || 0,
-					total :  (result.content[0].incomingCount || 0) + (result.content[0].outgoingCount || 0),
-				});
+				console.log(result.content);
+				if(result.content.length == 0){
+					setData({
+						incoming: 0,
+						outgoing:  0,
+						total : 0,
+					});
+				}else{
+					setData({
+						incoming: result.content[0].incomingCount || 0,
+						outgoing: result.content[0].outgoingCount || 0,
+						total :  (result.content[0].incomingCount || 0) + (result.content[0].outgoingCount || 0),
+					});
+				}
 			} catch (error) {
 				setError(error.message);
 			} finally {

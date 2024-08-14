@@ -3,7 +3,6 @@ import OutgoingReqListModal from "./OutgoingReqListModal";
 
 const OutgoingReqListItem = forwardRef(({ outgoingReqItem }, ref) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
-
 	const handleOpenModal = () => {
 		setIsModalOpen(true);
 	};

@@ -58,7 +58,7 @@ const OutgoingReqListModalDetail = ({ item, partialOutgoing }) => {
 					<img
 						className="w-[60px] h-[60px] object-cover relative bottom-3"
 						alt="Image"
-						src={nupchiIcon}
+						src={item.productImg}
 					/>
 					<div className="absolute top-[60%] left-0 right-0 text-center truncate text-black font-normal text-base rounded-md px-2 py-1 bg-white bg-opacity-100">
 						{item.productName}
