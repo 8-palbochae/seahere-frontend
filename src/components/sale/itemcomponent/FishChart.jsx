@@ -6,9 +6,9 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const FishChart = ({ data }) => {
     if (!data) return null;
-
+    console.log("Chart Data:", data);
     const chartData = {
-        labels: data.map(item => item.productName), // 어종 이름
+        labels: data.map(item => item.productName),        // 어종 이름
         datasets: [
             {
                 data: data.map(item => item.price), // 어종별 판매량 데이터

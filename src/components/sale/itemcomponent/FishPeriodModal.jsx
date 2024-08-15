@@ -27,12 +27,12 @@ const FishPeriodModal = ({ isOpen, onClose, onSearch}) => {
         if (startDate && endDate) {
             try {
                 const data = { startDate, endDate };
-                onSearch({startDate,endDate});
+                
                 let fishData;
                 fishData = await FishDataSales(data);
-
+                onSearch({startDate,endDate,fishData});
                 console.log("Fish Data:", fishData);
-
+       
             } catch (error) {
                 alert("조회 실패: " + error.message);
                 console.error("조회 실패:", error); 
