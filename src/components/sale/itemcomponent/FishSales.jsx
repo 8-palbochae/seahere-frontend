@@ -1,18 +1,22 @@
 import React,{useState} from "react";
 import Icon from '../../../assets/sales/fish.svg'
 import FishPeriodModal from "./FishPeriodModal";
-
+import FishChart from "./FishChart";
 
 const FishSales = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [startDate,setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
+    const [chartData, setChartData] = useState(null);
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
-    const handleSearch = ({ startDate, endDate }) => {
+
+    const handleSearch = ({ startDate, endDate,fishData }) => {
         setStartDate(startDate);
         setEndDate(endDate);
+
+        setChartData(fishData);
         closeModal();
     };
     return(
@@ -26,7 +30,7 @@ const FishSales = () => {
                 </div>
 
                 <div className="w-full h-full">
-                   이곳은 차트가 나오는 부분
+                <FishChart data={chartData} />
                 </div>
             </div>
             <div className="flex items-center justify-start w-[90%] h-[25px] [font-family:'Inter-Bold',Helvetica] font-bold text-white text-lg absolute tracking-[0] leading-[normal] mt-2 ml-4">
