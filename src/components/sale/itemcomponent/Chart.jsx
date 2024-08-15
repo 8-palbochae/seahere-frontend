@@ -11,7 +11,7 @@ const Chart = ({ data }) => {
         labels: data.map(item => {
             if (item.week !== undefined) {
                 console.log(item.week);
-                const [year, month, day] = item.incomingDate.split('-');
+                const [year, month, day] = item.commonDate.split('-');
                 return `${month}-${day}`;
             } else {
                 console.log(item.month);
@@ -22,7 +22,7 @@ const Chart = ({ data }) => {
         datasets: [
             {
 
-                data: data.map(item => item.incomingPrice),
+                data: data.map(item => item.commonPrice),
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 fill: false,
@@ -56,7 +56,7 @@ const Chart = ({ data }) => {
                 ticks: {
                     stepSize: 100000,
                     callback: function(value) {
-                        return `${value / 10000}`; 
+                        return `${value / 1000}`; 
                     },
                 },
             },

@@ -20,11 +20,11 @@ const IncomingSales = () => {
         
         // 수익 데이터 계산
         const profitData = incomingData.map((item, index) => {
-            const outgoingItem = outgoingData.find(out => out.incomingDate === item.incomingDate);
-            const profit = (outgoingItem ? outgoingItem.incomingPrice : 0) - item.incomingPrice;
+            const outgoingItem = outgoingData.find(out => out.commonDate === item.commonDate);
+            const profit = (outgoingItem ? outgoingItem.commonPrice : 0) - item.commonPrice;
             return {
                 ...item,
-                incomingPrice: profit // 수익으로 업데이트
+                commonPrice: profit // 수익으로 업데이트
             };
         });
 
