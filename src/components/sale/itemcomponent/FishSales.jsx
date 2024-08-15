@@ -18,7 +18,7 @@ const FishSales = () => {
             </div>
             <div className="flex items-center justify-start w-[90%] h-[25px] [font-family:'Inter-Bold',Helvetica] font-bold text-white text-lg absolute tracking-[0] leading-[normal] mt-2 ml-4">
                 <div className="flex items-center">
-                    <img src={Icon} alt="Icon" className="w-5 h-5 mr-1" />
+                    <img src={Icon} alt="Icon" className="w-5 h-5 mr-1 mt-1" />
                     어종별 판매 순위
                 </div>
                 
