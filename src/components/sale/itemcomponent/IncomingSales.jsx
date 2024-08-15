@@ -8,8 +8,8 @@ const IncomingSales = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [chartData, setChartData] = useState(null);
     const [outgoingChartData, setOutgoingChartData] = useState(null);
-    const [profitChartData, setProfitChartData] = useState(null); // 수익 데이터 상태 추가
-    const [currentIndex, setCurrentIndex] = useState(0); // 0 for incoming, 1 for outgoing, 2 for profit
+    const [profitChartData, setProfitChartData] = useState(null); 
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -18,24 +18,24 @@ const IncomingSales = () => {
         console.log("Incoming Data:", incomingData);
         console.log("Outgoing Data:", outgoingData);
         
-        // 수익 데이터 계산
+       
         const profitData = incomingData.map((item, index) => {
-            const outgoingItem = outgoingData.find(out => out.incomingDate === item.incomingDate);
-            const profit = (outgoingItem ? outgoingItem.incomingPrice : 0) - item.incomingPrice;
+            const outgoingItem = outgoingData.find(out => out.commonDate === item.commonDate);
+            const profit = (outgoingItem ? outgoingItem.commonPrice : 0) - item.commonPrice;
             return {
                 ...item,
-                incomingPrice: profit // 수익으로 업데이트
+                commonPrice: profit 
             };
         });
 
         setChartData(incomingData);
         setOutgoingChartData(outgoingData);
-        setProfitChartData(profitData); // 수익 데이터 상태 업데이트
+        setProfitChartData(profitData); 
         closeModal();
     };
 
     const handleSwipe = (direction) => {
-        if (direction === "Left" && currentIndex < 2) { // 2 for profit
+        if (direction === "Left" && currentIndex < 2) {
             setCurrentIndex(currentIndex + 1);
         } else if (direction === "Right" && currentIndex > 0) {
             setCurrentIndex(currentIndex - 1);
