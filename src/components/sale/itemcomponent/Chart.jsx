@@ -56,7 +56,7 @@ const Chart = ({ data }) => {
                 ticks: {
                     stepSize: 100000,
                     callback: function(value) {
-                        return `${value / 1000}`; 
+                        return `${value / 10000}`; 
                     },
                 },
             },

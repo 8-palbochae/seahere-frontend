@@ -4,7 +4,7 @@ import SalesPeriodModal from "./SalesPeriodModal";
 import Chart from "./Chart";
 import { useSwipeable } from "react-swipeable";
 
-const IncomingSales = () => {
+const TotalSales = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [chartData, setChartData] = useState(null);
     const [outgoingChartData, setOutgoingChartData] = useState(null);
@@ -92,4 +92,4 @@ const IncomingSales = () => {
     );
 };
 
-export default IncomingSales;
+export default TotalSales;
