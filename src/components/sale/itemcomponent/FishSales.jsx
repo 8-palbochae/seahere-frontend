@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import Icon from '../../../assets/sales/fish.svg'
 import FishPeriodModal from "./FishPeriodModal";
 import FishChart from "./FishChart";
@@ -12,13 +12,18 @@ const FishSales = () => {
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
-    const handleSearch = ({ startDate, endDate,fishData }) => {
+    const handleSearch = ({ startDate, endDate, fishData}) => {
+        console.log("초기화 전 charData:", chartData);
+        setChartData(null);
+
         setStartDate(startDate);
         setEndDate(endDate);
-
         setChartData(fishData);
         closeModal();
     };
+    useEffect(()=>{
+        console.log("chartData가 업데이트됨",chartData);
+    },[chartData]);
     return(
         <div className="w-[370px] h-[314px] relative mx-auto mt-3">
         <div className="relative w-[90%] h-[314px] bg-blue-600 rounded-[10px] mx-auto">
