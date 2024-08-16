@@ -6,21 +6,19 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 
 const { RangePicker } = DatePicker;
-const dateFormat = "YYYY/MM/DD";
+const dateFormat = "YYYY-MM-DD";
 
 const PeriodStart = ({ startDate, setStartDate }) => {
-	const handleStartChange = (date) => {
-		setStartDate(dayjs(date).format(dateFormat));
-		console.log(startDate);
-	};
+	const today = dayjs().format(dateFormat);
 	return (
 		<Space direction="vertical" size={12}>
 			<DatePicker
+				value={dayjs(today, dateFormat)}
 				format={dateFormat}
 				onPanelChange={() => startDate}
 				placeholder={startDate}
 				inputReadOnly={true} // 자판 비활성화
-				onChange={(date) => handleStartChange(date)}
+				disabled={true}
 			/>
 		</Space>
 	);

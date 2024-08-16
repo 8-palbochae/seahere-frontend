@@ -6,7 +6,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 
 const { RangePicker } = DatePicker;
-const dateFormat = "YYYY/MM/DD";
+const dateFormat = "YYYY-MM-DD";
 
 const PeriodEnd = ({ endDate, setEndDate }) => {
 	const handleEndChange = (date) => {
