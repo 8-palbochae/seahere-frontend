@@ -9,18 +9,17 @@ import CameraCaptureIcon from '../../assets/common/camera-capture.svg';
 import CameraSwitchIcon from '../../assets/common/camera-switch.svg';
 
 const SearchInput = ({ value }) => {
-	let { data, isPending } = useQuery({
+	let { data, isPending, isError, error } = useQuery({
 		queryKey: ["productList"],
 		queryFn: () => getProductList(value),
 		enabled: value !== undefined && value !== null,
 	});
-
 	const [query, setQuery] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
+	const navigate = useNavigate();
 	const [isCameraOpen, setIsCameraOpen] = useState(false);
 	const [isFacingModeUser, setIsFacingModeUser] = useState(true);
 	const videoRef = useRef(null);
-	const navigate = useNavigate();
 
 	const openCamera = async () => {
 		try {
@@ -99,6 +98,19 @@ const SearchInput = ({ value }) => {
 			}
 		};
 	}, []);
+
+	useEffect(() => {
+		if (!isPending) {
+			if (query.length > 0) {
+				const filteredSuggestions = data.filter(({ productName }) =>
+					productName.toLowerCase().includes(query.toLowerCase())
+				);
+				setSuggestions(filteredSuggestions);
+			} else {
+				setSuggestions([]);
+			}
+		}
+	}, [query, data]);
 
 	return (
 		<div>
