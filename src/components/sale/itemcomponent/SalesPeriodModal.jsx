@@ -42,9 +42,6 @@ const SalesPeriodModal = ({ isOpen, onClose, onSearch }) => {
                     outgoingData = await OutgoingMonthSales(data);
                 }
 
-                console.log("Incoming Data:", incomingData);
-                console.log("Outgoing Data:", outgoingData);
-
                 onSearch({ incomingData, outgoingData });
             } catch (error) {
                 alert("조회 실패: " + error.message);

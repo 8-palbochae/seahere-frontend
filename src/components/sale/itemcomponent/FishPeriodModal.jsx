@@ -32,8 +32,7 @@ const FishPeriodModal = ({ isOpen, onClose, onSearch}) => {
                 let fishData;
                 fishData = await FishDataSales(data);
                 onSearch({startDate, endDate, fishData});
-                console.log("Fish Data:", fishData);
-                console.log("새로운날짜: ",startDate,endDate);
+                
        
             } catch (error) {
                 alert("조회 실패: " + error.message);

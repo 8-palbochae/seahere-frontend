@@ -15,9 +15,6 @@ const TotalSales = () => {
     const closeModal = () => setIsModalOpen(false);
 
     const handleSearch = ({ incomingData, outgoingData }) => {
-        console.log("Incoming Data:", incomingData);
-        console.log("Outgoing Data:", outgoingData);
-        
        
         const profitData = incomingData.map((item, index) => {
             const outgoingItem = outgoingData.find(out => out.commonDate === item.commonDate);

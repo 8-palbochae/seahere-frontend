@@ -13,7 +13,7 @@ const FishSales = () => {
     const closeModal = () => setIsModalOpen(false);
 
     const handleSearch = ({ startDate, endDate, fishData}) => {
-        console.log("초기화 전 charData:", chartData);
+        
         setChartData(null);
 
         setStartDate(startDate);
@@ -22,7 +22,7 @@ const FishSales = () => {
         closeModal();
     };
     useEffect(()=>{
-        console.log("chartData가 업데이트됨",chartData);
+        
     },[chartData]);
     return(
         <div className="w-[370px] h-[314px] relative mx-auto mt-3">
