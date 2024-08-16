@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Icon from "../../../assets/sales/graph.svg";
 import SalesPeriodModal from "./SalesPeriodModal";
 import Chart from "./Chart";
 import { useSwipeable } from "react-swipeable";
+import { IncomingWeekSales, OutgoingWeekSales } from "../../../api/sale/salesApi";
 
 const TotalSales = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -10,6 +11,50 @@ const TotalSales = () => {
     const [outgoingChartData, setOutgoingChartData] = useState(null);
     const [profitChartData, setProfitChartData] = useState(null); 
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+
+    useEffect(() => {
+        const today = new Date();
+        const last = new Date();
+
+        last.setDate(today.getDate()-7);
+        
+        const formattedToday = today.toISOString().split('T')[0];
+        const formattedLast = last.toISOString().split('T')[0];
+
+        setStartDate(formattedLast);
+        setEndDate(formattedToday);
+
+        if(startDate&&endDate){
+            const fetchData = async ()=>{
+            try{
+                const data = {startDate,endDate};
+                let incomingResponse, outgoingResponse;
+
+                incomingResponse = await IncomingWeekSales(data);
+                outgoingResponse = await OutgoingWeekSales(data);
+
+                const profitData = incomingResponse.map((item, index) => {
+                    const outgoingItem = outgoingResponse.find(out => out.commonDate === item.commonDate);
+                    const profit = (outgoingItem ? outgoingItem.commonPrice : 0) - item.commonPrice;
+                    return {
+                        ...item,
+                        commonPrice: profit,
+                    };
+                });
+
+                setChartData(incomingResponse);
+                setOutgoingChartData(outgoingResponse);
+                setProfitChartData(profitData);
+            }catch(error){
+                console.log("데이터 가져오기 실패:",error);
+            }
+        };
+        fetchData();
+    }
+    }, [startDate,endDate]);
+
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
