@@ -2,6 +2,7 @@ import React,{useEffect, useState} from "react";
 import Icon from '../../../assets/sales/fish.svg'
 import FishPeriodModal from "./FishPeriodModal";
 import FishChart from "./FishChart";
+import { FishDataSales } from "../../../api/sale/salesApi";
 
 const FishSales = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,11 +20,31 @@ const FishSales = () => {
         setStartDate(startDate);
         setEndDate(endDate);
         setChartData(fishData);
+      
         closeModal();
     };
-    useEffect(()=>{
-        
-    },[chartData]);
+
+    useEffect(() => {
+        const today = new Date().toISOString().split('T')[0];
+        setStartDate(today);
+        setEndDate(today);
+        if(startDate&&endDate){
+            const fetchData = async ()=>{
+            try{
+                const data = {startDate,endDate};
+                let FishData;
+
+                FishData = await FishDataSales(data);
+
+                setChartData(FishData);
+            }catch(error){
+                console.log("데이터 가져오기 실패:",error);
+            }
+        };
+        fetchData();
+    }
+    }, [startDate,endDate]);
+
     return(
         <div className="w-[370px] h-[314px] relative mx-auto mt-2">
         <div className="relative w-full h-[314px] bg-blue-600 rounded-[10px]">
