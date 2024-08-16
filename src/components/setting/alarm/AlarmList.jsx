@@ -1,23 +1,26 @@
 import React from "react";
 import AlarmListItem from "./AlarmListItem";
 
-const AlarmList = () => {
-	
+const AlarmList = ({
+	data,
+	setCheckedValues,
+	search,
+	checkedValues,
+	updateItem,
+}) => {
+	const filteredData = data.filter((item) => item.name.includes(search));
 	return (
 		<div className="flex flex-col gap-2 w-full ">
-			<div>{"품목"}</div>
 			<div className="flex flex-col gap-2 overflow-auto max-h-[50vh]  m-3">
-				<AlarmListItem />
-				<AlarmListItem />
-				<AlarmListItem />
-				<AlarmListItem />
-				<AlarmListItem />
-				<AlarmListItem />
-				<AlarmListItem />
-				<AlarmListItem />
-				<AlarmListItem />
-				<AlarmListItem />
-				<AlarmListItem />
+				{filteredData.map((item) => (
+					<AlarmListItem
+						item={item}
+						key={item.inventoryId}
+						setCheckedValues={setCheckedValues}
+						checkedValues={checkedValues}
+						updateItem={updateItem}
+					/>
+				))}
 			</div>
 		</div>
 	);

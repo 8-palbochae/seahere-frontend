@@ -7,13 +7,16 @@ import PeriodEnd from "./PeriodEnd";
 
 const { RangePicker } = DatePicker;
 
-function Period() {
+function Period({ startDate, setStartDate, endDate, setEndDate }) {
 	return (
 		<div className="flex gap-3 flex-col items-center space-y-4 w-full p-5">
 			<div className="flex w-full justify-center space-x-4">
-				<PeriodStart />
+				<PeriodStart
+					startDate={startDate}
+					setStartDate={setStartDate}
+				/>
 				<span>~</span>
-				<PeriodEnd />
+				<PeriodEnd endDate={endDate} setEndDate={setEndDate} />
 			</div>
 		</div>
 	);
