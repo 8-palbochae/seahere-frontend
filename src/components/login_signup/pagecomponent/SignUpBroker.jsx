@@ -27,8 +27,17 @@ const dateFormat = 'YYYY-MM-DD';
 
 const SignUpBroker = () => {
   const { isModalOpen, openModal, closeModal } = useCertifyModal();
-  const { date: issueDate, handleDateChange } = useDatePicker();
-  const { isPostcodeOpen, postCode, address, detailAddress, setDetailAddress, openPostcode, closePostcode, handleComplete } = useAddress();
+  const { date: openDate, handleDateChange, setDate } = useDatePicker();
+  const {
+    isPostcodeOpen,
+    postCode,
+    address,
+    detailAddress,
+    setDetailAddress,
+    openPostcode,
+    closePostcode,
+    handleComplete,
+  } = useAddress();
   const [isBrokerCheckSuccess, setIsBrokerCheckSuccess] = useState(null);
   const [representativeName, setRepresentativeName] = useState('');
   const [companyName, setCompanyName] = useState('');
@@ -39,8 +48,19 @@ const SignUpBroker = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!openDate || !dayjs(openDate).isValid()) {
+      console.error('Invalid date:', openDate);
+      alert('유효한 개업 일자를 선택해 주세요.');
+      return;
+    }
+
     try {
-      const certification = await certifyCompany(businessNumber, representativeName, issueDate.format('YYYYMMDD'));
+      const certification = await certifyCompany(
+        businessNumber,
+        representativeName,
+        dayjs(openDate).format('YYYYMMDD')
+      );
       setIsBrokerCheckSuccess(certification);
       openModal();
     } catch (error) {
@@ -50,12 +70,12 @@ const SignUpBroker = () => {
 
   const onSuccessClick = async () => {
     const company = new Company(
-      companyName,
-      representativeName,
-      businessNumber,
-      postCode,
-      address,
-      detailAddress
+      companyName || '',
+      representativeName || '',
+      businessNumber || '',
+      postCode || '',
+      address || '',
+      detailAddress || ''
     );
 
     try {
@@ -73,10 +93,21 @@ const SignUpBroker = () => {
   const handleCapture = async (imageDataUrl) => {
     try {
       const ocrResult = await uploadImageForOCR(imageDataUrl);
-      setRepresentativeName(ocrResult.representativeName);
-      setCompanyName(ocrResult.companyName);
-      setBusinessNumber(ocrResult.businessNumber);
-      setDetailAddress(ocrResult.address);
+
+      const extractedCompanyName = ocrResult.companyName || '';
+      const extractedBusinessNumber = ocrResult.businessNumber.replace(/-/g, '') || '';
+      const extractedRepresentativeName = ocrResult.representativeName || '';
+      const extractedAddress = ocrResult.address || '';
+      const openDateRaw = ocrResult.openDate || '';
+
+      setCompanyName(extractedCompanyName);
+      setBusinessNumber(extractedBusinessNumber);
+      setRepresentativeName(extractedRepresentativeName);
+      setDetailAddress(extractedAddress);
+
+      const formattedOpenDate = dayjs(openDateRaw, 'YYYY 년 MM 월 DD 일').format('YYYY-MM-DD');
+      setDate(formattedOpenDate);
+
     } catch (error) {
       console.error('Error during OCR processing:', error);
     } finally {
@@ -99,28 +130,28 @@ const SignUpBroker = () => {
             type="text"
             name="companyName"
             placeholder="회사 이름"
-            value={companyName}
+            value={companyName || ''}
             onChange={(e) => setCompanyName(e.target.value)}
           />
           <InputField
             type="text"
             name="representativeName"
             placeholder="대표자 성명"
-            value={representativeName}
+            value={representativeName || ''}
             onChange={(e) => setRepresentativeName(e.target.value)}
           />
           <InputField
             type="text"
             name="businessNumber"
             placeholder="사업자 등록번호"
-            value={businessNumber}
+            value={businessNumber || ''}
             onChange={(e) => setBusinessNumber(e.target.value)}
           />
           <InputField
             type="text"
             name="address"
             placeholder="주소 입력"
-            value={address}
+            value={address || ''}
             onClick={openPostcode}
             readOnly
             className="cursor-pointer"
@@ -129,17 +160,21 @@ const SignUpBroker = () => {
             type="text"
             name="detailAddress"
             placeholder="상세 주소"
-            value={detailAddress}
+            value={detailAddress || ''}
             onChange={(e) => setDetailAddress(e.target.value)}
           />
           <div className="relative">
             <DatePicker
               format={dateFormat}
               inputReadOnly
-              onChange={handleDateChange}
-              placeholder="발급 일자"
+              onChange={(date, dateString) => {
+                setDate(dateString);
+                handleDateChange(date);
+              }}
+              placeholder="개업 일자"
               className="w-full px-4 py-2 border border-gray-300 rounded-md font-normal text-black leading-normal"
               style={{ width: '100%' }}
+              value={openDate ? dayjs(openDate, dateFormat) : null}
             />
           </div>
           <SubmitButton>진위 여부 확인</SubmitButton>
