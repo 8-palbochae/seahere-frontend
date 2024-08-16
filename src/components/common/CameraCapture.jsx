@@ -13,7 +13,11 @@ const CameraCapture = ({ onCapture, onCancel }) => {
             setIsCameraOpen(true);
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: isFacingModeUser ? 'user' : 'environment' }
+                    video: {
+                        facingMode: isFacingModeUser ? 'user' : 'environment',
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    }
                 });
                 if (videoRef.current) {
                     videoRef.current.srcObject = stream;

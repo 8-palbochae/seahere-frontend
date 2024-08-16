@@ -27,7 +27,7 @@ const dateFormat = 'YYYY-MM-DD';
 
 const SignUpBroker = () => {
   const { isModalOpen, openModal, closeModal } = useCertifyModal();
-  const { date: openDate, handleDateChange, setDate: setOpenDate } = useDatePicker();
+  const { date: openDate, handleDateChange, setDate } = useDatePicker();
   const {
     isPostcodeOpen,
     postCode,
@@ -36,7 +36,7 @@ const SignUpBroker = () => {
     setDetailAddress,
     openPostcode,
     closePostcode,
-    handleComplete
+    handleComplete,
   } = useAddress();
   const [isBrokerCheckSuccess, setIsBrokerCheckSuccess] = useState(null);
   const [representativeName, setRepresentativeName] = useState('');
@@ -48,8 +48,19 @@ const SignUpBroker = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!openDate || !dayjs(openDate).isValid()) {
+      console.error('Invalid date:', openDate);
+      alert('유효한 개업 일자를 선택해 주세요.');
+      return;
+    }
+
     try {
-      const certification = await certifyCompany(businessNumber, representativeName, openDate?.format('YYYYMMDD'));
+      const certification = await certifyCompany(
+        businessNumber,
+        representativeName,
+        dayjs(openDate).format('YYYYMMDD')
+      );
       setIsBrokerCheckSuccess(certification);
       openModal();
     } catch (error) {
@@ -84,7 +95,7 @@ const SignUpBroker = () => {
       const ocrResult = await uploadImageForOCR(imageDataUrl);
 
       const extractedCompanyName = ocrResult.companyName || '';
-      const extractedBusinessNumber = ocrResult.businessNumber || '';
+      const extractedBusinessNumber = ocrResult.businessNumber.replace(/-/g, '') || '';
       const extractedRepresentativeName = ocrResult.representativeName || '';
       const extractedAddress = ocrResult.address || '';
       const openDateRaw = ocrResult.openDate || '';
@@ -94,8 +105,8 @@ const SignUpBroker = () => {
       setRepresentativeName(extractedRepresentativeName);
       setDetailAddress(extractedAddress);
 
-      const formattedOpenDate = dayjs(openDateRaw, 'YYYY MM').format('YYYY-MM-DD');
-      setOpenDate(formattedOpenDate);
+      const formattedOpenDate = dayjs(openDateRaw, 'YYYY 년 MM 월 DD 일').format('YYYY-MM-DD');
+      setDate(formattedOpenDate);
 
     } catch (error) {
       console.error('Error during OCR processing:', error);
@@ -156,7 +167,10 @@ const SignUpBroker = () => {
             <DatePicker
               format={dateFormat}
               inputReadOnly
-              onChange={handleDateChange}
+              onChange={(date, dateString) => {
+                setDate(dateString);
+                handleDateChange(date);
+              }}
               placeholder="개업 일자"
               className="w-full px-4 py-2 border border-gray-300 rounded-md font-normal text-black leading-normal"
               style={{ width: '100%' }}

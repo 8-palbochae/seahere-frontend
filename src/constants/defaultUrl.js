@@ -1,1 +1,2 @@
-export const url = "https://e5ca-14-44-120-104.ngrok-free.app";
+//주소 ngrok forwarding 주소로
+export const url = "http:localhost:8080";
