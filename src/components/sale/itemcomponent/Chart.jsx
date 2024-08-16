@@ -40,12 +40,16 @@ const Chart = ({ data }) => {
                 display: false, 
             },
             tooltip: {
+                
                 callbacks: {
                     label: function (context) {
                         return `${context.label}: ${context.raw.toLocaleString()}원`;
                     },
                 },
             },
+            datalabels:{
+                display:false,
+            }
         },
         scales: {
             x: {
