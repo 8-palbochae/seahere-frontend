@@ -3,7 +3,12 @@ import productImg from "../../../assets/income/product.svg";
 import { Checkbox, Modal } from "antd";
 import SaleInventorySettingModal from "./SaleInventorySettingModal";
 
-const AlarmListItem = ({ item, setCheckedValues, checkedValues }) => {
+const AlarmListItem = ({
+	item,
+	setCheckedValues,
+	checkedValues,
+	updateItem,
+}) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const isChecked = checkedValues.some(
 		(element) => element.inventoryId === item.inventoryId
@@ -30,6 +35,7 @@ const AlarmListItem = ({ item, setCheckedValues, checkedValues }) => {
 				setIsModalOpen={setIsModalOpen}
 				isModalOpen={isModalOpen}
 				item={item}
+				updateItem={updateItem}
 			/>
 			<div className="flex w-full gap-3">
 				<Checkbox checked={isChecked} onChange={handleCheckboxChange} />

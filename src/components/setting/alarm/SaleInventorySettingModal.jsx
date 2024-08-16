@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Input } from "antd";
 import productImg from "../../../assets/income/product.svg";
-const SaleInventorySettingModal = ({ isModalOpen, setIsModalOpen, item }) => {
+const SaleInventorySettingModal = ({
+	isModalOpen,
+	setIsModalOpen,
+	item,
+	updateItem,
+}) => {
+	const [discountPrice, setDiscountPrice] = useState(item.discountPrice);
+
+	const onChange = (price) => {
+		if (/^\d*\.?\d*$/.test(price)) {
+			setDiscountPrice(price);
+		}
+	};
+
 	const handleCancel = () => {
 		setIsModalOpen(false);
 	};
+
+	const handleComplete = () => {
+		console.log("handleComplete called");
+		const discountItem = { ...item, discountPrice };
+		updateItem(discountItem);
+		console.log(discountItem);
+		setIsModalOpen(false);
+	};
+
 	return (
 		<Modal
 			title="할인_재고 설정"
@@ -43,12 +65,15 @@ const SaleInventorySettingModal = ({ isModalOpen, setIsModalOpen, item }) => {
 				<div className="flex justify-around items-center  border-b-2 p-1">
 					<div className="w-2/3">{"할인가"}</div>
 					<div className="w-1/3">
-						<Input />
+						<Input
+							value={discountPrice}
+							onChange={(e) => onChange(e.target.value)}
+						/>
 					</div>
 				</div>
 				<div className="flex justify-around">
 					<button
-						onClick={handleCancel}
+						onClick={handleComplete}
 						className="rounded-[20px] w-2/5 p-3 text-white bg-blue-600"
 					>
 						{"수정완료"}

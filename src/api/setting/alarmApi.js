@@ -9,4 +9,18 @@ const getInventoryList = async () => {
 		throw new Error("Failed to fetch data");
 	}
 };
-export { getInventoryList };
+
+const postDiscountList = async ({ startDate, endDate, checkedValues }) => {
+	const body = {
+		startDate,
+		endDate,
+		inventories: checkedValues,
+	};
+	try {
+		const res = await axiosInstance.post(`${url}/alarm/discounts`, body);
+		return res.data;
+	} catch (error) {
+		throw new Error("Failed to fetch data");
+	}
+};
+export { getInventoryList, postDiscountList };

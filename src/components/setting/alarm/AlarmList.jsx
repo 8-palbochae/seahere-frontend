@@ -1,7 +1,13 @@
 import React from "react";
 import AlarmListItem from "./AlarmListItem";
 
-const AlarmList = ({ data, setCheckedValues, search, checkedValues }) => {
+const AlarmList = ({
+	data,
+	setCheckedValues,
+	search,
+	checkedValues,
+	updateItem,
+}) => {
 	const filteredData = data.filter((item) => item.name.includes(search));
 	return (
 		<div className="flex flex-col gap-2 w-full ">
@@ -12,6 +18,7 @@ const AlarmList = ({ data, setCheckedValues, search, checkedValues }) => {
 						key={item.inventoryId}
 						setCheckedValues={setCheckedValues}
 						checkedValues={checkedValues}
+						updateItem={updateItem}
 					/>
 				))}
 			</div>
