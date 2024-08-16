@@ -1,10 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import productImg from "../../../assets/income/product.svg";
 import { Checkbox, Modal } from "antd";
 import SaleInventorySettingModal from "./SaleInventorySettingModal";
 
-const AlarmListItem = () => {
+const AlarmListItem = ({
+	item,
+	setCheckedValues,
+	checkedValues,
+	updateItem,
+}) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const isChecked = checkedValues.some(
+		(element) => element.inventoryId === item.inventoryId
+	);
+	const handleCheckboxChange = (e) => {
+		const checked = e.target.checked;
+
+		if (checked) {
+			setCheckedValues((prev) => [...prev, item]);
+		} else {
+			setCheckedValues((prev) =>
+				prev.filter(
+					(element) => element.inventoryId !== item.inventoryId
+				)
+			);
+		}
+	};
 	const showModal = () => {
 		setIsModalOpen(true);
 	};
@@ -13,9 +34,11 @@ const AlarmListItem = () => {
 			<SaleInventorySettingModal
 				setIsModalOpen={setIsModalOpen}
 				isModalOpen={isModalOpen}
+				item={item}
+				updateItem={updateItem}
 			/>
 			<div className="flex w-full gap-3">
-				<Checkbox />
+				<Checkbox checked={isChecked} onChange={handleCheckboxChange} />
 				<div
 					onClick={showModal}
 					className={
@@ -28,19 +51,19 @@ const AlarmListItem = () => {
 							src={productImg}
 							alt="Product"
 						/>
-						<span className="text-gray-800">{"광어"}</span>
+						<span className="text-gray-800">{item.name}</span>
 					</div>
 					<div className="w-px h-10 bg-gray-400"></div>
 					<div className="text-center font-bold text-lg text-gray-800">
-						{"활어"}
+						{item.category}
 					</div>
 					<div className="w-px h-10 bg-gray-400"></div>
 					<div className="text-center text-lg text-gray-700">
-						{"100kg"}
+						{item.quantity}kg
 					</div>
 					<div className="w-px h-10 bg-gray-400"></div>
 					<div className="text-center text-sm text-gray-500">
-						{"50000원"}
+						{item.price}
 					</div>
 				</div>
 			</div>
