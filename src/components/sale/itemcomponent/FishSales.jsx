@@ -26,7 +26,7 @@ const FishSales = () => {
     },[chartData]);
     return(
         <div className="w-[370px] h-[314px] relative mx-auto mt-3">
-        <div className="relative w-[90%] h-[314px] bg-blue-600 rounded-[10px] mx-auto">
+        <div className="relative w-full h-[314px] bg-blue-600 rounded-[10px]">
             <div className="absolute w-[95%] h-[263px] top-[40px] left-[50%] transform -translate-x-[50%] bg-white rounded-[10px]">
                 <div className="flex justify-between items-center w-full h-[18px] [font-family:'Inter-Regular',Helvetica] font-normal text-base text-gray-500 mt-2 ml-2">
                     <div className="whitespace-nowrap text-center tracking-[0] leading-[normal] text-sm">
