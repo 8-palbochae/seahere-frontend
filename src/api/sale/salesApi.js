@@ -63,4 +63,17 @@ const OutgoingMonthSales = async(data) => {
 } 
 
 
-export {IncomingWeekSales,IncomingMonthSales,OutgoingWeekSales, OutgoingMonthSales};
+const FishDataSales = async(data) =>{
+    try{
+        const res = await axiosInstance.post(`${url}/fish/chart`,data,{
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+            },
+        });
+        return res.data;
+    }catch(error){
+        console.error("API 요청 실패:", error);
+        throw new Error("데이터 요청 실패");
+    }
+}
+export {IncomingWeekSales,IncomingMonthSales,OutgoingWeekSales, OutgoingMonthSales,FishDataSales};

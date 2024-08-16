@@ -2,47 +2,38 @@ import React, { useState } from "react";
 import PeriodStart from "../../history/main/itemcomponent/PeriodStart"; 
 import PeriodEnd from "../../history/main/itemcomponent/PeriodEnd";     
 import dayjs from "dayjs";
-import { IncomingMonthSales, IncomingWeekSales, OutgoingMonthSales, OutgoingWeekSales } from "../../../api/sale/salesApi";
+import { FishDataSales } from "../../../api/sale/salesApi";
 
-const SalesPeriodModal = ({ isOpen, onClose, onSearch }) => {
+const FishPeriodModal = ({ isOpen, onClose, onSearch}) => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
-    const [periodType, setPeriodType] = useState(""); 
 
     const dateFormat = "YYYY-MM-DD";
     const date = dayjs(endDate);
 
     const weekCalc = () => {
-        setStartDate(date.subtract(6, "day").format(dateFormat));
-        setPeriodType('week');
+        setStartDate(date.subtract(6, "day").format(dateFormat));      
     };
 
     const threemonthCalc = () => {
-        setStartDate(date.subtract(2, "month").format(dateFormat));
-        setPeriodType('month');
+        setStartDate(date.subtract(2, "month").format(dateFormat));    
     };
 
     const sixmonthCalc = () => {
         setStartDate(date.subtract(5, "month").format(dateFormat));
-        setPeriodType('month');
     };
 
     const handleSearch = async () => {
         if (startDate && endDate) {
             try {
+
                 const data = { startDate, endDate };
-
-                let incomingData, outgoingData;
-
-                if (periodType === 'week') {
-                    incomingData = await IncomingWeekSales(data);
-                    outgoingData = await OutgoingWeekSales(data);
-                } else if (periodType === 'month') {
-                    incomingData = await IncomingMonthSales(data);
-                    outgoingData = await OutgoingMonthSales(data);
-                }
-
-                onSearch({ incomingData, outgoingData });
+                
+                let fishData;
+                fishData = await FishDataSales(data);
+                onSearch({startDate, endDate, fishData});
+                
+       
             } catch (error) {
                 alert("조회 실패: " + error.message);
                 console.error("조회 실패:", error); 
@@ -114,4 +105,4 @@ const SalesPeriodModal = ({ isOpen, onClose, onSearch }) => {
     );
 };
 
-export default SalesPeriodModal;
+export default FishPeriodModal;

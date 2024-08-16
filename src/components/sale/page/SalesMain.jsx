@@ -1,6 +1,8 @@
 import React,{useEffect} from "react";
-import IncomingSales from "../itemcomponent/IncomingSales";
+import TotalSales from "../itemcomponent/TotalSales";
 import { useHeaderText } from "../../../stores/headerText";
+import FishSales from "../itemcomponent/FishSales";
+import Today from "../itemcomponent/Today";
 
 const SalesMain = () => {
     const {setHeaderText} = useHeaderText();
@@ -11,9 +13,10 @@ const SalesMain = () => {
       
     return(
         <div>
-            <IncomingSales />
+            <Today />
+            <TotalSales />
+            <FishSales />
         </div>
-
     )
 
 

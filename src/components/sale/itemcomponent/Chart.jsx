@@ -10,11 +10,11 @@ const Chart = ({ data }) => {
     const chartData = {
         labels: data.map(item => {
             if (item.week !== undefined) {
-                console.log(item.week);
+                
                 const [year, month, day] = item.commonDate.split('-');
                 return `${month}-${day}`;
             } else {
-                console.log(item.month);
+               
                 const month = item.month;
                 return `${month}`;
             }
@@ -40,12 +40,16 @@ const Chart = ({ data }) => {
                 display: false, 
             },
             tooltip: {
+                
                 callbacks: {
                     label: function (context) {
                         return `${context.label}: ${context.raw.toLocaleString()}원`;
                     },
                 },
             },
+            datalabels:{
+                display:false,
+            }
         },
         scales: {
             x: {
@@ -56,7 +60,7 @@ const Chart = ({ data }) => {
                 ticks: {
                     stepSize: 100000,
                     callback: function(value) {
-                        return `${value / 1000}`; 
+                        return `${value / 10000}`; 
                     },
                 },
             },
