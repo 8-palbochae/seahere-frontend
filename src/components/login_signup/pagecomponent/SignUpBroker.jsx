@@ -83,20 +83,17 @@ const SignUpBroker = () => {
     try {
       const ocrResult = await uploadImageForOCR(imageDataUrl);
 
-      // Extract data from OCR result
       const extractedCompanyName = ocrResult.companyName || '';
       const extractedBusinessNumber = ocrResult.businessNumber || '';
       const extractedRepresentativeName = ocrResult.representativeName || '';
       const extractedAddress = ocrResult.address || '';
       const openDateRaw = ocrResult.openDate || '';
 
-      // Update state with extracted data
       setCompanyName(extractedCompanyName);
       setBusinessNumber(extractedBusinessNumber);
       setRepresentativeName(extractedRepresentativeName);
       setDetailAddress(extractedAddress);
 
-      // Format openDate and update state
       const formattedOpenDate = dayjs(openDateRaw, 'YYYY MM').format('YYYY-MM-DD');
       setOpenDate(formattedOpenDate);
 
