@@ -9,12 +9,14 @@ import {
 } from "../../../api/setting/alarmApi";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 const getCurrentDate = () => {
 	return dayjs().format("YYYY-MM-DD");
 };
 
 const Alarm = () => {
+	const navigate = useNavigate();
 	const [startDate, setStartDate] = useState(getCurrentDate);
 	const [endDate, setEndDate] = useState(getCurrentDate);
 	const [items, setItems] = useState([]);
@@ -66,6 +68,7 @@ const Alarm = () => {
 
 	const handleOnClick = () => {
 		postDiscountList({ startDate, endDate, checkedValues });
+		navigate("/main");
 	};
 
 	if (isPending) {
