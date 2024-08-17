@@ -13,38 +13,6 @@ const FishSales = () => {
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
-    // const handleSearch = ({ startDate, endDate, fishData}) => {
-        
-    //     setChartData(null);
-
-    //     setStartDate(startDate);
-    //     setEndDate(endDate);
-    //     setChartData(fishData);
-      
-    //     closeModal();
-    // };
-
-    // useEffect(() => {
-    //     const today = new Date().toISOString().split('T')[0];
-    //     setStartDate(today);
-    //     setEndDate(today);
-    //     if(startDate&&endDate){
-    //         const fetchData = async ()=>{
-    //         try{
-    //             const data = {startDate,endDate};
-    //             let FishData;
-    //             console.log("날짜:", startDate, endDate);
-    //             setChartData(null);
-    //             FishData = await FishDataSales(data);
-    //             console.log(FishData);
-    //             setChartData(FishData);
-    //         }catch(error){
-    //             console.log("데이터 가져오기 실패:",error);
-    //         }
-    //     };
-    //     fetchData();
-    // }
-    // }, [startDate,endDate]);
 
     const fetchData = async (start, end) => {
         try {
