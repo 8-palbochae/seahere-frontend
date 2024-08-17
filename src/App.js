@@ -130,7 +130,7 @@ function App() {
 									/>
 								</Route>
 								<Route path="/carts" element={<Cart />} />
-								<Route path="/incoming" element={<Income />} />
+								<Route path="/incoming/:productId" element={<Income />} />
 								<Route
 									path="/alarm-history"
 									element={<AlarmHistory />}

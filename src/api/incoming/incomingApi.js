@@ -15,6 +15,22 @@ const getProductList = async (value) => {
 		throw new Error("서버 연결 실패");
 	}
 };
+
+const getProduct = async (productId) => {
+	try {
+		const res = await axiosInstance.get(`${url}/product-qr/${productId}`, {
+			headers: {
+				"Content-Type": "application/json; charset=UTF-8",
+			},
+		});
+		console.log("adfa", res.data);
+		return res.data;
+
+	} catch (error) {
+		throw new Error("서버 연결 실패");
+	}
+};
+
 const saveIncomingData = async (data) => {
 	try {
 		const res = await axiosInstance.post(`${url}/incoming`, data, {
@@ -47,4 +63,4 @@ const modifyIncomingPrice = async (incomingId, price) => {
 		throw new Error("데이터 수정 실패");
 	}
 };
-export { getProductList, saveIncomingData, modifyIncomingPrice };
+export { getProductList, getProduct, saveIncomingData, modifyIncomingPrice };

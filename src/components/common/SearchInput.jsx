@@ -64,18 +64,18 @@ const SearchInput = ({ value }) => {
 					const productData = JSON.parse(qrData);
 
 					if (productData.productId) {
-						navigate("/incoming", {
-							state: { selectedProduct: productData },
-						});
+						navigate(`/incoming/${productData.productId}`);
 					}
 				} catch (error) {
-					console.error("Error processing QR code:", error);
+					console.error("QR 코드를 처리하는 중 오류 발생:", error);
 				} finally {
 					setIsCameraOpen(false);
 				}
 			}, 'image/jpeg');
 		}
 	};
+
+
 
 	const handleCancel = () => {
 		setIsCameraOpen(false);
@@ -197,9 +197,7 @@ const SearchInput = ({ value }) => {
 									key={index}
 									className="p-2 cursor-pointer hover:bg-gray-200"
 									onClick={() => {
-										navigate("/incoming", {
-											state: { selectedProduct: suggestion },
-										});
+										navigate(`/incoming/${suggestion.productId}`);
 									}}
 								>
 									{suggestion.productName}

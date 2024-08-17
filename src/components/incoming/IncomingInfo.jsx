@@ -61,9 +61,6 @@ const IncomingInfo = ({ onAmountChange, onPriceChange, isAmountValid, isPriceVal
             countryDetail,
             memo,
             productId: selectedProduct.productId
-
-
-
         };
 
         try {
