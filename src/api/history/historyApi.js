@@ -1,4 +1,3 @@
-import axios from "axios";
 import { url } from "../../constants/defaultUrl";
 import { axiosInstance } from "../common/axiosInstance";
 

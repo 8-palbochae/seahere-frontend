@@ -18,12 +18,12 @@ const getProductList = async (value) => {
 
 const getProduct = async (productId) => {
 	try {
+		console.log("ddd: ", `${url}/product-qr/${productId}`);
 		const res = await axiosInstance.get(`${url}/product-qr/${productId}`, {
 			headers: {
 				"Content-Type": "application/json; charset=UTF-8",
 			},
 		});
-		console.log("adfa", res.data);
 		return res.data;
 
 	} catch (error) {

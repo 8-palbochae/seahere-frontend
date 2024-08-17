@@ -17,22 +17,22 @@ const TodayInfo = () => {
 			setLoading(true);
 			try {
 				const result = await getHistoryList({
-					startDate: dayjs().format("YYYY-MM-DD"), // 원하는 날짜 범위를 설정하세요
+					startDate: dayjs().format("YYYY-MM-DD"),
 					endDate: dayjs().format("YYYY-MM-DD"),
 					page: 0,
 				});
 				console.log(result.content);
-				if(result.content.length == 0){
+				if (result.content.length == 0) {
 					setData({
 						incoming: 0,
-						outgoing:  0,
-						total : 0,
+						outgoing: 0,
+						total: 0,
 					});
-				}else{
+				} else {
 					setData({
 						incoming: result.content[0].incomingCount || 0,
 						outgoing: result.content[0].outgoingCount || 0,
-						total :  (result.content[0].incomingCount || 0) + (result.content[0].outgoingCount || 0),
+						total: (result.content[0].incomingCount || 0) + (result.content[0].outgoingCount || 0),
 					});
 				}
 			} catch (error) {
