@@ -13,14 +13,22 @@ const FishSales = () => {
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
-    const handleSearch = ({ startDate, endDate, fishData}) => {
-        
-        setChartData(null);
 
+    const fetchData = async (start, end) => {
+        try {
+            const data = { startDate: start, endDate: end };
+            setChartData(null);
+            const FishData = await FishDataSales(data);
+            setChartData(FishData);
+        } catch (error) {
+            console.error("데이터 가져오기 실패:", error);
+        }
+    };
+
+    const handleSearch = ({ startDate, endDate }) => {
         setStartDate(startDate);
         setEndDate(endDate);
-        setChartData(fishData);
-      
+        fetchData(startDate, endDate);
         closeModal();
     };
 
@@ -28,22 +36,8 @@ const FishSales = () => {
         const today = new Date().toISOString().split('T')[0];
         setStartDate(today);
         setEndDate(today);
-        if(startDate&&endDate){
-            const fetchData = async ()=>{
-            try{
-                const data = {startDate,endDate};
-                let FishData;
-
-                FishData = await FishDataSales(data);
-
-                setChartData(FishData);
-            }catch(error){
-                console.log("데이터 가져오기 실패:",error);
-            }
-        };
-        fetchData();
-    }
-    }, [startDate,endDate]);
+        fetchData(today, today);
+    }, []);
 
     return(
         <div className="w-[370px] h-[314px] relative mx-auto mt-2">
