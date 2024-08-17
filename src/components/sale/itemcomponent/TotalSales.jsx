@@ -1,23 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Icon from "../../../assets/sales/graph.svg";
 import SalesPeriodModal from "./SalesPeriodModal";
 import Chart from "./Chart";
 import { useSwipeable } from "react-swipeable";
+import { IncomingWeekSales, OutgoingWeekSales } from "../../../api/sale/salesApi";
 
-const IncomingSales = () => {
+const TotalSales = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [chartData, setChartData] = useState(null);
     const [outgoingChartData, setOutgoingChartData] = useState(null);
     const [profitChartData, setProfitChartData] = useState(null); 
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+
+    useEffect(() => {
+        const today = new Date();
+        const last = new Date();
+
+        last.setDate(today.getDate()-7);
+        
+        const formattedToday = today.toISOString().split('T')[0];
+        const formattedLast = last.toISOString().split('T')[0];
+
+        setStartDate(formattedLast);
+        setEndDate(formattedToday);
+
+        if(startDate&&endDate){
+            const fetchData = async ()=>{
+            try{
+                const data = {startDate,endDate};
+                let incomingResponse, outgoingResponse;
+
+                incomingResponse = await IncomingWeekSales(data);
+                outgoingResponse = await OutgoingWeekSales(data);
+
+                const profitData = incomingResponse.map((item, index) => {
+                    const outgoingItem = outgoingResponse.find(out => out.commonDate === item.commonDate);
+                    const profit = (outgoingItem ? outgoingItem.commonPrice : 0) - item.commonPrice;
+                    return {
+                        ...item,
+                        commonPrice: profit,
+                    };
+                });
+
+                setChartData(incomingResponse);
+                setOutgoingChartData(outgoingResponse);
+                setProfitChartData(profitData);
+            }catch(error){
+                console.log("데이터 가져오기 실패:",error);
+            }
+        };
+        fetchData();
+    }
+    }, [startDate,endDate]);
+
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
     const handleSearch = ({ incomingData, outgoingData }) => {
-        console.log("Incoming Data:", incomingData);
-        console.log("Outgoing Data:", outgoingData);
-        
        
         const profitData = incomingData.map((item, index) => {
             const outgoingItem = outgoingData.find(out => out.commonDate === item.commonDate);
@@ -50,8 +92,8 @@ const IncomingSales = () => {
     });
 
     return (
-        <div className="w-[370px] h-[314px] relative mx-auto mt-3">
-            <div className="relative w-[90%] h-[314px] bg-blue-600 rounded-[10px] mx-auto">
+        <div className="w-[370px] h-[314px] relative mx-auto mt-5">
+            <div className="relative w-full h-[314px] bg-blue-600 rounded-[10px]">
                 <div className="absolute w-[95%] h-[263px] top-[40px] left-[50%] transform -translate-x-[50%] bg-white rounded-[10px]" {...swipeHandlers}>
                     <div className="flex justify-between items-center w-full h-[18px] [font-family:'Inter-Regular',Helvetica] font-normal text-base text-gray-500 mt-2 ml-2">
                         <div className="whitespace-nowrap text-center tracking-[0] leading-[normal] text-sm">
@@ -92,4 +134,4 @@ const IncomingSales = () => {
     );
 };
 
-export default IncomingSales;
+export default TotalSales;

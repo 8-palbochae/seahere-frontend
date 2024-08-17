@@ -10,6 +10,7 @@
 		"antd": "^5.19.3",
 		"axios": "^1.7.3",
 		"chart.js": "^4.4.3",
+		"chartjs-plugin-datalabels": "^2.2.0",
 		"es-hangul": "^1.4.5",
 		"firebase": "^10.12.5",
 		"qr-scanner": "^1.4.2",
