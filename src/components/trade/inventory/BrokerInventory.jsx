@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import CartModal from "../cart/CartModal";
 import BrokerInventoryItem from "./BrokerInventoryItem";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { url } from "../../../constants/defaultUrl";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -38,6 +38,7 @@ const BrokerInventory = ({ id, company }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedInventory, setSelectedInventory] = useState(null);
 	const navigate = useNavigate();
+	const location = useLocation();
 	const loadMoreRef = useRef(null);
 
 	const { cartItems } = useCartStore((state) => ({
@@ -81,9 +82,9 @@ const BrokerInventory = ({ id, company }) => {
 		}
 	};
 
-	// useEffect(() => {
-	// 	window.scrollTo(0, 0);
-	// }, [location]);
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, [location]);
 
 	useEffect(() => {
 		const options = {

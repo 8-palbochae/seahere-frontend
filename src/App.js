@@ -125,7 +125,7 @@ function App() {
 								<Route path="/trades" element={<TradeView />}>
 									<Route path="" element={<TradeMain />} />
 									<Route
-										path="broker/:id"
+										path="broker/:brokerId"
 										element={<TradeBrokerMain />}
 									/>
 								</Route>
