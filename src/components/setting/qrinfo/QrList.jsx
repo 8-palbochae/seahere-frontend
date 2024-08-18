@@ -1,37 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import QrItem from "./QrItem";
-import { useQuery } from "@tanstack/react-query";
-import { getProductList } from "../../../api/incoming/incomingApi";
 import { Modal, Button, Checkbox } from "antd";
 
-const QrList = ({ checkedItems, onCheckedChange, onSelectAll }) => {
-	const { data: products, isPending, isError, error } = useQuery({
-		queryKey: ["productList"],
-		queryFn: () => getProductList("incoming"),
-	});
-
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [selectedProducts, setSelectedProducts] = useState([]);
-
+const QrList = ({ products, checkedItems, onCheckedChange, onSelectAll, isMainModalOpen, onModalClose, onModalOpen, selectedProducts, handleSendSelectedQR }) => {
 	const allChecked = products && products.every(product => checkedItems[product.productId]);
-	const buttonText = Object.values(checkedItems).filter(Boolean).length
-		? `${Object.values(checkedItems).filter(Boolean).length} 건 이메일로 보내기`
+	const buttonText = selectedProducts.length > 0
+		? `${selectedProducts.length} 건 다운로드`
 		: "QR 코드를 선택해주세요.";
 
 	const handleButtonClick = () => {
-		const selected = products.filter(product => checkedItems[product.productId]);
-		setSelectedProducts(selected);
-		setIsModalOpen(true);
-	};
-
-	const handleModalClose = () => {
-		setIsModalOpen(false);
-	};
-
-	const handleEmailSend = () => {
-		const productIds = selectedProducts.map(product => product.productId);
-		console.log("이메일 전송 시작:", productIds);
-		setIsModalOpen(false);
+		onModalOpen();
 	};
 
 	const handleSelectAllChange = (e) => {
@@ -56,8 +34,6 @@ const QrList = ({ checkedItems, onCheckedChange, onSelectAll }) => {
 				</Checkbox>
 			</div>
 			<div className="flex flex-col items-center gap-4 w-full p-4 overflow-auto max-h-[65vh]">
-				{isPending && <div>Loading...</div>}
-				{isError && <div>Error: {error.message}</div>}
 				{products && products.map((product) => (
 					<QrItem
 						key={product.productId}
@@ -71,21 +47,18 @@ const QrList = ({ checkedItems, onCheckedChange, onSelectAll }) => {
 			<Button
 				className="w-full rounded-[20px] text-white bg-blue-600 p-2"
 				onClick={handleButtonClick}
-				disabled={Object.values(checkedItems).filter(Boolean).length === 0}
+				disabled={selectedProducts.length === 0}
 			>
 				{buttonText}
 			</Button>
 
 			<Modal
 				title="선택한 QR 코드 목록"
-				open={isModalOpen}
-				onCancel={handleModalClose}
+				open={isMainModalOpen}
+				onCancel={onModalClose}
 				footer={[
-					<Button key="send" type="primary" onClick={handleEmailSend}>
-						이메일 전송
-					</Button>,
-					<Button key="cancel" onClick={handleModalClose}>
-						취소
+					<Button key="send" type="primary" onClick={handleSendSelectedQR}>
+						다운로드
 					</Button>,
 				]}
 			>

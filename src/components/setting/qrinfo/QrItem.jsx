@@ -17,7 +17,7 @@ const QrItem = ({ product, checked, onCheckedChange, onModalOpen }) => {
 		onCheckedChange(product.productId, isChecked);
 	};
 
-	const handleEmailSend = () => {
+	const handleDownloadClick = () => {
 		onModalOpen();
 		setIsModalOpen(false);
 	};
@@ -68,8 +68,8 @@ const QrItem = ({ product, checked, onCheckedChange, onModalOpen }) => {
 						>
 							선택
 						</Checkbox>
-						<Button type="primary" onClick={handleEmailSend}>
-							이메일로 전송
+						<Button type="primary" onClick={handleDownloadClick}>
+							다운로드
 						</Button>
 					</div>
 				</div>
