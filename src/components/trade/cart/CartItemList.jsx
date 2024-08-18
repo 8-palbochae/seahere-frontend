@@ -109,7 +109,7 @@ const CartItemList = () => {
 							Kg
 						</div>
 					</div>
-					<div className="flex justify-between my-2 pt-2">
+					{/* <div className="flex justify-between my-2 pt-2">
 						<div className="font-semibold">총 출고 금액</div>
 						<div>
 							<span className="text-blue-600 font-semibold">
@@ -117,7 +117,7 @@ const CartItemList = () => {
 							</span>{" "}
 							원
 						</div>
-					</div>
+					</div> */}
 				</div>
 			</div>
 		</>

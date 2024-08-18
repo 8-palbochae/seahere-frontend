@@ -79,9 +79,9 @@ const CartModal = ({ isOpen, onClose, inventory, companyId, children }) => {
                             />
                         </div>
                     </div>
-                    <div className='flex justify-center text-center text-lg'>
+                    {/* <div className='flex justify-center text-center text-lg'>
                         <span className='text-gray-500'>구매 금액:</span> <span className='text-black font-bold ml-2'>{(inventory.price * weight).toLocaleString()} 원</span>
-                    </div>
+                    </div> */}
                     <div className='flex justify-center gap-3 mt-4'>
                         <button 
                             onClick={onClose} 
