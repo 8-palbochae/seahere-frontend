@@ -1,5 +1,3 @@
-// src/components/TradeInventoryContent.js
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { tradeIcon } from '../../../constants/trade/trade.image';
