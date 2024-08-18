@@ -26,7 +26,7 @@ const BrokerInventoryItem = ({ inventory }) => {
             </div>
             <div className='w-3/12 flex flex-col items-center text-center border-gray-300 p-2'>
                 <div>
-                    <span className='font-bold text-blue-600'>{inventory.price.toLocaleString()}</span>
+                    <span className='font-bold text-blue-600'>{inventory.country}</span>
                 </div>
             </div>
         </div>

@@ -16,12 +16,11 @@ const fetchCompanies = async ({
 }) => {
 	try {
 		const response = await axiosInstance.get(
-			`${url}/inventories/${companyId}`,
+			`${url}/inventories/trades/${companyId}`,
 			{
 				params: { page: pageParam, size },
 			}
 		);
-
 		if (response.status === 200) {
 			console.log(response.data);
 			return response.data;
