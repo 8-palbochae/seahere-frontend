@@ -12,5 +12,6 @@ export const useDatePicker = (initialDate = null) => {
   return {
     date,
     handleDateChange,
+    setDate,
   };
 };

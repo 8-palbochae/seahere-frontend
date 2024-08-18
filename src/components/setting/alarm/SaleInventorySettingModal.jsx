@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Input } from "antd";
 import productImg from "../../../assets/income/product.svg";
-const SaleInventorySettingModal = ({ isModalOpen, setIsModalOpen }) => {
+const SaleInventorySettingModal = ({
+	isModalOpen,
+	setIsModalOpen,
+	item,
+	updateItem,
+}) => {
+	const [discountPrice, setDiscountPrice] = useState(item.discountPrice);
+
+	const onChange = (price) => {
+		if (/^\d*\.?\d*$/.test(price)) {
+			setDiscountPrice(price);
+		}
+	};
+
 	const handleCancel = () => {
 		setIsModalOpen(false);
 	};
+
+	const handleComplete = () => {
+		console.log("handleComplete called");
+		const discountItem = { ...item, discountPrice };
+		updateItem(discountItem);
+		console.log(discountItem);
+		setIsModalOpen(false);
+	};
+
 	return (
 		<Modal
 			title="할인_재고 설정"
@@ -19,34 +41,39 @@ const SaleInventorySettingModal = ({ isModalOpen, setIsModalOpen }) => {
 					</div>
 					<div className="flex flex-col gap-2">
 						<div className="self-center">
-							<b>{"광어 / 활어"}</b>
+							<b>
+								{item.name} / {item.category}
+							</b>
 						</div>
 						<div className="self-center">
-							<b>{"입고처: 스파로스"}</b>
+							<b>
+								{item.country} / {item.naturalStatus}
+							</b>
 						</div>
-						<div className="flex justify-center items-center w-full self-center rounded-[20px] border border-black p-1 text-red-500 ">
-							<b>{"+3일"}</b>
-						</div>
+
 						<div className="self-center">
-							<b>{"현재재고: 40kg"}</b>
+							<b>{item.quantity}kg</b>
 						</div>
 					</div>
 				</div>
 				<div className="flex justify-around items-center  border-b-2 p-1">
 					<div className="w-2/3">{"현재 출고금액"}</div>
 					<div className="w-1/3">
-						<Input />
+						<Input readOnly value={item.price} />
 					</div>
 				</div>
 				<div className="flex justify-around items-center  border-b-2 p-1">
 					<div className="w-2/3">{"할인가"}</div>
 					<div className="w-1/3">
-						<Input />
+						<Input
+							value={discountPrice}
+							onChange={(e) => onChange(e.target.value)}
+						/>
 					</div>
 				</div>
 				<div className="flex justify-around">
 					<button
-						onClick={handleCancel}
+						onClick={handleComplete}
 						className="rounded-[20px] w-2/5 p-3 text-white bg-blue-600"
 					>
 						{"수정완료"}

@@ -7,8 +7,7 @@ import OutgoingItemDetails from "./OutgoingItemDetails";
 const OutgoingListItem = ({ item }) => {
 	const [isSwiped, setIsSwiped] = useState(false);
 	const [showOutgoingComplete, setShowOutgoingComplete] = useState(false);
-	const isNotComplete = item.state !== "COMPLETE";
-	console.log(item.state);
+	const isNotComplete = item.state !== "COMPLETE" && item.state !== "REJECT";
 	// 핸들러 함수들
 	const handleSwipeLeft = () => {
 		if (isNotComplete) {
@@ -42,9 +41,6 @@ const OutgoingListItem = ({ item }) => {
 
 	return (
 		<div className="relative w-full flex flex-col">
-			<div className="text-gray-700 text-base mb-1 border-b border-gray-300 pb-1">
-				{item.outgoingDate}
-			</div>
 			<div className="relative w-full flex ">
 				<div
 					ref={itemRef}

@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import InventoryList from './InventoryList';
 import InventorySearchInput from './itemcomponent/InventorySearchInput';
+import { useHeaderText } from '../../stores/headerText';
+import { useLocation } from 'react-router-dom';
 
 const MainInventory = () => {
-  const [searchOption, setSearchOption] = useState("");
+  const { setHeaderText } = useHeaderText();
+  const location = useLocation();
+  const initialSearchOption = location.state?.searchOption || "";
+
+  useEffect(() => {
+    setHeaderText("재고 확인");
+  }, [setHeaderText]);
+
+  const [searchOption, setSearchOption] = useState(initialSearchOption);
   const [size, setSize] = useState(calculateSize(window.innerHeight));
 
   const handleSearchChange = (value) => {
@@ -35,7 +45,6 @@ const MainInventory = () => {
       </div>
       <div className="flex-1 overflow-y-auto w-full mt-4">
         <InventoryList
-          companyId={101}
           size={size}
           searchOption={searchOption}
         />

@@ -4,12 +4,22 @@ import { useRef, useState, useEffect } from "react";
 import dayjs from "dayjs";
 import { getHistoryList } from "../../../../api/history/historyApi";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useHeaderText } from "../../../../stores/headerText";
+
+
 
 const getCurrentDate = () => {
 	return dayjs().format("YYYY-MM-DD");
 };
 
 const History = () => {
+
+	const { setHeaderText } = useHeaderText();
+
+    useEffect(() => {
+        setHeaderText("거래 내역");
+    }, [setHeaderText]);
+
 	const [startDate, setStartDate] = useState(getCurrentDate);
 	const [endDate, setEndDate] = useState(getCurrentDate);
 	const loadMoreRef = useRef(null);
