@@ -11,9 +11,10 @@ const fetchCompanies = async ({
 	size = 10,
 	searchWord = "",
 }) => {
-	const response = await axiosInstance.get(`${url}/companies`, {
+	const response = await axiosInstance.get(`${url}/trade/companies`, {
 		params: { page: pageParam, size, searchWord },
 	});
+	console.log("트레이드 가능한 회사들: ",response);
 	return response.data;
 };
 
@@ -33,6 +34,7 @@ const BrokerList = ({ searchQuery = "", size = 10 }) => {
 			getNextPageParam: (lastPage, pages) => {
 				return lastPage.length === size ? pages.length + 1 : undefined;
 			},
+			
 		});
 
 	useEffect(() => {
