@@ -17,6 +17,10 @@ const QrInfo = () => {
 		});
 	};
 
+	const handleSelectAll = (newCheckedItems) => {
+		setCheckedItems(newCheckedItems);
+	};
+
 	return (
 		<>
 			<div>
@@ -29,6 +33,7 @@ const QrInfo = () => {
 				<QrList
 					checkedItems={checkedItems}
 					onCheckedChange={handleCheckedChange}
+					onSelectAll={handleSelectAll}
 				/>
 			</div>
 		</>

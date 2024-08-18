@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Checkbox, Button } from "antd";
 
-const QrItem = ({ product, checked, onCheckedChange }) => {
+const QrItem = ({ product, checked, onCheckedChange, onModalOpen }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const showModal = () => {
@@ -15,6 +15,11 @@ const QrItem = ({ product, checked, onCheckedChange }) => {
 	const handleCheckboxChange = (event) => {
 		const isChecked = event.target.checked;
 		onCheckedChange(product.productId, isChecked);
+	};
+
+	const handleEmailSend = () => {
+		onModalOpen();
+		setIsModalOpen(false);
 	};
 
 	return (
@@ -55,15 +60,15 @@ const QrItem = ({ product, checked, onCheckedChange }) => {
 				onCancel={handleModalClose}
 			>
 				<div className="flex flex-col gap-2">
-					<img src={product.qr} alt="qr-code" />
+					<img src={product.qr} alt="qr-code" style={{ width: '100%' }} />
 					<div className="flex justify-between mt-4">
 						<Checkbox
-							checked={checked}
 							onChange={handleCheckboxChange}
+							checked={checked}
 						>
 							선택
 						</Checkbox>
-						<Button type="primary" onClick={handleModalClose}>
+						<Button type="primary" onClick={handleEmailSend}>
 							이메일로 전송
 						</Button>
 					</div>
