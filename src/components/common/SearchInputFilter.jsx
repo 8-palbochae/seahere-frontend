@@ -2,18 +2,17 @@ import React, { useState, useEffect } from "react";
 import { inventoryIcon } from "../../constants/inventory/inventory.image";
 import { getProductList } from "../../api/incoming/incomingApi";
 import { useQuery } from "@tanstack/react-query";
-import QrItem from "../../components/setting/qrinfo/QrItem";
+import { Modal, Button, Checkbox } from "antd";
 
-const SearchInputFilter = ({ value }) => {
+const SearchInputFilter = ({ checkedItems, onCheckedChange }) => {
 	const [query, setQuery] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
 	const [selectedProduct, setSelectedProduct] = useState(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const { data, isPending, isError, error } = useQuery({
+	const { data, isPending } = useQuery({
 		queryKey: ["productList"],
-		queryFn: () => getProductList(value),
-		enabled: value !== undefined && value !== null,
+		queryFn: () => getProductList("incoming"),
 	});
 
 	useEffect(() => {
@@ -31,13 +30,16 @@ const SearchInputFilter = ({ value }) => {
 
 	const handleSuggestionClick = (suggestion) => {
 		setSelectedProduct(suggestion);
-		setSuggestions([]);
 		setIsModalOpen(true);
 	};
 
 	const handleModalClose = () => {
 		setIsModalOpen(false);
-		setSelectedProduct(null);
+	};
+
+	const handleCheckboxChange = (event) => {
+		const isChecked = event.target.checked;
+		onCheckedChange(selectedProduct.productId, isChecked);
 	};
 
 	return (
@@ -57,7 +59,10 @@ const SearchInputFilter = ({ value }) => {
 				/>
 			</div>
 			{suggestions.length > 0 && query && (
-				<div className="bg-white border border-gray-300 rounded mt-1">
+				<div
+					className="bg-white border border-gray-300 rounded mt-1 w-full"
+					style={{ position: 'absolute', zIndex: 1000, maxHeight: '300px', overflowY: 'auto' }}
+				>
 					{suggestions.map((suggestion, index) => (
 						<div
 							key={index}
@@ -69,13 +74,30 @@ const SearchInputFilter = ({ value }) => {
 					))}
 				</div>
 			)}
+
 			{selectedProduct && (
-				<QrItem
-					product={selectedProduct}
-					isModalOpen={isModalOpen}
-					onModalClose={handleModalClose}
-					onCheckedChange={() => { }}
-				/>
+				<Modal
+					title={`${selectedProduct.productName} QR`}
+					open={isModalOpen}
+					footer={null}
+					maskClosable={true}
+					onCancel={handleModalClose}
+				>
+					<div className="flex flex-col gap-2">
+						<img src={selectedProduct.qr} alt="qr-code" />
+						<div className="flex justify-between mt-4">
+							<Checkbox
+								onChange={handleCheckboxChange}
+								checked={!!checkedItems[selectedProduct.productId]}
+							>
+								선택
+							</Checkbox>
+							<Button type="primary" onClick={handleModalClose}>
+								이메일로 전송
+							</Button>
+						</div>
+					</div>
+				</Modal>
 			)}
 		</div>
 	);
