@@ -55,6 +55,7 @@ const sendOutgoingRequest = async (outgoingRequests) => {
     const outgoing = {
       companyId : company,
       partialOutgoing : agreementChecked,
+      tradeType:"b2b",
       details : toRequest(cartItems),
     }
     sendOutgoingRequest(outgoing);
