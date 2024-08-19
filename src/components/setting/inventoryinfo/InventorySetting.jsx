@@ -4,8 +4,10 @@ import ListHeader from "./ListHeader";
 import InventoryList from "./InventoryList";
 import { useQuery } from "@tanstack/react-query";
 import { getInventoryList } from "../../../api/setting/inventorySettingApi";
+import NoQRSearchInput from "../../common/NoQRSearchInput";
 
 const InventorySetting = () => {
+	const [search, setSearch] = useState("");
 	const [items, setItems] = useState([]);
 	const { data, isPending } = useQuery({
 		queryKey: ["inventoryList"],
@@ -19,16 +21,16 @@ const InventorySetting = () => {
 	if (isPending) {
 		return (
 			<div>
-				<SearchInput />
+				<NoQRSearchInput search={search} setSearch={setSearch} />
 				<ListHeader />
 			</div>
 		);
 	}
 	return (
 		<div>
-			<SearchInput />
+			<NoQRSearchInput search={search} setSearch={setSearch} />
 			<ListHeader />
-			<InventoryList data={data} />
+			<InventoryList data={data} search={search} />
 		</div>
 	);
 };
