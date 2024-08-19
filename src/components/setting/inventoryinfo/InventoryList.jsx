@@ -1,16 +1,12 @@
 import React from "react";
 import InventoryItem from "./InventoryItem";
 
-const InventoryList = () => {
+const InventoryList = ({ data }) => {
 	return (
 		<div className="flex flex-col gap-3 p-2">
-			<InventoryItem />
-			<InventoryItem />
-			<InventoryItem />
-			<InventoryItem />
-			<InventoryItem />
-			<InventoryItem />
-			<InventoryItem />
+			{data.map((item) => (
+				<InventoryItem key={item.id} item={item} />
+			))}
 		</div>
 	);
 };
