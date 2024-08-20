@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Input } from "antd";
 import MainImage from "../../../../constants/main/main.image";
+import { updateUserPassword } from "../../../../api/setting/settingApi";
+import { useNavigate } from "react-router-dom";
 const PasswordChange = () => {
+	const navigate = useNavigate();
 	const [password, setPassword] = useState("");
 	const [passwordCheck, setPasswordCheck] = useState("");
-	console.log(password);
-	console.log(passwordCheck);
 	const onPasswordChange = (password) => {
 		setPassword(password);
 	};
@@ -18,6 +19,8 @@ const PasswordChange = () => {
 			alert("비밀번호와 비밀번호확인이 일치하지 않습니다.");
 			return;
 		}
+		updateUserPassword({ password });
+		navigate("/main");
 	};
 
 	return (

@@ -10,4 +10,15 @@ const getUserInfo = async () => {
 		throw new Error("Failed to fetch data");
 	}
 };
-export { getUserInfo };
+
+const updateUserPassword = async ({ password }) => {
+	try {
+		const res = await axiosInstance.patch(`${url}/users`, {
+			password: password,
+		});
+		return res;
+	} catch (error) {
+		throw new Error("Failed to fetch data");
+	}
+};
+export { getUserInfo, updateUserPassword };

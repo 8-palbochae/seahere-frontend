@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserInfo } from "../../../api/setting/settingApi";
 
 const MainSetting = () => {
-	const { data, isLoading } = useQuery({
+	const { data, isLoading, isPending, isError } = useQuery({
 		queryKey: ["userInfo"],
 		queryFn: getUserInfo,
 	});
@@ -17,6 +17,9 @@ const MainSetting = () => {
 	}, [setHeaderText]);
 
 	if (isLoading) {
+		<div>잠시만 기다려주세요...</div>;
+	}
+	if (isPending || isError) {
 		<div>잠시만 기다려주세요...</div>;
 	}
 
@@ -31,7 +34,11 @@ const MainSetting = () => {
 					)}
 				</div>
 				<div className="flex w-full">
-					<SettingList role={data.role} />
+					{data && data.role ? (
+						<SettingList role={data.role} />
+					) : (
+						<div>설정 목록을 불러올 수 없습니다.</div>
+					)}
 				</div>
 			</div>
 		</div>
