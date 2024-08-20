@@ -19,10 +19,6 @@ const MainSetting = () => {
 	if (isLoading) {
 		<div>잠시만 기다려주세요...</div>;
 	}
-	if (isPending || isError) {
-		<div>잠시만 기다려주세요...</div>;
-	}
-
 	return (
 		<div className="flex  justify-center pt-8">
 			<div className="flex flex-col justify-center items-center gap-5 w-3/4">
