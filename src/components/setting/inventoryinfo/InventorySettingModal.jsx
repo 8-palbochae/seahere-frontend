@@ -14,12 +14,10 @@ const InventorySettingModal = ({ isModalOpen, setIsModalOpen, item }) => {
 	const mutation = useMutation({
 		mutationFn: postInventoryDetail,
 		onSuccess: () => {
-			// 성공적으로 요청이 완료되면, 쿼리를 무효화하여 데이터를 새로 가져옴
 			queryClient.invalidateQueries(["inventoryList"]);
 			setIsModalOpen(false);
 		},
 		onError: (error) => {
-			// 에러 처리 (필요한 경우)
 			console.error("Error updating inventory:", error);
 		},
 	});
