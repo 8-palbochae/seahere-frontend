@@ -11,7 +11,7 @@ const fetchCompanies = async ({
 	size = 10,
 	searchWord = "",
 }) => {
-	const response = await axiosInstance.get(`${url}/trade/companies`, {
+	const response = await axiosInstance.get(`${url}/companies/trade/companies`, {
 		params: { page: pageParam, size, searchWord },
 	});
 	console.log("트레이드 가능한 회사들: ",response);
