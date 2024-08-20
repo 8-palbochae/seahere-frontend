@@ -12,7 +12,7 @@ const UserInfoPasswordItem = ({ type }) => {
 			className="flex justify-between gap-2 bg-white border-b-2 rounded-[20px] p-3"
 			onClick={() => onClick()}
 		>
-			<div>{type}</div>
+			<div className="w-3/5 font-bold text-lg">{type}</div>
 			<img src={settingIcon.rightArrowIcon} alt="오른쪽 화살표" />
 		</div>
 	);
