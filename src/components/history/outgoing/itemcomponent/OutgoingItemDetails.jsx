@@ -2,7 +2,7 @@ import React from "react";
 
 const OutgoingItemDetails = ({ detailData }) => {
 	const textColor = detailData.delete ? "text-red-600" : "text-black";
-
+	
 	return (
 		<div
 			className={`flex flex-col justify-center w-11/12 p-3 border-t border-gray-200 ${textColor}`}
@@ -25,7 +25,7 @@ const OutgoingItemDetails = ({ detailData }) => {
 						{detailData.outgoingQuantity}Kg
 					</div>
 					<div className="w-2/6 text-sm truncate overflow-hidden text-ellipsis text-center">
-						{detailData.price}원
+    					{detailData.price === 0 ? "트레이드" : `${detailData.price.toLocaleString()}원`}
 					</div>
 				</div>
 			</div>
