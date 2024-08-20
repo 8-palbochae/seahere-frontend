@@ -18,4 +18,15 @@ const deleteEmployee = async (userId) => {
 		throw new Error("Failed to fetch data");
 	}
 };
-export { getCompanyInfo, deleteEmployee };
+
+const addEmployee = async (employeeEmail) => {
+	console.log(employeeEmail);
+
+	try {
+		const res = await axiosInstance.patch(`${url}/teams`, employeeEmail);
+	} catch (error) {
+		throw new Error("Failed to fetch data");
+	}
+};
+
+export { getCompanyInfo, deleteEmployee, addEmployee };
