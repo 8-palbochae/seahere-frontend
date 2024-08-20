@@ -38,7 +38,6 @@ const OutgoingListItem = ({ item }) => {
 	const handleToggle = () => {
 		setIsExpanded((prevState) => !prevState);
 	};
-	console.log("받은 데이터:",item);
 	return (
 		<div className="relative w-full flex flex-col">
 			<div className="relative w-full flex ">

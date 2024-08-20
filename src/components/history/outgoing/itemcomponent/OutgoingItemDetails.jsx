@@ -25,7 +25,7 @@ const OutgoingItemDetails = ({ detailData }) => {
 						{detailData.outgoingQuantity}Kg
 					</div>
 					<div className="w-2/6 text-sm truncate overflow-hidden text-ellipsis text-center">
-						{detailData.price===0?"트레이드":`${detailData.price}원`}
+    					{detailData.price === 0 ? "트레이드" : `${detailData.price.toLocaleString()}원`}
 					</div>
 				</div>
 			</div>
