@@ -7,7 +7,7 @@ import {
 	getInventoryList,
 	postDiscountList,
 } from "../../../api/setting/alarmApi";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 
@@ -22,6 +22,7 @@ const Alarm = () => {
 	const [items, setItems] = useState([]);
 	const [checkedValues, setCheckedValues] = useState([]);
 	const [search, setSearch] = useState("");
+	const queryClient = useQueryClient();
 	const { data, isPending } = useQuery({
 		queryKey: ["alarmInventoryList"],
 		queryFn: getInventoryList,
@@ -68,6 +69,7 @@ const Alarm = () => {
 
 	const handleOnClick = () => {
 		postDiscountList({ startDate, endDate, checkedValues });
+		queryClient.invalidateQueries(["alarmInventoryList"]);
 		navigate("/main");
 	};
 

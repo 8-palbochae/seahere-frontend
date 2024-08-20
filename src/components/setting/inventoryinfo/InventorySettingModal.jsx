@@ -1,9 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Input } from "antd";
 import productImg from "../../../assets/income/product.svg";
-const InventorySettingModal = ({ isModalOpen, setIsModalOpen }) => {
+import { postInventoryDetail } from "../../../api/setting/inventorySettingApi";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+const InventorySettingModal = ({ isModalOpen, setIsModalOpen, item }) => {
+	const queryClient = useQueryClient();
+	const inventoryId = item.inventoryId;
+	const [warningQuantity, setWarningQuantity] = useState(
+		item.warningQuantity
+	);
+	const [outgoingPrice, setOutgoingPrice] = useState(item.outgoingPrice);
+
+	const mutation = useMutation({
+		mutationFn: postInventoryDetail,
+		onSuccess: () => {
+			queryClient.invalidateQueries(["inventoryList"]);
+			setIsModalOpen(false);
+		},
+		onError: (error) => {
+			console.error("Error updating inventory:", error);
+		},
+	});
+
+	const handleSuccess = () => {
+		mutation.mutate({ inventoryId, warningQuantity, outgoingPrice });
+	};
+
 	const handleCancel = () => {
 		setIsModalOpen(false);
+	};
+
+	const onOutgoingPriceChange = (price) => {
+		setOutgoingPrice(price);
+	};
+
+	const onWarningQuantityChange = (quantity) => {
+		setWarningQuantity(quantity);
 	};
 	return (
 		<Modal
@@ -18,24 +50,36 @@ const InventorySettingModal = ({ isModalOpen, setIsModalOpen }) => {
 						<img src={productImg} alt="상품이미지" />
 					</div>
 					<div className="self-center">
-						<b>{"광어 / 활어"}</b>
+						<b>
+							{item.country} / {item.naturalStatus}
+						</b>
 					</div>
 				</div>
 				<div className="flex justify-around items-center  border-b-2 p-1">
 					<div className="w-2/3">{"재고부족 알림 기준"}</div>
 					<div className="w-1/3">
-						<Input />
+						<Input
+							value={warningQuantity}
+							onChange={(e) =>
+								onWarningQuantityChange(e.target.value)
+							}
+						/>
 					</div>
 				</div>
 				<div className="flex justify-around items-center  border-b-2 p-1">
 					<div className="w-2/3">{"출고금액"}</div>
 					<div className="w-1/3">
-						<Input />
+						<Input
+							value={outgoingPrice}
+							onChange={(e) =>
+								onOutgoingPriceChange(e.target.value)
+							}
+						/>
 					</div>
 				</div>
 				<div className="flex justify-around">
 					<button
-						onClick={handleCancel}
+						onClick={handleSuccess}
 						className="rounded-[20px] w-2/5 p-3 text-white bg-blue-600"
 					>
 						확인
