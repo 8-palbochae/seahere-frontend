@@ -38,7 +38,7 @@ const OutgoingListItem = ({ item }) => {
 	const handleToggle = () => {
 		setIsExpanded((prevState) => !prevState);
 	};
-
+	console.log("받은 데이터:",item);
 	return (
 		<div className="relative w-full flex flex-col">
 			<div className="relative w-full flex ">
@@ -54,7 +54,7 @@ const OutgoingListItem = ({ item }) => {
 					onClick={handleToggle}
 				>
 					<div className="flex-1 flex justify-center items-center">
-						<div className="w-[69px] text-center font-normal text-black truncate  text-base leading-[normal]">
+					<div className="w-[73px] text-center font-normal text-black text-base leading-[normal] break-words">
 							{item.customerName}
 						</div>
 					</div>

@@ -2,7 +2,7 @@ import React from "react";
 
 const OutgoingItemDetails = ({ detailData }) => {
 	const textColor = detailData.delete ? "text-red-600" : "text-black";
-
+	
 	return (
 		<div
 			className={`flex flex-col justify-center w-11/12 p-3 border-t border-gray-200 ${textColor}`}
