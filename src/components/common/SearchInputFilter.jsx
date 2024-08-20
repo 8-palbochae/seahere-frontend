@@ -1,45 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { inventoryIcon } from "../../constants/inventory/inventory.image";
-import { getProductList } from "../../api/incoming/incomingApi";
-import { useQuery } from "@tanstack/react-query";
 import { Modal, Button, Checkbox } from "antd";
 
-const SearchInputFilter = ({ checkedItems, onCheckedChange }) => {
+const SearchInputFilter = ({ products, checkedItems, onCheckedChange, selectedProducts, onProductSelect, onModalOpen }) => {
 	const [query, setQuery] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
 	const [selectedProduct, setSelectedProduct] = useState(null);
-	const [isModalOpen, setIsModalOpen] = useState(false);
-
-	const { data, isPending } = useQuery({
-		queryKey: ["productList"],
-		queryFn: () => getProductList("incoming"),
-	});
+	const [isProductModalOpen, setIsProductModalOpen] = useState(false);
 
 	useEffect(() => {
-		if (!isPending && data) {
-			if (query.length > 0) {
-				const filteredSuggestions = data.filter(({ productName }) =>
-					productName.toLowerCase().includes(query.toLowerCase())
-				);
-				setSuggestions(filteredSuggestions);
-			} else {
-				setSuggestions([]);
-			}
+		if (query.length > 0) {
+			const filteredSuggestions = products.filter(({ productName }) =>
+				productName.toLowerCase().includes(query.toLowerCase())
+			);
+			setSuggestions(filteredSuggestions);
+		} else {
+			setSuggestions([]);
 		}
-	}, [query, data, isPending]);
+	}, [query, products]);
 
 	const handleSuggestionClick = (suggestion) => {
 		setSelectedProduct(suggestion);
-		setIsModalOpen(true);
+		setIsProductModalOpen(true);
 	};
 
-	const handleModalClose = () => {
-		setIsModalOpen(false);
+	const handleProductModalClose = () => {
+		setIsProductModalOpen(false);
 	};
 
 	const handleCheckboxChange = (event) => {
 		const isChecked = event.target.checked;
 		onCheckedChange(selectedProduct.productId, isChecked);
+	};
+
+	const handleDownloadClick = () => {
+		if (!selectedProducts.some(product => product.productId === selectedProduct.productId)) {
+			onProductSelect([...selectedProducts, selectedProduct]);
+		}
+		setIsProductModalOpen(false);
+		onModalOpen();
 	};
 
 	return (
@@ -78,13 +77,13 @@ const SearchInputFilter = ({ checkedItems, onCheckedChange }) => {
 			{selectedProduct && (
 				<Modal
 					title={`${selectedProduct.productName} QR`}
-					open={isModalOpen}
+					open={isProductModalOpen}
 					footer={null}
 					maskClosable={true}
-					onCancel={handleModalClose}
+					onCancel={handleProductModalClose}
 				>
 					<div className="flex flex-col gap-2">
-						<img src={selectedProduct.qr} alt="qr-code" />
+						<img src={selectedProduct.qr} alt="qr-code" style={{ width: '100%' }} />
 						<div className="flex justify-between mt-4">
 							<Checkbox
 								onChange={handleCheckboxChange}
@@ -92,8 +91,8 @@ const SearchInputFilter = ({ checkedItems, onCheckedChange }) => {
 							>
 								선택
 							</Checkbox>
-							<Button type="primary" onClick={handleModalClose}>
-								이메일로 전송
+							<Button type="primary" onClick={handleDownloadClick}>
+								다운로드
 							</Button>
 						</div>
 					</div>
