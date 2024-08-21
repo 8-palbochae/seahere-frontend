@@ -12,7 +12,7 @@ const SalesMain = () => {
       }, [setHeaderText]);
       
     return(
-        <div>
+        <div className="flex flex-col items-center justify-center">
             <Today />
             <TotalSales />
             <FishSales />
