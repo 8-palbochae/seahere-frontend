@@ -40,7 +40,7 @@ const InventoryItem = ({ item }) => {
 				</div>
 				<div className="w-px h-10 bg-gray-400"></div>
 				<div className="text-center text-sm text-gray-500">
-					{item.outgoingPrice}원
+					{item.outgoingPrice.toLocaleString()}원
 				</div>
 			</div>
 		</>

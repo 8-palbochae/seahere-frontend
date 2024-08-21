@@ -9,7 +9,7 @@ const InventorySettingModal = ({ isModalOpen, setIsModalOpen, item }) => {
 	const [warningQuantity, setWarningQuantity] = useState(
 		item.warningQuantity
 	);
-	const [outgoingPrice, setOutgoingPrice] = useState(item.outgoingPrice);
+	const [outgoingPrice, setOutgoingPrice] = useState(item.outgoingPrice.toLocaleString());
 
 	const mutation = useMutation({
 		mutationFn: postInventoryDetail,
@@ -23,15 +23,24 @@ const InventorySettingModal = ({ isModalOpen, setIsModalOpen, item }) => {
 	});
 
 	const handleSuccess = () => {
-		mutation.mutate({ inventoryId, warningQuantity, outgoingPrice });
+		const numericOutgoingPrice = parseNumber(outgoingPrice);
+		mutation.mutate({ inventoryId, warningQuantity, outgoingPrice:numericOutgoingPrice });
 	};
 
 	const handleCancel = () => {
 		setIsModalOpen(false);
 	};
+	const formatNumber = (num) => {
+		if (num === '') return '';
+		return Number(num).toLocaleString();
+	};
+
+	const parseNumber = (str) => {
+		return parseFloat(str.replace(/,/g, '')) || 0;
+	};
 
 	const onOutgoingPriceChange = (price) => {
-		setOutgoingPrice(price);
+		setOutgoingPrice(formatNumber(price.replace(/,/g, '')));
 	};
 
 	const onWarningQuantityChange = (quantity) => {
@@ -70,7 +79,7 @@ const InventorySettingModal = ({ isModalOpen, setIsModalOpen, item }) => {
 					<div className="w-2/3">{"출고금액"}</div>
 					<div className="w-1/3">
 						<Input
-							value={outgoingPrice}
+							value={outgoingPrice.toLocaleString()}
 							onChange={(e) =>
 								onOutgoingPriceChange(e.target.value)
 							}
