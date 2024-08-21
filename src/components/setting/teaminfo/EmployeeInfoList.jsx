@@ -35,7 +35,7 @@ const EmployeeList = ({ data }) => {
 		}
 	};
 	return (
-		<div className="flex flex-col gap-3 items-center p-3">
+		<div className="flex flex-col gap-3 items-center p-3 w-min-[4/5]">
 			<Modal
 				title="멤버 삭제"
 				footer={null}
@@ -53,7 +53,7 @@ const EmployeeList = ({ data }) => {
 				</div>
 			</Modal>
 			{data.map((item) => (
-				<div onClick={() => showModal(item.userId)}>
+				<div onClick={() => showModal(item.userId)} className="w-full">
 					<EmployeeInfoItem item={item} key={item.userId} />
 				</div>
 			))}

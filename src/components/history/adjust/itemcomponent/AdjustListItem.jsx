@@ -10,7 +10,7 @@ const AdjustListItem = ({ item }) => {
 						<img
 							className="w-full h-full object-cover"
 							alt="Image"
-							src={nupchiIcon}
+							src={item.productImg}
 						/>
 					</div>
 					<div className="text-center text-black text-base font-bold truncate w-full">
