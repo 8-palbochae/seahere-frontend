@@ -40,8 +40,7 @@ BrokerInventoryItem.propTypes = {
         imgUrl: PropTypes.string,
         category: PropTypes.string.isRequired,
         country: PropTypes.string.isRequired,
-        naturalStatus: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired, // Assuming weight is part of the response
+        naturalStatus: PropTypes.string.isRequired,// Assuming weight is part of the response
     }).isRequired,
 };
 
