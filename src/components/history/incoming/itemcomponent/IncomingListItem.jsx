@@ -49,7 +49,7 @@ const IncomingListItem = ({ item }) => {
 					<span className="text-black font-normal"> Kg</span>
 				</div>
 				<div className="text-center flex-1 text-black font-normal text-base cursor-pointer">
-					{amount} <span className="">원(1kg)</span>
+					{amount.toLocaleString()} <span className="">원(1kg)</span>
 				</div>
 			</div>
 			<IncomingModifiedModal
