@@ -26,15 +26,25 @@ const IncomingModifiedModal = ({
 		setAmount(initialAmount);
 	}, [initialAmount, isOpen]);
 
+	const handleAmountChange = (e) => {
+
+		const value = e.target.value.replace(/,/g, '');
+		
+		if (!isNaN(value)) {
+			setAmount(Number(value).toLocaleString());
+		}
+	};
+
 	const handleSave = () => {
-		const numericAmount = parseFloat(amount);
+		
+		const numericAmount = parseFloat(amount.replace(/,/g, ''));
 		if (!isNaN(numericAmount) && numericAmount >= 0) {
 			onSave(numericAmount);
-			setAmount("");
-			modifyIncoming.mutate(amount);
+			setAmount('');
+			modifyIncoming.mutate(numericAmount); 
 			onClose();
 		} else {
-			alert("올바른 금액을 입력해주세요."); // Show an error message
+			alert("올바른 금액을 입력해주세요."); 
 		}
 	};
 
@@ -51,7 +61,7 @@ const IncomingModifiedModal = ({
 						변경 전 Kg 당 금액
 					</div>
 					<div className="text-xl font-bold text-gray-900">
-						{initialAmount} 원
+						{initialAmount.toLocaleString()} 원
 					</div>
 				</div>
 				<div className="mb-6 p-4 bg-gray-100 border border-gray-300 rounded-lg flex items-center">
@@ -64,9 +74,9 @@ const IncomingModifiedModal = ({
 					<div className="flex items-center w-2/3">
 						<input
 							id="new-amount"
-							type="number"
-							value={amount}
-							onChange={(e) => setAmount(e.target.value)}
+							type="text"
+							value={amount.toLocaleString()}
+							onChange={handleAmountChange}
 							className="border border-gray-300 rounded-lg p-3 text-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out text-right"
 							placeholder="새 금액을 입력하세요"
 						/>

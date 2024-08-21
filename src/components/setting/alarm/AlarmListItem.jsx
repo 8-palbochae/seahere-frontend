@@ -63,7 +63,7 @@ const AlarmListItem = ({
 					</div>
 					<div className="w-px h-10 bg-gray-400"></div>
 					<div className="text-center text-sm text-gray-500">
-						{item.price}
+						{item.price.toLocaleString()}
 					</div>
 				</div>
 			</div>

@@ -73,7 +73,7 @@ const OutgoingReqListModalDetail = ({ item, partialOutgoing }) => {
 
 				<div className="text-center flex-1">
 					<div className="text-black font-normal text-base truncate">
-						{item.price ===0?"트레이드":`${item.price}원`}
+						{item.price ===0?"트레이드":`${item.price.toLocaleString()}원`}
 					</div>
 				</div>
 
