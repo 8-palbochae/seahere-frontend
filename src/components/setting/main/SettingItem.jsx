@@ -4,13 +4,14 @@ import { useNavigate } from "react-router-dom";
 
 const SettingItem = ({ type, svg, onClick }) => {
 	return (
-		<div className="flex p-8 justify-between w-full h-3/4 border-2 items-center rounded-lg border-bottom-style:solid] border-blue-300 active:bg-blue-300">
-			<div className="flex gap-2">
-				<img src={svg} alt="아이콘" />
-				{type}
+		<div className="w-full flex items-center justify-between p-3 border-b border-gray-300">
+			<div className="w-3/5 font-bold text-lg">
+				<div className="flex gap-2">
+					<img src={svg} alt="아이콘" />
+					{type}
+				</div>
 			</div>
-
-			<div>
+			<div className="w-3/5 flex justify-end text-gray-500">
 				<RightArrow onClick={onClick} />
 			</div>
 		</div>

@@ -4,7 +4,7 @@ import productImg from "../../../assets/income/product.svg";
 import { Modal, Input } from "antd";
 import InventorySettingModal from "./InventorySettingModal";
 
-const InventoryItem = () => {
+const InventoryItem = ({ item }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const showModal = () => {
 		setIsModalOpen(true);
@@ -14,6 +14,7 @@ const InventoryItem = () => {
 			<InventorySettingModal
 				setIsModalOpen={setIsModalOpen}
 				isModalOpen={isModalOpen}
+				item={item}
 			/>
 			<div
 				onClick={showModal}
@@ -27,19 +28,19 @@ const InventoryItem = () => {
 						src={productImg}
 						alt="Product"
 					/>
-					<span className="text-gray-800">{"광어"}</span>
+					<span className="text-gray-800">{item.name}</span>
 				</div>
 				<div className="w-px h-10 bg-gray-400"></div>
 				<div className="text-center font-bold text-lg text-gray-800">
-					{"활어"}
+					{item.category}
 				</div>
 				<div className="w-px h-10 bg-gray-400"></div>
 				<div className="text-center text-lg text-gray-700">
-					{"100kg"}
+					{item.warningQuantity}kg
 				</div>
 				<div className="w-px h-10 bg-gray-400"></div>
 				<div className="text-center text-sm text-gray-500">
-					{"50000원"}
+					{item.outgoingPrice}원
 				</div>
 			</div>
 		</>

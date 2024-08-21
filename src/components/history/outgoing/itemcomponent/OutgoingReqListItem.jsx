@@ -11,6 +11,7 @@ const OutgoingReqListItem = forwardRef(({ outgoingReqItem }, ref) => {
 		setIsModalOpen(false);
 	};
 
+	console.log("받은 데이터들:",outgoingReqItem);
 	return (
 		<div className="w-full">
 			<div ref={ref}>
@@ -23,9 +24,9 @@ const OutgoingReqListItem = forwardRef(({ outgoingReqItem }, ref) => {
 					</div>
 					<div className="w-full  bg-white rounded-[20px] h-[98px]  shadow-lg border-solid flex items-center px-4 cursor-pointer">
 						<div className="flex-1 flex justify-center items-center">
-							<div className="w-[73px] text-center font-normal truncate text-black text-base leading-[normal]">
-								{outgoingReqItem.customerName}
-							</div>
+						<div className="w-[73px] text-center font-normal text-black text-base leading-[normal] break-words">
+							{outgoingReqItem.customerName}
+						</div>
 						</div>
 						<div className="flex-1 flex justify-center items-center">
 							<div className="w-[73px] text-center font-normal truncate text-black text-base leading-[normal]">

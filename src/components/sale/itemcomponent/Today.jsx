@@ -38,7 +38,7 @@ const Today = () => {
     }, [startDate,endDate]);
 
     return (
-        <div className="w-[370px] h-[130px] relative">
+        <div className="w-[370px] h-[130px] relative mr-10">
             <div className="relative w-full h-full bg-blue-600 rounded-[10px] top-3 left-5">
                 <div className="flex items-center justify-start w-full h-[25px] [font-family:'Inter-Bold', Helvetica] font-bold text-white text-lg absolute top-2 left-4 tracking-[0] leading-[normal]">
                     <img src={Icon} alt="Icon" className="w-5 h-5 mr-1" />

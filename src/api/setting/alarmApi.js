@@ -24,4 +24,16 @@ const postDiscountList = async ({ startDate, endDate, checkedValues }) => {
 		throw new Error("Failed to fetch data");
 	}
 };
-export { getInventoryList, postDiscountList };
+
+const getAlarmHistoryListSlice = async ({ page, size = 10 }) => {
+	try {
+		const res = await axiosInstance.get(`${url}/alarm/histories`, {
+			params: { page, size },
+		});
+		return res.data;
+	} catch (error) {
+		throw new Error("Failed to fetch data");
+	}
+};
+
+export { getInventoryList, postDiscountList, getAlarmHistoryListSlice };

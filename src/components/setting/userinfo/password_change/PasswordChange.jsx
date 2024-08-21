@@ -1,7 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "antd";
 import MainImage from "../../../../constants/main/main.image";
+import { updateUserPassword } from "../../../../api/setting/settingApi";
+import { useNavigate } from "react-router-dom";
 const PasswordChange = () => {
+	const navigate = useNavigate();
+	const [password, setPassword] = useState("");
+	const [passwordCheck, setPasswordCheck] = useState("");
+	const onPasswordChange = (password) => {
+		setPassword(password);
+	};
+	const onPasswordCheckChange = (passwordCheck) => {
+		setPasswordCheck(passwordCheck);
+	};
+
+	const onClick = () => {
+		if (password !== passwordCheck) {
+			alert("비밀번호와 비밀번호확인이 일치하지 않습니다.");
+			return;
+		}
+		updateUserPassword({ password });
+		navigate("/main");
+	};
+
 	return (
 		<div className=" flex flex-col justify-between items-center w-full gap-5 p-5">
 			<img className=" h-1/3" src={MainImage.mainLogo} alt="Main Logo" />
@@ -9,12 +30,19 @@ const PasswordChange = () => {
 			<Input.Password
 				className="p-3 rounded-[20px]"
 				placeholder="비밀번호"
+				value={password}
+				onChange={(e) => onPasswordChange(e.target.value)}
 			/>
 			<Input.Password
 				className="p-3 rounded-[20px]"
 				placeholder="비밀번호 확인"
+				value={passwordCheck}
+				onChange={(e) => onPasswordCheckChange(e.target.value)}
 			/>
-			<button className="p-3 bg-blue-600 w-full rounded-[20px] text-white">
+			<button
+				className="p-3 bg-blue-600 w-full rounded-[20px] text-white"
+				onClick={onClick}
+			>
 				{"변경하기"}
 			</button>
 		</div>
