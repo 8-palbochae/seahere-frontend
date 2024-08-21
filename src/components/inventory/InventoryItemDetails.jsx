@@ -4,7 +4,7 @@ import useInventorySlide from "../../hooks/inventory/useInventorySlide";
 import { inventoryIcon } from "../../constants/inventory/inventory.image";
 import InventoryEditModal from "./modal/InventoryEditModal";
 
-const InventoryItemDetails = ({ detailData,productImg }) => {
+const InventoryItemDetails = ({ detailData, productImg }) => {
 	const {
 		isSlid,
 		handleTouchStart,
@@ -61,7 +61,7 @@ const InventoryItemDetails = ({ detailData,productImg }) => {
 						<span className="w-1/6 text-sm font-semibold truncate text-center text-blue-600">
 							{quantity.toLocaleString()} Kg
 						</span>
-						<span className="w-1/6 text-sm truncate text-center">
+						<span className="w-1/6 text-sm whitespace-nowrap text-center">
 							{incomingDate}
 						</span>
 					</div>

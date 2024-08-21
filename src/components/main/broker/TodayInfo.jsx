@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { getHistoryList } from '../../../api/history/historyApi';
-import dayjs from 'dayjs';
-
-
+import { getHistoryList } from "../../../api/history/historyApi";
+import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 const TodayInfo = () => {
+	const navigate = useNavigate();
 	const [data, setData] = useState({
 		incoming: 0,
 		outgoing: 0,
@@ -11,7 +11,7 @@ const TodayInfo = () => {
 	});
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
-
+	const today = dayjs().format("YYYY-MM-DD");
 	useEffect(() => {
 		const fetchData = async () => {
 			setLoading(true);
@@ -32,7 +32,9 @@ const TodayInfo = () => {
 					setData({
 						incoming: result.content[0].incomingCount || 0,
 						outgoing: result.content[0].outgoingCount || 0,
-						total: (result.content[0].incomingCount || 0) + (result.content[0].outgoingCount || 0),
+						total:
+							(result.content[0].incomingCount || 0) +
+							(result.content[0].outgoingCount || 0),
 					});
 				}
 			} catch (error) {
@@ -60,15 +62,24 @@ const TodayInfo = () => {
 					gridTemplateColumns: "1fr 1fr 1fr",
 				}}
 			>
-				<div className="flex flex-col border-r border-white pr-2 gap-2">
+				<div
+					className="flex flex-col border-r border-white pr-2 gap-2"
+					onClick={() => navigate("/histories")}
+				>
 					<div>{"총거래"}</div>
 					<div className="self-center text-2xl">{data.total}</div>
 				</div>
-				<div className="flex flex-col border-r border-white pr-2 gap-2">
+				<div
+					className="flex flex-col border-r border-white pr-2 gap-2"
+					onClick={() => navigate(`/histories/incomings/${today}`)}
+				>
 					<div>{"입고"}</div>
 					<div className="self-center text-2xl">{data.incoming}</div>
 				</div>
-				<div className="flex flex-col pr-2 gap-2">
+				<div
+					className="flex flex-col pr-2 gap-2"
+					onClick={() => navigate(`/histories/outgoings/${today}`)}
+				>
 					<div>{"출고"}</div>
 					<div className="self-center text-2xl">{data.outgoing}</div>
 				</div>
