@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { axiosInstance } from '../../api/common/axiosInstance';
-import { url } from '../../constants/defaultUrl';
+import { axiosInstance } from '../../../api/common/axiosInstance';
+import { url } from '../../../constants/defaultUrl';
 
 const ProfileSettingModal = ({ onClose, onUpdateProfileImage }) => {
     const fileInputRef = React.useRef(null);

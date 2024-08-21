@@ -24,7 +24,7 @@ const MainSetting = () => {
 			<div className="flex flex-col justify-center items-center gap-5 w-3/4">
 				<div className="flex w-full">
 					{data ? (
-						<UserInfo data={data} />
+						<UserInfo user={data} />
 					) : (
 						<div>유저 정보를 불러올 수 없습니다.</div>
 					)}
