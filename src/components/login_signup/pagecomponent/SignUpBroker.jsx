@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DatePicker, ConfigProvider } from "antd";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -22,6 +22,8 @@ import Company from "../../../types/Company";
 import useUserTypeStore from "../../../stores/signupType";
 import "dayjs/locale/ko";
 import ko_KR from "antd/es/locale/ko_KR";
+import { duplicateCompany } from "../../../api/broker/brokerDuplicateApi";
+import CompanyDuplicateModal from "../itemcomponent/CompanyDuplicateModal";
 
 dayjs.locale("ko");
 dayjs.extend(customParseFormat);
@@ -29,213 +31,229 @@ dayjs.extend(customParseFormat);
 const dateFormat = "YYYY-MM-DD";
 
 const SignUpBroker = () => {
-	const { isModalOpen, openModal, closeModal } = useCertifyModal();
-	const { date: openDate, handleDateChange, setDate } = useDatePicker();
-	const {
-		isPostcodeOpen,
-		postCode,
-		address,
-		detailAddress,
-		setDetailAddress,
-		openPostcode,
-		closePostcode,
-		handleComplete,
-	} = useAddress();
-	const [isBrokerCheckSuccess, setIsBrokerCheckSuccess] = useState(null);
-	const [representativeName, setRepresentativeName] = useState("");
-	const [companyName, setCompanyName] = useState("");
-	const [businessNumber, setBusinessNumber] = useState("");
-	const [isCameraOpen, setIsCameraOpen] = useState(false);
+    const { isModalOpen, openModal, closeModal } = useCertifyModal();
+    const { date: openDate, handleDateChange, setDate } = useDatePicker();
+    const {
+        isPostcodeOpen,
+        postCode,
+        address,
+        detailAddress,
+        setDetailAddress,
+        openPostcode,
+        closePostcode,
+        handleComplete,
+    } = useAddress();
+    const [isBrokerCheckSuccess, setIsBrokerCheckSuccess] = useState(null);
+    const [representativeName, setRepresentativeName] = useState("");
+    const [companyName, setCompanyName] = useState("");
+    const [businessNumber, setBusinessNumber] = useState("");
+    const [isCameraOpen, setIsCameraOpen] = useState(false);
 
-	const { setCompanyId } = useUserTypeStore.getState();
+    const [isDuplicateModalOpen, setIsDuplicateModalOpen] = useState(false); 
+	useEffect(() => {
+		console.log(isDuplicateModalOpen)
+	},[isDuplicateModalOpen])
+    const { setCompanyId } = useUserTypeStore.getState();
 
-	const handleSubmit = async (event) => {
-		event.preventDefault();
+    const handleSubmit = async (event) => {
+        event.preventDefault();
 
-		if (!openDate || !dayjs(openDate).isValid()) {
-			console.error("Invalid date:", openDate);
-			alert("유효한 개업 일자를 선택해 주세요.");
-			return;
-		}
+        if (!openDate || !dayjs(openDate).isValid()) {
+            console.error("Invalid date:", openDate);
+            alert("유효한 개업 일자를 선택해 주세요.");
+            return;
+        }
+        try {			
+            const duplicateData = await duplicateCompany(
+                businessNumber
+            );			
+            if (duplicateData === 409) {
+                setIsDuplicateModalOpen(true);
+                return;
+            }
+            const certification = await certifyCompany(
+                businessNumber,
+                representativeName,
+                dayjs(openDate).format("YYYYMMDD")
+            );
+            setIsBrokerCheckSuccess(certification);
+            openModal();
+        } catch (error) {
+            console.error("Error during certification:", error);
+        }
+    };
 
-		try {
-			const certification = await certifyCompany(
-				businessNumber,
-				representativeName,
-				dayjs(openDate).format("YYYYMMDD")
-			);
-			setIsBrokerCheckSuccess(certification);
-			openModal();
-		} catch (error) {
-			console.error("Error during certification:", error);
-		}
-	};
+    const onSuccessClick = async () => {
+        const company = new Company(
+            companyName || "",
+            representativeName || "",
+            businessNumber || "",
+            postCode || "",
+            address || "",
+            detailAddress || ""
+        );
 
-	const onSuccessClick = async () => {
-		const company = new Company(
-			companyName || "",
-			representativeName || "",
-			businessNumber || "",
-			postCode || "",
-			address || "",
-			detailAddress || ""
-		);
+        try {
+            const response = await postCompany(company);
+            setCompanyId(response);
+        } catch (error) {
+            console.error("Error during company post:", error);
+        }
+    };
 
-		try {
-			const response = await postCompany(company);
-			setCompanyId(response);
-		} catch (error) {
-			console.error("Error during company post:", error);
-		}
-	};
+    const handleOpenCamera = () => {
+        setIsCameraOpen(true);
+    };
 
-	const handleOpenCamera = () => {
-		setIsCameraOpen(true);
-	};
+    const handleCapture = async (imageDataUrl) => {
+        try {
+            const ocrResult = await uploadImageForOCR(imageDataUrl);
 
-	const handleCapture = async (imageDataUrl) => {
-		try {
-			const ocrResult = await uploadImageForOCR(imageDataUrl);
+            const extractedCompanyName = ocrResult.companyName || "";
+            const extractedBusinessNumber =
+                ocrResult.businessNumber.replace(/-/g, "") || "";
+            const extractedRepresentativeName =
+                ocrResult.representativeName || "";
+            const extractedAddress = ocrResult.address || "";
+            const openDateRaw = ocrResult.openDate || "";
 
-			const extractedCompanyName = ocrResult.companyName || "";
-			const extractedBusinessNumber =
-				ocrResult.businessNumber.replace(/-/g, "") || "";
-			const extractedRepresentativeName =
-				ocrResult.representativeName || "";
-			const extractedAddress = ocrResult.address || "";
-			const openDateRaw = ocrResult.openDate || "";
+            setCompanyName(extractedCompanyName);
+            setBusinessNumber(extractedBusinessNumber);
+            setRepresentativeName(extractedRepresentativeName);
+            setDetailAddress(extractedAddress);
 
-			setCompanyName(extractedCompanyName);
-			setBusinessNumber(extractedBusinessNumber);
-			setRepresentativeName(extractedRepresentativeName);
-			setDetailAddress(extractedAddress);
+            const formattedOpenDate = dayjs(
+                openDateRaw,
+                "YYYY 년 MM 월 DD 일"
+            ).format("YYYY-MM-DD");
+            setDate(formattedOpenDate);
+        } catch (error) {
+            console.error("Error during OCR processing:", error);
+        } finally {
+            setIsCameraOpen(false);
+        }
+    };
 
-			const formattedOpenDate = dayjs(
-				openDateRaw,
-				"YYYY 년 MM 월 DD 일"
-			).format("YYYY-MM-DD");
-			setDate(formattedOpenDate);
-		} catch (error) {
-			console.error("Error during OCR processing:", error);
-		} finally {
-			setIsCameraOpen(false);
-		}
-	};
+    const handleCancel = () => {
+        setIsCameraOpen(false);
+    };
 
-	const handleCancel = () => {
-		setIsCameraOpen(false);
-	};
-
-	return (
-		<Background
-			backgroundSrc={background}
-			logoSrc={MainLogo}
-			backButtonSrc={back}
-			backLink="/signup/broker-choice"
-		>
-			<div className="absolute top-[350px] left-1/2 transform -translate-x-1/2 w-full max-w-[276px] text-center">
-				<div className="mb-4">
-					<img
-						className="mx-auto"
-						src={camera}
-						alt="Camera"
-						onClick={handleOpenCamera}
-					/>
-				</div>
-				<form
-					className="relative w-full space-y-4"
-					onSubmit={handleSubmit}
-				>
-					<InputField
-						type="text"
-						name="companyName"
-						placeholder="회사 이름"
-						value={companyName || ""}
-						onChange={(e) => setCompanyName(e.target.value)}
-					/>
-					<InputField
-						type="text"
-						name="representativeName"
-						placeholder="대표자 성명"
-						value={representativeName || ""}
-						onChange={(e) => setRepresentativeName(e.target.value)}
-					/>
-					<InputField
-						type="text"
-						name="businessNumber"
-						placeholder="사업자 등록번호"
-						value={businessNumber || ""}
-						onChange={(e) => setBusinessNumber(e.target.value)}
-					/>
-					<InputField
-						type="text"
-						name="address"
-						placeholder="주소 입력"
-						value={address || ""}
-						onClick={openPostcode}
-						readOnly
-						className="cursor-pointer"
-					/>
-					<InputField
-						type="text"
-						name="detailAddress"
-						placeholder="상세 주소"
-						value={detailAddress || ""}
-						onChange={(e) => setDetailAddress(e.target.value)}
-					/>
-					<div className="relative">
-						<ConfigProvider locale={ko_KR}>
-							<DatePicker
-								format={dateFormat}
-								inputReadOnly
-								onChange={(date, dateString) => {
-									setDate(dateString);
-									handleDateChange(date);
-								}}
-								placeholder="개업 일자"
-								className="w-full px-4 py-2 border border-gray-300 rounded-md font-normal text-black leading-normal"
-								style={{ width: "100%" }}
-								value={
-									openDate
-										? dayjs(openDate, dateFormat)
-										: null
-								}
-							/>
-						</ConfigProvider>
-					</div>
-					<SubmitButton>진위 여부 확인</SubmitButton>
-				</form>
-			</div>
-			{isModalOpen && (
-				<BrokerCheckModal
-					onClose={closeModal}
-					success={isBrokerCheckSuccess}
-					onSuccessClick={onSuccessClick}
-				/>
-			)}
-			{isPostcodeOpen && (
-				<div className="absolute top-0 left-0 w-full h-full bg-gray-500 bg-opacity-50 flex items-center justify-center z-10">
-					<div className="bg-white p-4 rounded-lg max-w-[500px] w-full">
-						<DaumPostcode onComplete={handleComplete} />
-						<button
-							className="mt-2 w-full py-2 bg-red-600 text-white rounded-md"
-							onClick={closePostcode}
-						>
-							닫기
-						</button>
-					</div>
-				</div>
-			)}
-			{isCameraOpen && (
-				<div className="absolute top-0 left-0 w-full h-full z-50">
-					<CameraCapture
-						onCapture={handleCapture}
-						onCancel={handleCancel}
-					/>
-				</div>
-			)}
-		</Background>
-	);
+    return (
+        <Background
+            backgroundSrc={background}
+            logoSrc={MainLogo}
+            backButtonSrc={back}
+            backLink="/signup/broker-choice"
+        >
+            <div className="absolute top-[350px] left-1/2 transform -translate-x-1/2 w-full max-w-[276px] text-center">
+                <div className="mb-4">
+                    <img
+                        className="mx-auto"
+                        src={camera}
+                        alt="Camera"
+                        onClick={handleOpenCamera}
+                    />
+                </div>
+                <form
+                    className="relative w-full space-y-4"
+                    onSubmit={handleSubmit}
+                >
+                    <InputField
+                        type="text"
+                        name="companyName"
+                        placeholder="회사 이름"
+                        value={companyName || ""}
+                        onChange={(e) => setCompanyName(e.target.value)}
+                    />
+                    <InputField
+                        type="text"
+                        name="representativeName"
+                        placeholder="대표자 성명"
+                        value={representativeName || ""}
+                        onChange={(e) => setRepresentativeName(e.target.value)}
+                    />
+                    <InputField
+                        type="text"
+                        name="businessNumber"
+                        placeholder="사업자 등록번호"
+                        value={businessNumber || ""}
+                        onChange={(e) => setBusinessNumber(e.target.value)}
+                    />
+                    <InputField
+                        type="text"
+                        name="address"
+                        placeholder="주소 입력"
+                        value={address || ""}
+                        onClick={openPostcode}
+                        readOnly
+                        className="cursor-pointer"
+                    />
+                    <InputField
+                        type="text"
+                        name="detailAddress"
+                        placeholder="상세 주소"
+                        value={detailAddress || ""}
+                        onChange={(e) => setDetailAddress(e.target.value)}
+                    />
+                    <div className="relative">
+                        <ConfigProvider locale={ko_KR}>
+                            <DatePicker
+                                format={dateFormat}
+                                inputReadOnly
+                                onChange={(date, dateString) => {
+                                    setDate(dateString);
+                                    handleDateChange(date);
+                                }}
+                                placeholder="개업 일자"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md font-normal text-black leading-normal"
+                                style={{ width: "100%" }}
+                                value={
+                                    openDate
+                                        ? dayjs(openDate, dateFormat)
+                                        : null
+                                }
+                            />
+                        </ConfigProvider>
+                    </div>
+                    <SubmitButton>진위 여부 확인</SubmitButton>
+                </form>
+            </div>
+            {isModalOpen && (
+                <BrokerCheckModal
+                    onClose={closeModal}
+                    success={isBrokerCheckSuccess}
+                    onSuccessClick={onSuccessClick}
+                />
+            )}
+            {isDuplicateModalOpen && (
+                <CompanyDuplicateModal
+                    isOpen={isDuplicateModalOpen}
+                    onClose={() => setIsDuplicateModalOpen(false)}
+                />
+            )}
+            {isPostcodeOpen && (
+                <div className="absolute top-0 left-0 w-full h-full bg-gray-500 bg-opacity-50 flex items-center justify-center z-10">
+                    <div className="bg-white p-4 rounded-lg max-w-[500px] w-full">
+                        <DaumPostcode onComplete={handleComplete} />
+                        <button
+                            className="mt-2 w-full py-2 bg-red-600 text-white rounded-md"
+                            onClick={closePostcode}
+                        >
+                            닫기
+                        </button>
+                    </div>
+                </div>
+            )}
+            {isCameraOpen && (
+                <div className="absolute top-0 left-0 w-full h-full z-50">
+                    <CameraCapture
+                        onCapture={handleCapture}
+                        onCancel={handleCancel}
+                    />
+                </div>
+            )}
+        </Background>
+    );
 };
 
 export default SignUpBroker;
