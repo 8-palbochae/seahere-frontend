@@ -1,22 +1,23 @@
 import React from 'react';
-import { Pie } from 'react-chartjs-2';
+import { Chart, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 const FishChart = ({ data }) => {
     if (!data) return null;
 
     const sortedData = [...data].sort((a,b)=>b.price-a.price);
 
-     // 상위 5개의 어종과 나머지 데이터를 처리
+
      const top5Data = sortedData.slice(0, 5);
      const otherData = sortedData.slice(5);
  
-     // 기타로 합산한 데이터를 계산
+
      const otherTotal = otherData.reduce((acc, item) => acc + item.price, 0);
  
-     // 상위 5개 + 기타 데이터
+
      const finalData = [
          ...top5Data,
          { productName: "기타", price: otherTotal }
@@ -33,7 +34,7 @@ const FishChart = ({ data }) => {
                     'rgba(255, 205, 86)',
                     'rgba(75, 192, 192)',
                     'rgba(153, 102, 255)',
-                    'rgba(201,203,207)' //기타 색상
+                    'rgba(201,203,207)' 
                 ],
                 borderColor: [
                     'rgba(255, 99, 132, 1)',
@@ -75,8 +76,25 @@ const FishChart = ({ data }) => {
                 },
             },
             datalabels: {
-                display: false,
-            }
+                formatter: (value, context) => {
+                    const dataset = context.chart.data.datasets[0];
+                    const total = dataset.data.reduce((acc, val) => acc + val, 0);
+                    const percentage = ((value / total) * 100).toFixed(2);
+            
+                    return `${percentage}%`;
+                },
+                color: '#fff', 
+                font: {
+                    weight: 'bold',
+                    size: 14,
+                },
+                anchor: 'end',
+                align: 'start',
+                offset: 5,
+                borderRadius: 3,
+        
+            
+            },
         },
     };
 
