@@ -120,9 +120,7 @@ const TeamInfo = () => {
 						alt="add-icon"
 					/>
 				</div>
-				<div>
-					<EmployeeList data={data.employeeList} />
-				</div>
+				<EmployeeList data={data.employeeList} />
 			</div>
 		</>
 	);

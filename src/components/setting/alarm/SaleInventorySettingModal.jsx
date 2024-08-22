@@ -8,6 +8,16 @@ const SaleInventorySettingModal = ({
 	updateItem,
 }) => {
 	const [discountPrice, setDiscountPrice] = useState(item.discountPrice);
+	const formatNumber = (num) => {
+		return num.toLocaleString();
+	};
+
+	const parseNumber = (str) => {
+		if(typeof str!=='string'){
+			return 0;
+		}
+		return str? parseFloat(str.replace(/,/g, '')) || 0:0;
+	};
 
 	const onChange = (price) => {
 		if (/^\d*\.?\d*$/.test(price)) {
@@ -21,7 +31,8 @@ const SaleInventorySettingModal = ({
 
 	const handleComplete = () => {
 		console.log("handleComplete called");
-		const discountItem = { ...item, discountPrice };
+		const numericDiscountPrice = parseNumber(discountPrice);
+		const discountItem = { ...item, discountPrice: numericDiscountPrice };
 		updateItem(discountItem);
 		console.log(discountItem);
 		setIsModalOpen(false);
@@ -59,14 +70,14 @@ const SaleInventorySettingModal = ({
 				<div className="flex justify-around items-center  border-b-2 p-1">
 					<div className="w-2/3">{"현재 출고금액"}</div>
 					<div className="w-1/3">
-						<Input readOnly value={item.price} />
+						<Input readOnly value={item.price.toLocaleString()} />
 					</div>
 				</div>
 				<div className="flex justify-around items-center  border-b-2 p-1">
 					<div className="w-2/3">{"할인가"}</div>
 					<div className="w-1/3">
 						<Input
-							value={discountPrice}
+							value={formatNumber(parseNumber(discountPrice))}
 							onChange={(e) => onChange(e.target.value)}
 						/>
 					</div>

@@ -8,7 +8,7 @@ const TradeMain = () => {
   const { setHeaderText } = useHeaderText();
 
   useEffect(() => {
-    setHeaderText("트레이드 요청");
+    setHeaderText("도움 요청");
     }, [setHeaderText]);
 
   return (

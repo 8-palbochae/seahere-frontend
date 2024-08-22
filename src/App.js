@@ -23,7 +23,6 @@ import {
 	Alarm,
 } from "./components/setting";
 import {
-	SignUpChoice,
 	SignUpBroker,
 	SignUpBrokerChoice,
 	SignUpInfo,
@@ -57,7 +56,6 @@ function App() {
 						<Route path="/signup" element={<SignUp />}>
 							<Route path="" element={<SignUpInfo />} />
 							<Route path="broker" element={<SignUpBroker />} />
-							<Route path="choice" element={<SignUpChoice />} />
 							<Route
 								path="broker-choice"
 								element={<SignUpBrokerChoice />}
@@ -130,7 +128,10 @@ function App() {
 									/>
 								</Route>
 								<Route path="/carts" element={<Cart />} />
-								<Route path="/incoming/:productId" element={<Income />} />
+								<Route
+									path="/incoming/:productId"
+									element={<Income />}
+								/>
 								<Route
 									path="/alarm-history"
 									element={<AlarmHistory />}

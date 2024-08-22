@@ -22,7 +22,7 @@ const IncomingListItem = ({ item }) => {
 	};
 
 	return (
-		<div className="w-full px-2 my-2">
+		<div className="w-full  my-2">
 			<div
 				className="flex w-full bg-white rounded-lg shadow-xl px-3 py-2 items-center justify-between"
 				onClick={handleOpenModal}
@@ -49,7 +49,7 @@ const IncomingListItem = ({ item }) => {
 					<span className="text-black font-normal"> Kg</span>
 				</div>
 				<div className="text-center flex-1 text-black font-normal text-base cursor-pointer">
-					{amount} <span className="">원(1kg)</span>
+					{amount.toLocaleString()} <span className="">원(1kg)</span>
 				</div>
 			</div>
 			<IncomingModifiedModal
