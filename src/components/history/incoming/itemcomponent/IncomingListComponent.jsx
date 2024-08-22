@@ -7,7 +7,7 @@ const IncomingListComponent = ({ data, date }) => {
 			<div className="flex justify-start items-center text-xl w-full ml-3">
 				{date}
 			</div>
-			<div className="w-full flex flex-col items-center px-4 ">
+			<div className="w-full flex flex-col items-center ">
 				{data.map((item) => (
 					<IncomingListItem item={item} key={item.incomingId} />
 				))}
