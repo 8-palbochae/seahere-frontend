@@ -14,6 +14,8 @@ const TotalSales = () => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
 
+    // const autoSlideInterval = 4000;
+
     useEffect(() => {
         const today = new Date();
         const last = new Date();
@@ -55,6 +57,13 @@ const TotalSales = () => {
     }
     }, [startDate,endDate]);
 
+    // useEffect(() => {
+    //     const intervalId = setInterval(() => {
+    //         setCurrentIndex((prevIndex) => (prevIndex + 1) % 3);
+    //     }, autoSlideInterval);
+
+    //     return () => clearInterval(intervalId);
+    // }, []);
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -90,11 +99,14 @@ const TotalSales = () => {
         preventDefaultTouchmoveEvent: true,
         trackMouse: true,
     });
+    const handleDotClick = (index) => {
+        setCurrentIndex(index);
+    };
 
     return (
         <div className="w-[370px] h-[314px] relative mx-auto mt-5">
-            <div className="relative w-full h-[314px] bg-blue-600 rounded-[10px]">
-                <div className="absolute w-[95%] h-[263px] top-[40px] left-[50%] transform -translate-x-[50%] bg-white rounded-[10px]" {...swipeHandlers}>
+            <div className="relative w-full h-[330px] bg-blue-600 rounded-[10px]">
+                <div className="absolute w-[95%] h-[280px] top-[40px] left-[50%] transform -translate-x-[50%] bg-white rounded-[10px]" {...swipeHandlers}>
                     <div className="flex justify-between items-center w-full h-[18px] [font-family:'Inter-Regular',Helvetica] font-normal text-base text-gray-500 mt-2 ml-2">
                         <div className="whitespace-nowrap text-center tracking-[0] leading-[normal] text-sm">
                             {currentIndex === 0 ? "입고" : currentIndex === 1 ? "출고" : "수익"}
@@ -115,6 +127,17 @@ const TotalSales = () => {
                             <Chart data={profitChartData} />
                         )}
                     </div>
+
+                    {/* 페이지 표시용 점들 */}
+                <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                    {[0, 1, 2].map((index) => (
+                        <div
+                            key={index}
+                            className={`w-3 h-3 rounded-full ${currentIndex === index ? "bg-blue-800" : "bg-gray-400"}`}
+                            onClick={() => handleDotClick(index)}
+                        />
+                    ))}
+                </div>
                 </div>
                 <div className="flex items-center justify-start w-[90%] h-[25px] [font-family:'Inter-Bold',Helvetica] font-bold text-white text-lg absolute tracking-[0] leading-[normal] mt-2 ml-4">
                     <div className="flex items-center">
