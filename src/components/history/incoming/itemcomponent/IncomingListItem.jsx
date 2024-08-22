@@ -22,7 +22,7 @@ const IncomingListItem = ({ item }) => {
 	};
 
 	return (
-		<div className="w-full px-2 my-2">
+		<div className="w-full  my-2">
 			<div
 				className="flex w-full bg-white rounded-lg shadow-xl px-3 py-2 items-center justify-between"
 				onClick={handleOpenModal}

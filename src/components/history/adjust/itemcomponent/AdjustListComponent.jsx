@@ -7,7 +7,7 @@ const AdjustListComponent = ({ data, date }) => {
 			<div className="flex justify-start items-center text-xl w-full ml-3">
 				{date}
 			</div>
-			<div className="w-full flex flex-col items-center px-4 gap-2">
+			<div className="w-full flex flex-col items-center  gap-2">
 				{data.map((item) => (
 					<AdjustListItem key={item.adjustId} item={item} />
 				))}
