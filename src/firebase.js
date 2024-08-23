@@ -1,4 +1,4 @@
-// src/firebase.js
+
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
@@ -23,7 +23,6 @@ if (
 	messaging = getMessaging(app);
 
 	onMessage(messaging, (payload) => {
-		console.log("Message received. ", payload);
 		if ("serviceWorker" in navigator) {
 			navigator.serviceWorker.ready.then((registration) => {
 				registration.showNotification(payload.notification.title, {
