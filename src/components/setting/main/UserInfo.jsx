@@ -6,7 +6,6 @@ import { profileUrl } from '../../setting/profileUrl';
 
 const UserInfo = ({ user }) => {
 	const navigate = useNavigate();
-	console.log("dfdf: ", user);
 	const onClick = () => {
 		navigate("/setting/users", { state: { userData: user } });
 	};
