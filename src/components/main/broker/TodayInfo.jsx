@@ -21,7 +21,7 @@ const TodayInfo = () => {
 					endDate: dayjs().format("YYYY-MM-DD"),
 					page: 0,
 				});
-				console.log(result.content);
+
 				if (result.content.length == 0) {
 					setData({
 						incoming: 0,
