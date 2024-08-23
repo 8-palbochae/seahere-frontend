@@ -1,6 +1,6 @@
 import React, { useRef, useCallback } from "react";
 import OutgoingReqListItem from "./OutgoingReqListItem";
-
+import InventoryListItem from "../InventoryListItem";
 const InventoryReqListComponent = ({
 	data,
 	fetchNextPage,
