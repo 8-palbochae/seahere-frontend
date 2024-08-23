@@ -21,7 +21,7 @@ const AlarmHistory = () => {
 				return lastPage.hasNext ? lastPage.currentPage + 1 : undefined;
 			},
 		});
-	console.log(data);
+
 
 	const lastAlarmElementRef = useCallback(
 		(node) => {
@@ -65,7 +65,7 @@ const AlarmHistory = () => {
 							pageIndex === data.pages.length - 1 &&
 							index === page.content.length - 1
 						) {
-							// 마지막 요소에 ref를 연결하여 관찰 시작
+
 							return (
 								<AlarmInfo
 									ref={lastAlarmElementRef}
