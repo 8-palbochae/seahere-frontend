@@ -17,7 +17,7 @@ const PeriodStart = ({ startDate, setStartDate }) => {
 				format={dateFormat}
 				onPanelChange={() => startDate}
 				placeholder={startDate}
-				inputReadOnly={true} // 자판 비활성화
+				inputReadOnly={true}
 				disabled={true}
 			/>
 		</Space>

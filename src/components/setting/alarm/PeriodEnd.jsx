@@ -11,7 +11,6 @@ const dateFormat = "YYYY-MM-DD";
 const PeriodEnd = ({ endDate, setEndDate }) => {
 	const handleEndChange = (date) => {
 		setEndDate(dayjs(date).format(dateFormat));
-		console.log(endDate);
 	};
 	return (
 		<Space direction="vertical" size={12}>
@@ -19,7 +18,7 @@ const PeriodEnd = ({ endDate, setEndDate }) => {
 				onPanelChange={() => endDate}
 				placeholder={endDate}
 				format={dateFormat}
-				inputReadOnly={true} // 자판 비활성화
+				inputReadOnly={true} 
 				onChange={(date) => handleEndChange(date)}
 			/>
 		</Space>
