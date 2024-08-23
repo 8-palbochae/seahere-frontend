@@ -11,7 +11,6 @@ const OutgoingReqListItem = forwardRef(({ outgoingReqItem }, ref) => {
 		setIsModalOpen(false);
 	};
 
-	console.log("받은 데이터들:",outgoingReqItem);
 	return (
 		<div className="w-full">
 			<div ref={ref}>
