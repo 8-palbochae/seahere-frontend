@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const InputField = ({ type, name, placeholder, value, onChange, onClick, readOnly, className }) => {
+const InputField = ({ type, name, placeholder, value, onChange, onClick, readOnly, className, hideIcon }) => {
     const [isFilled, setIsFilled] = useState(false);
 
     useEffect(() => {
@@ -19,11 +19,13 @@ const InputField = ({ type, name, placeholder, value, onChange, onClick, readOnl
                 onClick={onClick}
                 readOnly={readOnly}
             />
-            {isFilled ? (
+            {/* X 표시를 비밀번호 확인 필드에서만 숨김 */}
+            {!hideIcon && isFilled && (
                 <span className="absolute right-2 top-2 text-green-500">
                     &#10003;
                 </span>
-            ) : (
+            )}
+            {!hideIcon && !isFilled && (
                 <span className="absolute right-2 top-2 text-red-500">
                     &#10007;
                 </span>
