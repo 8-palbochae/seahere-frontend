@@ -20,7 +20,7 @@ const deleteEmployee = async (userId) => {
 };
 
 const addEmployee = async (employeeEmail) => {
-	console.log(employeeEmail);
+	
 
 	try {
 		const res = await axiosInstance.patch(`${url}/teams`, employeeEmail);

@@ -10,10 +10,10 @@ const IncomingWeekSales = async (data) => {
             },
         });
 
-        console.log(res);
+
         return res.data;
     } catch (error) {
-        console.error("API 요청 실패:", error);
+
         throw new Error("데이터 저장 실패");
     }
 };
@@ -27,7 +27,7 @@ const IncomingMonthSales = async (data) => {
         });
         return res.data;
     } catch (error) {
-        console.error("API 요청 실패:", error);
+
         throw new Error("데이터 저장 실패");
     }
 }
@@ -40,10 +40,9 @@ const OutgoingWeekSales = async (data) => {
             },
         });
 
-        console.log(res);
         return res.data;
     } catch (error) {
-        console.error("API 요청 실패:", error);
+
         throw new Error("데이터 저장 실패");
     }
 };
@@ -57,7 +56,7 @@ const OutgoingMonthSales = async (data) => {
         });
         return res.data;
     } catch (error) {
-        console.error("API 요청 실패:", error);
+
         throw new Error("데이터 저장 실패");
     }
 }
@@ -72,7 +71,7 @@ const FishDataSales = async (data) => {
         });
         return res.data;
     } catch (error) {
-        console.error("API 요청 실패:", error);
+
         throw new Error("데이터 요청 실패");
     }
 }

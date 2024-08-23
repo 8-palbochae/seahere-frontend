@@ -9,7 +9,6 @@ const getProductList = async (value) => {
 				"Content-Type": "application/json; charset=UTF-8",
 			},
 		});
-		console.log("url: ", `${url}/product-search-${value}`);
 		return res.data;
 	} catch (error) {
 		throw new Error("서버 연결 실패");
