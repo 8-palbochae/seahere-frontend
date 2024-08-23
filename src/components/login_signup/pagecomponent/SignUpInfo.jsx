@@ -11,14 +11,14 @@ import { postSocialUser, postUser } from '../../../api/user/userApi';
 import { useNavigate } from 'react-router-dom';
 
 const SignUpInfo = () => {
-  const { userType,companyId,guestId,initializeState} = useUserTypeStore((state) => ({
+  const { userType, companyId, guestId, initializeState } = useUserTypeStore((state) => ({
     userType: state.userType,
     companyId: state.companyId,
     guestId: state.guestId,
     initializeState: state.initializeState,
   }));
 
-  const navigate =useNavigate();
+  const navigate = useNavigate();
   const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
   const [postCode, setPostCode] = useState('');
   const [address, setAddress] = useState('');
@@ -31,12 +31,17 @@ const SignUpInfo = () => {
     confirmPassword: '',
   });
 
+  const [isPasswordMatch, setIsPasswordMatch] = useState(false);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
+    setFormValues((prevValues) => {
+      const updatedValues = { ...prevValues, [name]: value };
+      if (name === 'password' || name === 'confirmPassword') {
+        setIsPasswordMatch(updatedValues.password === updatedValues.confirmPassword);
+      }
+      return updatedValues;
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -46,20 +51,21 @@ const SignUpInfo = () => {
       alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
       return;
     }
+
     try {
       const userInfo = {
         "username": formValues.name,
         "email": formValues.email,
         "password": formValues.password,
-        "address" : {
-          "postCode" : postCode,
+        "address": {
+          "postCode": postCode,
           "mainAddress": address,
           "subAddress": detailAddress,
         },
         ...(companyId && { companyId }),
       }
-    const response = await postUser(userInfo,userType);
-      if(response.status===201){
+      const response = await postUser(userInfo, userType);
+      if (response.status === 201) {
         initializeState();
         navigate("/login");
       }
@@ -72,24 +78,24 @@ const SignUpInfo = () => {
     e.preventDefault();
 
     const userInfo = {
-      "userId" : guestId,
+      "userId": guestId,
       "username": formValues.name,
-      "address" : {
-        "postCode" : postCode,
+      "address": {
+        "postCode": postCode,
         "mainAddress": address,
         "subAddress": detailAddress,
       },
-      "companyId" : companyId,
-      "type" : userType,
+      "companyId": companyId,
+      "type": userType,
     }
     try {
       const response = await postSocialUser(userInfo);
-      if(response.status===201){
+      if (response.status === 201) {
         initializeState();
         navigate("/login");
       }
-    }catch(error){
-
+    } catch (error) {
+      console.error('OAuth 회원가입 오류:', error);
     }
   }
 
@@ -126,15 +132,15 @@ const SignUpInfo = () => {
             />
           </div>
           <div className="mt-2">
-          {guestId ? null : (
-            <InputField
-              type="email"
-              name="email"
-              placeholder="이메일"
-              value={formValues.email}
-              onChange={handleInputChange}
-            />
-          )}
+            {guestId ? null : (
+              <InputField
+                type="email"
+                name="email"
+                placeholder="이메일"
+                value={formValues.email}
+                onChange={handleInputChange}
+              />
+            )}
           </div>
           <div className="mt-2">
             {guestId ? null : <InputField
@@ -145,14 +151,20 @@ const SignUpInfo = () => {
               onChange={handleInputChange}
             />}
           </div>
-          <div className="mt-2">
+          <div className="mt-2 relative">
             {guestId ? null : <InputField
               type="password"
               name="confirmPassword"
               placeholder="비밀번호 확인"
               value={formValues.confirmPassword}
               onChange={handleInputChange}
+              hideIcon={true}
             />}
+            {formValues.confirmPassword && (
+              <div className={`absolute top-1/2 right-4 transform -translate-y-1/2 ${isPasswordMatch ? 'text-green-500' : 'text-red-500'}`}>
+                {isPasswordMatch ? '✓' : ''}
+              </div>
+            )}
           </div>
           <div className="mt-2">
             <InputField
