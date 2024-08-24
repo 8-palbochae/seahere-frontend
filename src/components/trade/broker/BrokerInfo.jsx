@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { useNavigate } from 'react-router-dom'; 
 import { tradeIcon } from '../../../constants/trade/trade.image';
 
 const BrokerInfo = ({ company }) => {
@@ -20,7 +20,7 @@ const BrokerInfo = ({ company }) => {
     return (
         <div 
             className='relative w-full flex flex-row mx-3 mb-2 items-start bg-white border border-gray-200 rounded-lg shadow-md p-4 cursor-pointer' 
-            onClick={handleBrokerClick} // Add onClick handler for item click
+            onClick={handleBrokerClick} 
         >
             <div className='w-20 h-20 flex items-center justify-center mr-4'>
                 <img 

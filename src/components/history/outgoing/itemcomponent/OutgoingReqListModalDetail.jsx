@@ -89,7 +89,7 @@ const OutgoingReqListModalDetail = ({ item, partialOutgoing }) => {
 				</div>
 			</div>
 
-			{/* 삭제 버튼 */}
+
 			{isSwiped && (
 				<button
 					className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-red-500 text-white px-4 py-9 rounded-md z-10"

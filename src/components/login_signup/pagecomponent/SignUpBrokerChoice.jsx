@@ -8,7 +8,7 @@ import ChoiceBox from '../itemcomponent/ChoiceBox';
 import { useSearchParams } from 'react-router-dom';
 
 const SignUpBrokerChoice = () => {
-  const [params, setParams] = useSearchParams(); // 변수명 통일
+  const [params, setParams] = useSearchParams(); 
   const guestId = params.get('guest');
 
   const { userType, setUserType, setGuestId } = useUserTypeStore((state) => ({
@@ -27,9 +27,7 @@ const SignUpBrokerChoice = () => {
     setUserType(type);
   }
 
-  useEffect(() => {
-    console.log(userType);
-  }, [userType]);
+  
 
 
   return (

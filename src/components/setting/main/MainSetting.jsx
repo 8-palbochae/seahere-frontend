@@ -10,7 +10,7 @@ const MainSetting = () => {
 		queryKey: ["userInfo"],
 		queryFn: getUserInfo,
 	});
-	console.log(data);
+
 	const { setHeaderText } = useHeaderText();
 	useEffect(() => {
 		setHeaderText("설정");

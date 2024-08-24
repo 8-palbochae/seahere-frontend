@@ -75,13 +75,11 @@ const CartModal = ({ isOpen, onClose, inventory, companyId, children }) => {
                                 type="number" 
                                 value={weight}
                                 onChange={handleWeightChange}
-                                placeholder="0" // 빈 상태에서 '0'을 기본값으로 표시
+                                placeholder="0" 
                             />
                         </div>
                     </div>
-                    {/* <div className='flex justify-center text-center text-lg'>
-                        <span className='text-gray-500'>구매 금액:</span> <span className='text-black font-bold ml-2'>{(inventory.price * weight).toLocaleString()} 원</span>
-                    </div> */}
+                    
                     <div className='flex justify-center gap-3 mt-4'>
                         <button 
                             onClick={onClose} 
@@ -113,7 +111,7 @@ CartModal.propTypes = {
         country: PropTypes.string.isRequired,
         naturalStatus: PropTypes.string.isRequired,
         category: PropTypes.string.isRequired,
-        quantity: PropTypes.number.isRequired, // 추가된 필드
+        quantity: PropTypes.number.isRequired, 
     }).isRequired,
     companyId: PropTypes.string.isRequired,
     children: PropTypes.node,

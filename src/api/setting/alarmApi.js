@@ -16,7 +16,7 @@ const postDiscountList = async ({ startDate, endDate, checkedValues }) => {
 		endDate,
 		inventories: checkedValues,
 	};
-	console.log(body);
+
 	try {
 		const res = await axiosInstance.post(`${url}/alarm/discounts`, body);
 		return res.data;

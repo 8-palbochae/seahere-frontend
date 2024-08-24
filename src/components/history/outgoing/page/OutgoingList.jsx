@@ -20,7 +20,7 @@ const OutgoingList = () => {
 		queryFn: () => getHistoryOutgoingList(date.date, search),
 	});
 
-	console.log(data);
+
 	if (isPending) {
 		return (
 			<div>

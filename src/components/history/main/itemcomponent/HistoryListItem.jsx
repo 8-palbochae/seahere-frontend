@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 const HistoryListItem = ({ type, count, date }) => {
 	const { handleNavigation } = useHistoryHandler();
 
-	// 아이콘 매핑 객체
+
 	const iconMap = {
 		출고: <Outgoing className="w-full h-full object-cover fill-red-600" />,
 		입고: <Incoming className="w-full h-full object-cover fill-blue-600" />,
@@ -20,7 +20,7 @@ const HistoryListItem = ({ type, count, date }) => {
 		입고: "text-blue-600",
 		조정: "text-green-600",
 	};
-	// 선택된 아이콘
+
 	const icon = iconMap[type];
 
 	return (

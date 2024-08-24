@@ -17,8 +17,7 @@ export const duplicateCompany = async (regNumber) => {
     } catch (error) {
         if(error.response.status === 409){
             return 409
-        }     
-        console.error("서버 연결 실패", error);              
+        }                
         throw new Error("서버 연결 실패");
     }
 };

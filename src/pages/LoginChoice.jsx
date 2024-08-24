@@ -34,7 +34,7 @@ const LoginChoice = () => {
 		if (errorMessage) {
 			const timer = setTimeout(() => {
 				setErrorMessage(null);
-			}, 3000); // 3000ms = 3초
+			}, 3000);
 
 			return () => clearTimeout(timer);
 		}

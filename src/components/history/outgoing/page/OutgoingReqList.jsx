@@ -55,9 +55,7 @@ const OutgoingReqList = () => {
 		);
 	}
 
-	if (status === "error") {
-		console.log("api 통신 문제");
-	}
+	
 	return (
 		<div>
 			<div className="flex flex-col gap-5">

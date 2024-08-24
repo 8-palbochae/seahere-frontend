@@ -26,7 +26,7 @@ const TeamInfo = () => {
 		},
 	});
 
-	console.log(data);
+
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const showModal = () => {
 		setIsModalOpen(true);

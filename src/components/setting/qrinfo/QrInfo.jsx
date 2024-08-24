@@ -60,7 +60,6 @@ const QrInfo = () => {
 		const productIds = selectedProducts.map(product => product.productId);
 		try {
 			await sendSelectedQR(productIds);
-			console.log("다운로드 완료");
 		} catch (error) {
 			console.error("다운로드 중 오류 발생:", error);
 		}

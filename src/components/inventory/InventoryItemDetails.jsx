@@ -28,13 +28,7 @@ const InventoryItemDetails = ({ detailData, productImg }) => {
 	const openModal = () => setIsModalOpen(true);
 	const closeModal = () => setIsModalOpen(false);
 
-	// const openDeleteConfirm = () => setIsDeleteConfirmOpen(true);
-	// const closeDeleteConfirm = () => setIsDeleteConfirmOpen(false);
-
-	// const handleDelete = () => {
-	//     console.log("Item deleted");
-	//     closeDeleteConfirm();
-	// };
+	
 
 	return (
 		<div
@@ -83,11 +77,7 @@ const InventoryItemDetails = ({ detailData, productImg }) => {
 							alt="Edit"
 						/>
 					</button>
-					{/* 
-                    <button className="flex-1 flex items-center justify-center p-0 bg-red-500" onClick={openDeleteConfirm}>
-                        <img src={inventoryIcon.deleteIcon} className='w-3/5 h-3/5 object-contain' alt="Delete" />
-                    </button>
-                    */}
+					
 				</div>
 			</div>
 			<InventoryEditModal
@@ -98,11 +88,7 @@ const InventoryItemDetails = ({ detailData, productImg }) => {
 				inventoryId={inventoryId}
 				productImg={productImg}
 			/>
-			{/* <InventoryDeleteModal
-                isOpen={isDeleteConfirmOpen}
-                onClose={closeDeleteConfirm}
-                onConfirm={handleDelete}
-            /> */}
+			
 		</div>
 	);
 };
