@@ -1,32 +1,35 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import { tradeIcon } from '../../../constants/trade/trade.image';
+import { profileUrl } from '../../setting/profileUrl';
 
 const BrokerInfo = ({ company }) => {
-    const { id, companyName, address } = company; 
+    const { id, companyName, address } = company;
     const [isLike, setIsLike] = useState(false);
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
+    const profileImg = company.profileImg || "";
+    const imageUrl = profileImg ? `${profileUrl + profileImg}?${new Date().getTime()}` : tradeIcon.brokerLogo;
 
     const handleLikeClick = (e) => {
-        e.stopPropagation(); 
+        e.stopPropagation();
         setIsLike(!isLike);
     }
 
     const handleBrokerClick = () => {
-        navigate(`/trades/broker/${id}`, { state: { company } });  
+        navigate(`/trades/broker/${id}`, { state: { company } });
     }
 
     return (
-        <div 
-            className='relative w-full flex flex-row mx-3 mb-2 items-start bg-white border border-gray-200 rounded-lg shadow-md p-4 cursor-pointer' 
-            onClick={handleBrokerClick} 
+        <div
+            className='relative w-full flex flex-row mx-3 mb-2 items-start bg-white border border-gray-200 rounded-lg shadow-md p-4 cursor-pointer'
+            onClick={handleBrokerClick}
         >
             <div className='w-20 h-20 flex items-center justify-center mr-4'>
-                <img 
-                    src={tradeIcon.brokerLogo} 
-                    className='w-full h-full object-cover rounded-lg' 
-                    alt="Broker Logo" 
+                <img
+                    src={`${imageUrl}`}
+                    className='w-full h-full object-cover rounded-lg'
+                    alt="Broker Logo"
                 />
             </div>
             <div className='flex flex-col justify-between items-start gap-2 w-3/5'>
@@ -36,10 +39,10 @@ const BrokerInfo = ({ company }) => {
             </div>
             <div className='absolute bottom-0 right-0 mb-2 mr-2'>
                 <button onClick={handleLikeClick}>
-                    <img 
-                        src={isLike ? tradeIcon.likeIcon : tradeIcon.unLikeIcon} 
-                        className='w-5 h-5 object-cover' 
-                        alt="Like Icon" 
+                    <img
+                        src={isLike ? tradeIcon.likeIcon : tradeIcon.unLikeIcon}
+                        className='w-5 h-5 object-cover'
+                        alt="Like Icon"
                     />
                 </button>
             </div>
@@ -49,7 +52,7 @@ const BrokerInfo = ({ company }) => {
 
 BrokerInfo.propTypes = {
     company: PropTypes.shape({
-        id: PropTypes.number.isRequired, 
+        id: PropTypes.number.isRequired,
         companyName: PropTypes.string.isRequired,
         address: PropTypes.shape({
             mainAddress: PropTypes.string.isRequired,
