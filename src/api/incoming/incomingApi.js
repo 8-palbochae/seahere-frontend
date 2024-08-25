@@ -2,12 +2,10 @@ import axios from "axios";
 import { url } from "../../constants/defaultUrl";
 import { axiosInstance } from "../common/axiosInstance";
 
-const getProductList = async (value) => {
+const getProductList = async (query) => {
 	try {
-		const res = await axiosInstance.get(`${url}/product-search-${value}`, {
-			headers: {
-				"Content-Type": "application/json; charset=UTF-8",
-			},
+		const res = await axiosInstance.get(`${url}/product-search-fuzzy`, {
+			params: {query},
 		});
 		return res.data;
 	} catch (error) {
