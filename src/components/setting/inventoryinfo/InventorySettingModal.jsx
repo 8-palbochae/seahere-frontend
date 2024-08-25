@@ -56,7 +56,7 @@ const InventorySettingModal = ({ isModalOpen, setIsModalOpen, item }) => {
 			<div className="flex flex-col gap-3">
 				<div className="flex justify-around gap-3 p-3">
 					<div className="w-1/3 rounded-[20px]">
-						<img src={productImg} alt="상품이미지" />
+						<img src={item.imgUrl} alt="상품이미지" />
 					</div>
 					<div className="self-center">
 						<b>

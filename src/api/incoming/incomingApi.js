@@ -35,7 +35,7 @@ const saveIncomingData = async (data) => {
 				"Content-Type": "application/json; charset=UTF-8",
 			},
 		});
-		if (!res.ok) {
+		if (res.status != '200') {
 			throw new Error("데이터 저장 실패");
 		}
 		return res.data;
