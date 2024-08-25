@@ -1,4 +1,4 @@
-// src/utils/historyHandler.js
+
 import { useNavigate } from "react-router-dom";
 
 const useHistoryHandler = () => {

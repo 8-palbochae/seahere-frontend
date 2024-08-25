@@ -20,7 +20,7 @@ const PeriodEnd = ({ setEndDate, endDate }) => {
 				<DatePicker
 					format={dateFormat}
 					onPanelChange={() => endDate}
-					inputReadOnly={true} // 자판 비활성화
+					inputReadOnly={true} 
 					onChange={(date) => handleStartChange(date)}
 					placeholder={endDate}
 				/>

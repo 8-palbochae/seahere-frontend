@@ -13,7 +13,7 @@ export const uploadImageForOCR = async (imageSrc) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Error during OCR processing:', error);
+
         throw error;
     }
 };

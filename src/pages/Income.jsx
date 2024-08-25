@@ -24,12 +24,8 @@ const Income = () => {
         setHeaderText("입고 상품 추가");
     }, [setHeaderText]);
 
-    // Check what is being returned
-    useEffect(() => {
-        if (selectedProduct) {
-            console.log("Selected Product:", selectedProduct);
-        }
-    }, [selectedProduct]);
+
+    
 
     const handleAmountChange = (value, valid) => {
         setAmount(value);

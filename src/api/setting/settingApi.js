@@ -4,7 +4,7 @@ import { axiosInstance } from "../common/axiosInstance";
 const getUserInfo = async () => {
 	try {
 		const res = await axiosInstance.get(`${url}/users/myinfo`);
-		console.log(res.data);
+
 		return res.data;
 	} catch (error) {
 		throw new Error("Failed to fetch data");

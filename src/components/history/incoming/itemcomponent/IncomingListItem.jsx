@@ -5,8 +5,7 @@ import IncomingModifiedModal from "./IncomingModifiedModal";
 const IncomingListItem = ({ item }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const price = item.incomingPrice / item.quantity;
-	console.log(item);
-	const [amount, setAmount] = useState(Math.floor(price)); // 초기 금액 설정
+	const [amount, setAmount] = useState(Math.floor(price));
 
 	const handleOpenModal = () => {
 		setIsModalOpen(true);
@@ -18,7 +17,7 @@ const IncomingListItem = ({ item }) => {
 
 	const handleSaveAmount = (newAmount) => {
 		setAmount(newAmount);
-		setIsModalOpen(false); // Close the modal after saving
+		setIsModalOpen(false); 
 	};
 
 	return (
@@ -57,7 +56,7 @@ const IncomingListItem = ({ item }) => {
 				isOpen={isModalOpen}
 				onClose={handleCloseModal}
 				onSave={handleSaveAmount}
-				initialAmount={amount} // 원래 금액을 전달
+				initialAmount={amount}
 			/>
 		</div>
 	);

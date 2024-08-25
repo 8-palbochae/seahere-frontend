@@ -12,7 +12,7 @@ const getInventoryList = async (pageNum, size, searchOption) => {
 
         return response.data.content.content;
     } catch (error) {
-        console.error('Error fetching data:', error);
+
         throw new Error("서버 연결 실패");
     }
 };
@@ -27,7 +27,6 @@ const getInventoryDetails = async (name, category) => {
         });
         return response.data.content.content;
     } catch (error) {
-        console.error('Error fetching data:', error);
         throw new Error("서버 연결 실패");
     }
 };
@@ -47,7 +46,6 @@ const updateInventoryQuantity = async (inventoryId, reason, afterQuantity) => {
         });
 
     } catch (error) {
-        console.error('Error updating inventory:', error.message);
         throw new Error("서버 연결 실패");
     }
 }

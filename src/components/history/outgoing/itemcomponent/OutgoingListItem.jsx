@@ -8,7 +8,7 @@ const OutgoingListItem = ({ item }) => {
 	const [isSwiped, setIsSwiped] = useState(false);
 	const [showOutgoingComplete, setShowOutgoingComplete] = useState(false);
 	const isNotComplete = item.state !== "COMPLETE" && item.state !== "REJECT";
-	// 핸들러 함수들
+
 	const handleSwipeLeft = () => {
 		if (isNotComplete) {
 			setIsSwiped(true);

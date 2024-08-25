@@ -1,2 +1,1 @@
-//주소 ngrok forwarding 주소로
-export const url = "http://localhost:8080/api";
+export const url = process.env.REACT_APP_API_URL;

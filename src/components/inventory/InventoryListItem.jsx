@@ -12,7 +12,7 @@ const InventoryListItem = ({ product }) => {
     const handleToggle = () => {
         setIsExpanded(prevState => !prevState);
     };
-    console.log(product)
+
     useEffect(() => {
         if (isExpanded) {
             const fetchData = async () => {

@@ -17,7 +17,6 @@ const InventorySetting = () => {
 		},
 	});
 
-	console.log(data);
 	if (isPending) {
 		return (
 			<div>

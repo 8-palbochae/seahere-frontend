@@ -6,7 +6,6 @@ const BrokerInventoryItem = ({ inventory }) => {
     return (
         <div className='flex flex-row justify-between items-center w-full border-b-2 border-gray-200 rounded-md'>
             <div className='w-1/5 flex flex-col items-center text-center p-2 '>
-                {/* Square container for image */}
                 <div className='relative w-14 h-14'>
                     <img 
                         src={inventory.imgUrl} 
@@ -24,11 +23,6 @@ const BrokerInventoryItem = ({ inventory }) => {
                 <div className='text-md'>{inventory.country}</div>
                 <div className='text-md'>{inventory.naturalStatus}</div>
             </div>
-            {/* <div className='w-3/12 flex flex-col items-center text-center border-gray-300 p-2'>
-                <div>
-                    <span className='font-bold text-blue-600'>{inventory.country}</span>
-                </div>
-            </div> */}
         </div>
     );
 };
@@ -40,7 +34,7 @@ BrokerInventoryItem.propTypes = {
         imgUrl: PropTypes.string,
         category: PropTypes.string.isRequired,
         country: PropTypes.string.isRequired,
-        naturalStatus: PropTypes.string.isRequired,// Assuming weight is part of the response
+        naturalStatus: PropTypes.string.isRequired,
     }).isRequired,
 };
 

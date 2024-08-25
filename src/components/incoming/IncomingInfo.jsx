@@ -65,15 +65,9 @@ const IncomingInfo = ({ onAmountChange, onPriceChange, isAmountValid, isPriceVal
 
         try {
             const response = await saveIncomingData(data);
-            if (!response.ok) {
-                throw new Error("데이터 저장 실패");
-            }
-            else {
-                setModalTitle('입고 등록');
-                setModalMessage('입고 등록이 완료되었습니다');
-                setShowModal(true);
-
-            }
+            setModalTitle('입고 등록');
+            setModalMessage('입고 등록이 완료되었습니다');
+            setShowModal(true);
         } catch (error) {
             console.error('Error saving data:', error);
         }

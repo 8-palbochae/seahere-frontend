@@ -18,7 +18,7 @@ const EmployeeList = ({ data }) => {
 		},
 	});
 
-	console.log(data);
+
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const showModal = (employeeId) => {
 		setSelectedEmployeeId(employeeId);
@@ -30,7 +30,6 @@ const EmployeeList = ({ data }) => {
 	};
 	const handleDelete = () => {
 		if (selectedEmployeeId) {
-			console.log(selectedEmployeeId);
 			mutation.mutate(selectedEmployeeId);
 		}
 	};
