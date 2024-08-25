@@ -117,18 +117,6 @@ const SearchInput = ({value}) => {
 		};
 	}, []);
 
-	// useEffect(() => {
-	// 	if (!isLoading&&data) {
-	// 		if (query.length > 0) {
-	// 			const filteredSuggestions = data.filter(({ productName }) =>
-	// 				productName.toLowerCase().includes(query.toLowerCase())
-	// 			);
-	// 			setSuggestions(filteredSuggestions);
-	// 		} else {
-	// 			setSuggestions([]);
-	// 		}
-	// 	}
-	// }, [query, data,isLoading]);
 
 	return (
 		<div>
