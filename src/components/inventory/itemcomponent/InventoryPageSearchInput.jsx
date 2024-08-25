@@ -5,27 +5,24 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 const InventoryPageSearchInput = ({ value }) => {
-	let { data, isPending, isError, error } = useQuery({
-		queryKey: ["productList"],
-		queryFn: () => getProductList(value),
-		enabled: value !== undefined && value !== null,
-	});
+
 	const [query, setQuery] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
 	const navigate = useNavigate();
 
+	const { data, isLoading, isError, error } = useQuery({
+		queryKey: ["productList", query],
+		queryFn: () => getProductList(query),
+		enabled: query?.length > 0,
+	});
+
 	useEffect(() => {
-		if (!isPending) {
-			if (query.length > 0) {
-				const filteredSuggestions = data.filter(({ productName }) =>
-					productName.toLowerCase().includes(query.toLowerCase())
-				);
-				setSuggestions(filteredSuggestions);
-			} else {
-				setSuggestions([]);
-			}
+		if (data && query.length > 0) {			
+			setSuggestions(data);
+		} else {
+			setSuggestions([]);
 		}
-	}, [query, data]);
+	}, [data, query]);
 
 	const handleSuggestionClick = (suggestion) => {
 		navigate("/inventories", {
