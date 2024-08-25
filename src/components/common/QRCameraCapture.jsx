@@ -7,20 +7,22 @@ const QRCameraCapture = ({ onCapture, onCancel }) => {
     const videoRef = useRef(null);
     const [isCameraOpen, setIsCameraOpen] = useState(false);
     const [isFacingModeUser, setIsFacingModeUser] = useState(true);
+    const [stream, setStream] = useState(null);
 
     useEffect(() => {
         const openCamera = async () => {
             setIsCameraOpen(true);
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({
+                const mediaStream = await navigator.mediaDevices.getUserMedia({
                     video: {
                         facingMode: isFacingModeUser ? 'user' : 'environment',
                         width: { ideal: 1280 },
                         height: { ideal: 720 }
                     }
                 });
+                setStream(mediaStream);
                 if (videoRef.current) {
-                    videoRef.current.srcObject = stream;
+                    videoRef.current.srcObject = mediaStream;
                 }
             } catch (error) {
                 console.error('Error accessing camera:', error);
@@ -30,9 +32,8 @@ const QRCameraCapture = ({ onCapture, onCancel }) => {
         openCamera();
 
         return () => {
-            if (videoRef.current && videoRef.current.srcObject) {
-                let tracks = videoRef.current.srcObject.getTracks();
-                tracks.forEach(track => track.stop());
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
             }
         };
     }, [isFacingModeUser]);
@@ -46,12 +47,21 @@ const QRCameraCapture = ({ onCapture, onCancel }) => {
             context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
             canvas.toBlob((blob) => {
                 onCapture(blob);
+                handleCancel();
             }, 'image/jpeg');
         }
     };
 
     const handleSwitchCamera = () => {
         setIsFacingModeUser(prevMode => !prevMode);
+    };
+
+    const handleCancel = () => {
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+        }
+        setIsCameraOpen(false);
+        onCancel();
     };
 
     return (
@@ -85,14 +95,14 @@ const QRCameraCapture = ({ onCapture, onCancel }) => {
             }}>
                 <p style={{ marginBottom: '10px' }}>QR코드를 찍어주세요!</p>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px' }}>
-                    <button onClick={onCancel} style={{ border: 'none', background: 'none' }}>
+                    <button onClick={handleCancel} style={{ border: 'none', background: 'none' }}>
                         <img src={cancel} alt="Cancel" />
                         <p>취소</p>
                     </button>
                     <button onClick={handleCapture} style={{ border: 'none', background: 'none' }}>
                         <img src={CameraCaptureIcon} alt="Capture" />
                     </button>
-                    <button onClick={onCancel} style={{ border: 'none', background: 'none' }}>
+                    <button onClick={handleCancel} style={{ border: 'none', background: 'none' }}>
                         <p>직접 입력</p>
                     </button>
                 </div>

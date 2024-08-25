@@ -24,6 +24,7 @@ import "dayjs/locale/ko";
 import ko_KR from "antd/es/locale/ko_KR";
 import { duplicateCompany } from "../../../api/broker/brokerDuplicateApi";
 import CompanyDuplicateModal from "../itemcomponent/CompanyDuplicateModal";
+import OCRCheckModal from "../itemcomponent/OCRCheckModal";
 
 dayjs.locale("ko");
 dayjs.extend(customParseFormat);
@@ -48,25 +49,23 @@ const SignUpBroker = () => {
     const [companyName, setCompanyName] = useState("");
     const [businessNumber, setBusinessNumber] = useState("");
     const [isCameraOpen, setIsCameraOpen] = useState(false);
-
-    const [isDuplicateModalOpen, setIsDuplicateModalOpen] = useState(false); 
-	useEffect(() => {
-		console.log(isDuplicateModalOpen)
-	},[isDuplicateModalOpen])
+    const [isDuplicateModalOpen, setIsDuplicateModalOpen] = useState(false);
+    const [isOCRCheckModalOpen, setIsOCRCheckModalOpen] = useState(false);
+    const [ocrSuccess, setOcrSuccess] = useState(false);
     const { setCompanyId } = useUserTypeStore.getState();
+
+    useEffect(() => {
+        console.log(isDuplicateModalOpen);
+    }, [isDuplicateModalOpen]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         if (!openDate || !dayjs(openDate).isValid()) {
-            console.error("Invalid date:", openDate);
             alert("유효한 개업 일자를 선택해 주세요.");
             return;
         }
-        try {			
-            const duplicateData = await duplicateCompany(
-                businessNumber
-            );			
+        try {
+            const duplicateData = await duplicateCompany(businessNumber);
             if (duplicateData === 409) {
                 setIsDuplicateModalOpen(true);
                 return;
@@ -92,7 +91,6 @@ const SignUpBroker = () => {
             address || "",
             detailAddress || ""
         );
-
         try {
             const response = await postCompany(company);
             setCompanyId(response);
@@ -108,30 +106,31 @@ const SignUpBroker = () => {
     const handleCapture = async (imageDataUrl) => {
         try {
             const ocrResult = await uploadImageForOCR(imageDataUrl);
-
-            const extractedCompanyName = ocrResult.companyName || "";
-            const extractedBusinessNumber =
-                ocrResult.businessNumber.replace(/-/g, "") || "";
-            const extractedRepresentativeName =
-                ocrResult.representativeName || "";
-            const extractedAddress = ocrResult.address || "";
-            const openDateRaw = ocrResult.openDate || "";
-
-            setCompanyName(extractedCompanyName);
-            setBusinessNumber(extractedBusinessNumber);
-            setRepresentativeName(extractedRepresentativeName);
-            setDetailAddress(extractedAddress);
-
-            const formattedOpenDate = dayjs(
-                openDateRaw,
-                "YYYY 년 MM 월 DD 일"
-            ).format("YYYY-MM-DD");
-            setDate(formattedOpenDate);
+            if (ocrResult && (ocrResult.companyName || ocrResult.businessNumber || ocrResult.representativeName || ocrResult.address)) {
+                setOcrSuccess(true);
+                setCompanyName(ocrResult.companyName || "");
+                setBusinessNumber(ocrResult.businessNumber.replace(/-/g, "") || "");
+                setRepresentativeName(ocrResult.representativeName || "");
+                setDetailAddress(ocrResult.address || "");
+                const formattedOpenDate = dayjs(ocrResult.openDate || "", "YYYY 년 MM 월 DD 일").format("YYYY-MM-DD");
+                setDate(formattedOpenDate);
+                setIsOCRCheckModalOpen(false);
+            } else {
+                setOcrSuccess(false);
+                setIsOCRCheckModalOpen(true);
+            }
         } catch (error) {
+            setOcrSuccess(false);
+            setIsOCRCheckModalOpen(true);
             console.error("Error during OCR processing:", error);
         } finally {
             setIsCameraOpen(false);
         }
+    };
+
+    const handleRetake = () => {
+        setIsOCRCheckModalOpen(false);
+        setIsCameraOpen(true);
     };
 
     const handleCancel = () => {
@@ -206,12 +205,7 @@ const SignUpBroker = () => {
                                 }}
                                 placeholder="개업 일자"
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md font-normal text-black leading-normal"
-                                style={{ width: "100%" }}
-                                value={
-                                    openDate
-                                        ? dayjs(openDate, dateFormat)
-                                        : null
-                                }
+                                value={openDate ? dayjs(openDate, dateFormat) : null}
                             />
                         </ConfigProvider>
                     </div>
@@ -251,6 +245,12 @@ const SignUpBroker = () => {
                         onCancel={handleCancel}
                     />
                 </div>
+            )}
+            {isOCRCheckModalOpen && !ocrSuccess && (
+                <OCRCheckModal
+                    onClose={() => setIsOCRCheckModalOpen(false)}
+                    onRetakeClick={handleRetake}
+                />
             )}
         </Background>
     );
