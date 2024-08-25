@@ -7,7 +7,7 @@ export const duplicateCompany = async (regNumber) => {
         const body = {
             registrationNumber: regNumber
         };
-
+        console.log(url);
         const res = await axios.post(`${url}/companies/duplicate`, body, {
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
