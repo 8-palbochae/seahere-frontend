@@ -39,6 +39,7 @@ const SignUpBroker = () => {
         postCode,
         address,
         detailAddress,
+        setAddress,
         setDetailAddress,
         openPostcode,
         closePostcode,
@@ -107,7 +108,7 @@ const SignUpBroker = () => {
                 setCompanyName(ocrResult.companyName || "");
                 setBusinessNumber(ocrResult.businessNumber.replace(/-/g, "") || "");
                 setRepresentativeName(ocrResult.representativeName || "");
-                setDetailAddress(ocrResult.address || "");
+                setAddress(ocrResult.address || "");
                 const formattedOpenDate = dayjs(ocrResult.openDate || "", "YYYY 년 MM 월 DD 일").format("YYYY-MM-DD");
                 setDate(formattedOpenDate);
                 setIsOCRCheckModalOpen(false);

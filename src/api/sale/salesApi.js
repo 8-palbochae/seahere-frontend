@@ -33,16 +33,15 @@ const IncomingMonthSales = async (data) => {
 }
 
 const OutgoingWeekSales = async (data) => {
+  
     try {
         const res = await axiosInstance.post(`${url}/outgoing/week`, data, {
             headers: {
                 "Content-Type": "application/json; charset=UTF-8",
             },
         });
-
         return res.data;
     } catch (error) {
-
         throw new Error("데이터 저장 실패");
     }
 };
