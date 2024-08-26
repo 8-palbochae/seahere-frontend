@@ -8,21 +8,23 @@ ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 const FishChart = ({ data }) => {
     if (!data) return null;
 
-    const sortedData = [...data].sort((a,b)=>b.price-a.price);
+    const sortedData = [...data].sort((a, b) => b.price - a.price);
 
+    // 데이터가 5개 이상인 경우에만 기타 항목 추가
+    let finalData;
+    if (sortedData.length > 5) {
+        const top5Data = sortedData.slice(0, 5);
+        const otherData = sortedData.slice(5);
+        const otherTotal = otherData.reduce((acc, item) => acc + item.price, 0);
 
-     const top5Data = sortedData.slice(0, 5);
-     const otherData = sortedData.slice(5);
- 
+        finalData = [
+            ...top5Data,
+            { productName: "기타", price: otherTotal }
+        ];
+    } else {
+        finalData = sortedData;
+    }
 
-     const otherTotal = otherData.reduce((acc, item) => acc + item.price, 0);
- 
-
-     const finalData = [
-         ...top5Data,
-         { productName: "기타", price: otherTotal }
-     ];
- 
     const chartData = {
         labels: finalData.map(item => item.productName),
         datasets: [
@@ -92,8 +94,6 @@ const FishChart = ({ data }) => {
                 align: 'start',
                 offset: 5,
                 borderRadius: 3,
-        
-            
             },
         },
     };
