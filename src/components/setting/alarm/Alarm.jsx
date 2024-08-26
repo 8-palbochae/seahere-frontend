@@ -30,8 +30,6 @@ const Alarm = () => {
 			setItems(data);
 		},
 	});
-	console.log(items);
-	console.log(checkedValues);
 	const [open, setOpen] = useState(false);
 
 	const updateItem = (updatedItem) => {
