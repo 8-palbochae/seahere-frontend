@@ -10,7 +10,7 @@ const FishChart = ({ data }) => {
 
     const sortedData = [...data].sort((a, b) => b.price - a.price);
 
-    // 데이터가 5개 이상인 경우에만 기타 항목 추가
+
     let finalData;
     if (sortedData.length > 5) {
         const top5Data = sortedData.slice(0, 5);
