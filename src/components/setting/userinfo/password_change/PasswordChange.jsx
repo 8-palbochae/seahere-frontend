@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthenticationStore } from "../../../../stores/authentication";
 import { axiosInstance } from "../../../../api/common/axiosInstance";
+import { url } from '../../../../constants/defaultUrl';
 const PasswordChange = () => {
 	const { setAccessToken, setRefreshToken } = useAuthenticationStore();
 	const [loading, setLoading] = useState(true); 
@@ -18,7 +19,7 @@ const PasswordChange = () => {
 
 	const handleSubmit = async () => {
 		try {
-			const response = await axiosInstance.patch("/users", {
+			const response = await axiosInstance.patch(`${url}/users`, {
 				password: password,
 			});
 
