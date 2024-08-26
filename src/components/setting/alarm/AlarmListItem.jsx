@@ -29,6 +29,7 @@ const AlarmListItem = ({
 	const showModal = () => {
 		setIsModalOpen(true);
 	};
+
 	return (
 		<>
 			<SaleInventorySettingModal
@@ -48,7 +49,7 @@ const AlarmListItem = ({
 					<div className="flex flex-col justify-center items-center gap-2 ">
 						<img
 							className="w-10 h-10 rounded-full object-cover "
-							src={productImg}
+							src={item.imgUrl}
 							alt="Product"
 						/>
 						<span className="text-gray-800">{item.name}</span>

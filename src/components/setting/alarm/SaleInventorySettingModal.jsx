@@ -20,9 +20,7 @@ const SaleInventorySettingModal = ({
 	};
 
 	const onChange = (price) => {
-		if (/^\d*\.?\d*$/.test(price)) {
-			setDiscountPrice(price);
-		}
+		setDiscountPrice(price);
 	};
 
 	const handleCancel = () => {
@@ -48,7 +46,7 @@ const SaleInventorySettingModal = ({
 			<div className="flex flex-col gap-3">
 				<div className="flex justify-around gap-3 p-3">
 					<div className="w-1/3 rounded-[20px] self-center">
-						<img src={productImg} alt="상품이미지" />
+						<img src={item.imgUrl} alt="상품이미지" />
 					</div>
 					<div className="flex flex-col gap-2">
 						<div className="self-center">
