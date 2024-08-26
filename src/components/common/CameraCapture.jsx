@@ -5,38 +5,54 @@ import CameraSwitchIcon from '../../assets/common/camera-switch.svg';
 
 const CameraCapture = ({ onCapture, onCancel }) => {
     const videoRef = useRef(null);
-    const [isCameraOpen, setIsCameraOpen] = useState(false);
+    const mediaStreamRef = useRef(null);
+    const requestMediaId = useRef(0);
     const [isFacingModeUser, setIsFacingModeUser] = useState(true);
-    const [stream, setStream] = useState(null);
+
+    const playStream = () => {
+        requestMediaId.current++;
+        const myRequestMediaId = requestMediaId.current;
+
+        navigator.mediaDevices.getUserMedia({
+            video: {
+                facingMode: isFacingModeUser ? 'user' : 'environment',
+                width: { ideal: 1280 },
+                height: { ideal: 720 }
+            }
+        }).then(stream => {
+            if (myRequestMediaId !== requestMediaId.current) {
+                stopStream(stream);
+            } else {
+                mediaStreamRef.current = stream;
+                if (videoRef.current) {
+                    videoRef.current.srcObject = stream;
+                    console.log('Camera started');
+                }
+            }
+        }).catch(error => {
+            console.error('Error accessing camera:', error);
+        });
+    };
+
+    const stopStream = (stream) => {
+        if (stream) {
+            stream.getTracks().forEach(track => {
+                stream.removeTrack(track);
+                track.stop();
+            });
+            console.log('Camera stopped');
+        }
+    };
 
     useEffect(() => {
-        const openCamera = async () => {
-            setIsCameraOpen(true);
-            try {
-                const mediaStream = await navigator.mediaDevices.getUserMedia({
-                    video: {
-                        facingMode: isFacingModeUser ? 'user' : 'environment',
-                        width: { ideal: 1280 },
-                        height: { ideal: 720 }
-                    }
-                });
-                setStream(mediaStream);
-                if (videoRef.current) {
-                    videoRef.current.srcObject = mediaStream;
-                }
-            } catch (error) {
-                console.error('Error accessing camera:', error);
-            }
-        };
-
-        openCamera();
+        playStream();
 
         return () => {
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
+            if (mediaStreamRef.current) {
+                stopStream(mediaStreamRef.current);
             }
         };
-    }, [isFacingModeUser, stream]);
+    }, [isFacingModeUser]);
 
     const handleCapture = () => {
         if (videoRef.current) {
@@ -47,6 +63,7 @@ const CameraCapture = ({ onCapture, onCancel }) => {
             context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
             canvas.toBlob((blob) => {
                 onCapture(blob);
+                stopStream(mediaStreamRef.current);
             }, 'image/jpeg');
         }
     };
@@ -56,30 +73,25 @@ const CameraCapture = ({ onCapture, onCancel }) => {
     };
 
     const handleCancel = () => {
-        if (stream) {
-            stream.getTracks().forEach(track => track.stop());
-        }
-        setIsCameraOpen(false);
+        stopStream(mediaStreamRef.current);
         onCancel();
     };
 
     return (
         <div style={{ position: 'relative', width: '100%', height: '100%', zIndex: 1000 }}>
-            {isCameraOpen && (
-                <video
-                    ref={videoRef}
-                    autoPlay
-                    playsInline
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                    }}
-                />
-            )}
+            <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                }}
+            />
             <div style={{
                 position: 'absolute',
                 bottom: 0,
