@@ -1,4 +1,3 @@
-// src/components/InventoryDeleteConfirmModal.js
 import React from 'react';
 
 const InventoryDeleteModal = ({ isOpen, onClose, onConfirm }) => {

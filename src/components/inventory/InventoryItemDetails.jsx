@@ -3,9 +3,8 @@ import PropTypes from "prop-types";
 import useInventorySlide from "../../hooks/inventory/useInventorySlide";
 import { inventoryIcon } from "../../constants/inventory/inventory.image";
 import InventoryEditModal from "./modal/InventoryEditModal";
-// import InventoryDeleteModal from './modal/InventoryDeleteModal';
 
-const InventoryItemDetails = ({ detailData }) => {
+const InventoryItemDetails = ({ detailData, productImg }) => {
 	const {
 		isSlid,
 		handleTouchStart,
@@ -29,13 +28,7 @@ const InventoryItemDetails = ({ detailData }) => {
 	const openModal = () => setIsModalOpen(true);
 	const closeModal = () => setIsModalOpen(false);
 
-	// const openDeleteConfirm = () => setIsDeleteConfirmOpen(true);
-	// const closeDeleteConfirm = () => setIsDeleteConfirmOpen(false);
-
-	// const handleDelete = () => {
-	//     console.log("Item deleted");
-	//     closeDeleteConfirm();
-	// };
+	
 
 	return (
 		<div
@@ -62,7 +55,7 @@ const InventoryItemDetails = ({ detailData }) => {
 						<span className="w-1/6 text-sm font-semibold truncate text-center text-blue-600">
 							{quantity.toLocaleString()} Kg
 						</span>
-						<span className="w-1/6 text-sm truncate text-center">
+						<span className="w-1/6 text-sm whitespace-nowrap text-center">
 							{incomingDate}
 						</span>
 					</div>
@@ -84,11 +77,7 @@ const InventoryItemDetails = ({ detailData }) => {
 							alt="Edit"
 						/>
 					</button>
-					{/* 
-                    <button className="flex-1 flex items-center justify-center p-0 bg-red-500" onClick={openDeleteConfirm}>
-                        <img src={inventoryIcon.deleteIcon} className='w-3/5 h-3/5 object-contain' alt="Delete" />
-                    </button>
-                    */}
+					
 				</div>
 			</div>
 			<InventoryEditModal
@@ -97,12 +86,9 @@ const InventoryItemDetails = ({ detailData }) => {
 				isOpen={isModalOpen}
 				onClose={closeModal}
 				inventoryId={inventoryId}
+				productImg={productImg}
 			/>
-			{/* <InventoryDeleteModal
-                isOpen={isDeleteConfirmOpen}
-                onClose={closeDeleteConfirm}
-                onConfirm={handleDelete}
-            /> */}
+			
 		</div>
 	);
 };

@@ -7,10 +7,15 @@ import Trade from "./Trade";
 import Sales from "./Sales";
 import { authenticationGet } from '../../../api/user/authApi';
 import { useAuthenticationStore } from '../../../stores/authentication';
+import { useHeaderText } from "../../../stores/headerText";
 
 const BrokerMain = () => {
-	const {accessToken,refreshToken,setAccessToken, setRefreshToken, deleteCookie } = useAuthenticationStore();
-
+	const { accessToken, refreshToken, setAccessToken, setRefreshToken, deleteCookie } = useAuthenticationStore();
+	const { setHeaderText } = useHeaderText();
+	useEffect(() => {
+		setHeaderText("홈");
+		return () => setHeaderText("메인");
+	}, [setHeaderText]);
 	return (
 		<div className="flex flex-col items-center w-full gap-3">
 			<div className="p-2 rounded-[20px] w-full h-1/5">

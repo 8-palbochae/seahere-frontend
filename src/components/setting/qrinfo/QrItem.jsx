@@ -1,84 +1,79 @@
 import React, { useState } from "react";
-import { Checkbox, Modal } from "antd";
-import settingIcon from "../../../constants/setting/setting.image";
+import { Modal, Checkbox, Button } from "antd";
 
-const QrItem = ({ qrCode, onClick, onCheckedChange }) => {
+const QrItem = ({ product, checked, onCheckedChange, onModalOpen }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [isImageOpen, setIsImageOpen] = useState(false);
-	const [checked, setChecked] = useState(false);
+
 	const showModal = () => {
 		setIsModalOpen(true);
 	};
-	const showImage = () => {
-		setIsImageOpen(true);
-	};
-	const handleImageClose = () => {
-		setIsImageOpen(false);
-	};
-	const handleClose = () => {
-		setIsModalOpen(false);
-	};
 
-	const onClickModalClose = () => {
+	const handleModalClose = () => {
 		setIsModalOpen(false);
 	};
 
 	const handleCheckboxChange = (event) => {
 		const isChecked = event.target.checked;
-		setChecked(isChecked);
-		onCheckedChange(isChecked);
+		onCheckedChange(product.productId, isChecked);
+	};
+
+	const handleDownloadClick = () => {
+		onModalOpen();
+		setIsModalOpen(false);
 	};
 
 	return (
 		<>
-			<Modal
-				title="Qr 이미지 전송"
-				open={isModalOpen}
-				footer={null}
-				maskClosable={true}
-				onCancel={handleClose}
+			<div
+				className="flex flex-col w-full bg-white border-b-2 rounded-lg p-4 gap-4 cursor-pointer"
 			>
-				<div className="flex flex-col gap-2">
-					<hr />
-					<button
-						onClick={onClickModalClose}
-						className="bg-gray-300 rounded-[20px] p-2"
-					>
-						{"이메일로 이미지 보내기"}
-					</button>
-				</div>
-			</Modal>
-			<Modal
-				title={"광어 / 활어 QR"}
-				open={isImageOpen}
-				footer={null}
-				maskClosable={true}
-				onCancel={handleImageClose}
-			>
-				<div className="flex flex-col gap-2">
-					<img src={settingIcon.qrCode} alt="qr-code" />
-				</div>
-			</Modal>
-			<div className="flex flex-col w-full bg-white border-b-2 rounded-[20px] p-2 gap-3">
-				<div className="flex items-center gap-4">
+				<div className="flex items-center gap-6">
 					<div>
-						<Checkbox onChange={handleCheckboxChange} />
+						<Checkbox
+							checked={checked}
+							onClick={(e) => e.stopPropagation()}
+							onChange={handleCheckboxChange}
+						/>
 					</div>
 					<div
-						className="bg-white p-2  rounded-[20px] w-2/5 "
-						onClick={showImage}
+						className="bg-white p-4 rounded-lg w-3/5 text-lg font-semibold"
+						onClick={showModal}
 					>
-						{"광어 / 활어"}
+						{product.productName}
 					</div>
 					<div className="flex-grow flex justify-end">
 						<img
-							src={settingIcon.moreIcon}
-							alt="more-icon"
+							src={product.qr}
+							alt="product-qr-code"
+							className="cursor-pointer w-16 h-16"
 							onClick={showModal}
 						/>
 					</div>
 				</div>
 			</div>
+
+			<Modal
+				title={`${product.productName} QR`}
+				open={isModalOpen}
+				footer={null}
+				maskClosable={true}
+				onCancel={handleModalClose}
+			>
+				<div className="flex flex-col gap-2">
+					<img src={product.qr} alt="qr-code" style={{ width: '100%' }} />
+					<div className="flex justify-between mt-4">
+						<Checkbox
+							onChange={handleCheckboxChange}
+							checked={checked}
+						>
+							선택
+						</Checkbox>
+						<Button type="primary" onClick={handleDownloadClick}>
+							다운로드
+						</Button>
+					</div>
+				</div>
+			</Modal>
 		</>
 	);
 };

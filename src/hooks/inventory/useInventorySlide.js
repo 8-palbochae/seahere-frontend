@@ -1,4 +1,4 @@
-// useSlide.js
+
 import { useState, useRef } from 'react';
 
 const useInventorySlide = (threshold = 50) => {
@@ -23,7 +23,7 @@ const useInventorySlide = (threshold = 50) => {
     };
 
     const handleMouseMove = (e) => {
-        if (e.buttons === 1) { // Ensure the left mouse button is pressed
+        if (e.buttons === 1) { 
             const mouseX = e.clientX;
             if (startX.current - mouseX > threshold) {
                 setIsSlid(true);

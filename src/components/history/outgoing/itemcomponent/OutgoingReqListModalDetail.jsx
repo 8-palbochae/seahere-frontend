@@ -58,7 +58,7 @@ const OutgoingReqListModalDetail = ({ item, partialOutgoing }) => {
 					<img
 						className="w-[60px] h-[60px] object-cover relative bottom-3"
 						alt="Image"
-						src={nupchiIcon}
+						src={item.productImg}
 					/>
 					<div className="absolute top-[60%] left-0 right-0 text-center truncate text-black font-normal text-base rounded-md px-2 py-1 bg-white bg-opacity-100">
 						{item.productName}
@@ -73,7 +73,7 @@ const OutgoingReqListModalDetail = ({ item, partialOutgoing }) => {
 
 				<div className="text-center flex-1">
 					<div className="text-black font-normal text-base truncate">
-						{item.price}원
+						{item.price ===0?"트레이드":`${item.price.toLocaleString()}원`}
 					</div>
 				</div>
 
@@ -89,7 +89,7 @@ const OutgoingReqListModalDetail = ({ item, partialOutgoing }) => {
 				</div>
 			</div>
 
-			{/* 삭제 버튼 */}
+
 			{isSwiped && (
 				<button
 					className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-red-500 text-white px-4 py-9 rounded-md z-10"

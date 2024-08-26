@@ -4,18 +4,15 @@ import { axiosInstance } from "../common/axiosInstance";
 
 const getInventoryList = async (pageNum, size, searchOption) => {
     try {
-        console.log("pageNum, size, search:", pageNum, size, searchOption)
         const response = await axiosInstance.get(`${url}/inventories?page=${pageNum}&size=${size}&search=${searchOption}`, {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
             }
         });
 
-        console.log(response)
-
         return response.data.content.content;
     } catch (error) {
-        console.error('Error fetching data:', error);
+
         throw new Error("서버 연결 실패");
     }
 };
@@ -30,7 +27,6 @@ const getInventoryDetails = async (name, category) => {
         });
         return response.data.content.content;
     } catch (error) {
-        console.error('Error fetching data:', error);
         throw new Error("서버 연결 실패");
     }
 };
@@ -50,7 +46,6 @@ const updateInventoryQuantity = async (inventoryId, reason, afterQuantity) => {
         });
 
     } catch (error) {
-        console.error('Error updating inventory:', error.message);
         throw new Error("서버 연결 실패");
     }
 }

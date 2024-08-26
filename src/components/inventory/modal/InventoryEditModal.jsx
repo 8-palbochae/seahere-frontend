@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import productImg from '../../../assets/income/product.svg';
 import { Select } from 'antd';
 import InventoryEditCheckModal from './InventoryEditCheckModal';
 
-const InventoryEditModal = ({ name, quantity, isOpen, onClose, inventoryId }) => {
+const InventoryEditModal = ({ name, quantity, isOpen, onClose, inventoryId,productImg }) => {
     const [isCheckModalOpen, setIsCheckModalOpen] = useState(false);
     const [afterQuantity, setAfterQuantity] = useState('');
     const [isCompleteDisabled, setIsCompleteDisabled] = useState(true);
@@ -52,7 +51,7 @@ const InventoryEditModal = ({ name, quantity, isOpen, onClose, inventoryId }) =>
                 <div className="bg-white w-80 p-6 rounded shadow-lg">
                     <form className='flex flex-col'>
                         <div className='flex justify-center items-center mb-4'>
-                            <img src={productImg} className='w-24 h-24 object-cover mr-4' alt="Product" />
+                            <img src={productImg} className='w-24 h-24 object-fill mr-4' alt="Product" />
                             <div className='flex flex-col gap-2'>
                                 <p>{name}</p>
                                 <p>현재재고 : {quantity}kg</p>

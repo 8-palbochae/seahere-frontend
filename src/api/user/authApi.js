@@ -4,8 +4,8 @@ import { url } from "../../constants/defaultUrl";
 const postEmailLogin = async (loginInfo) => {
     const body = {
         "email": loginInfo.email,
-        "password" : loginInfo.password,
-    }; 
+        "password": loginInfo.password,
+    };
     try {
         const response = await axios.post(`${url}/login`, body, {
             headers: {
@@ -14,14 +14,14 @@ const postEmailLogin = async (loginInfo) => {
             withCredentials: true
         });
 
-        if(response.status===200){ 
-            const access = response.headers['authorization']; // 서버에서 설정한 헤더 이름으로 변경
-            const refresh = response.headers['authorization-refresh']; 
+        if (response.status === 200) {
+            const access = response.headers['authorization'];
+            const refresh = response.headers['authorization-refresh'];
 
             return [access, refresh];
         }
-        else{
-            
+        else {
+
         }
     } catch (error) {
         if (error.response) {
@@ -51,18 +51,18 @@ const authenticationGet = async () => {
     try {
         const response = await axios.get('http://localhost:8080/authentication/protected', {
             headers: {
-                'Accept': 'application/json' 
+                'Accept': 'application/json'
             },
-            withCredentials: true 
+            withCredentials: true
         });
-        
-        if(response.status===200){ 
-            const access = response.headers['authorization']; // 서버에서 설정한 헤더 이름으로 변경
-            const refresh = response.headers['authorization-refresh']; 
+
+        if (response.status === 200) {
+            const access = response.headers['authorization'];
+            const refresh = response.headers['authorization-refresh'];
             return [access, refresh];
         }
-        else{
-            
+        else {
+
         }
     } catch (error) {
         if (error.response) {
@@ -88,4 +88,4 @@ const authenticationGet = async () => {
 };
 
 
-export { postEmailLogin , authenticationGet};
+export { postEmailLogin, authenticationGet };

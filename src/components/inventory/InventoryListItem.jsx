@@ -35,7 +35,9 @@ const InventoryListItem = ({ product }) => {
                 onClick={handleToggle}
             >
                 <div className='flex flex-col justify-center items-center gap-2 w-1/5'>
-                    <img className='w-10 h-10 rounded-full object-cover' src={productImg} alt="Product" />
+                    <div className='w-12 h-12'>
+                        <img className='w-fuill h-full rounded-full object-fill' src={product.productImg} alt="Product" />
+                    </div>
                     <span className="text-gray-800">{name}</span>
                 </div>
                 <div className='w-1/5 text-center font-bold text-lg text-gray-800'>{category}</div>
@@ -48,6 +50,7 @@ const InventoryListItem = ({ product }) => {
                         <InventoryItemDetails
                             key={detailProduct.inventoryId}
                             detailData={detailProduct}
+                            productImg={product.productImg}
                         />
                     ))}
                 </div>

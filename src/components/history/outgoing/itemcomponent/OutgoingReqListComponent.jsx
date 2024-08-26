@@ -21,7 +21,6 @@ const OutgoingReqListComponent = ({
 		},
 		[isFetchingNextPage, hasNextPage, fetchNextPage]
 	);
-
 	return (
 		<div className="w-full flex flex-col items-center px-2 gap-2 overflow-auto max-h-[70vh] ">
 			{data?.pages?.map((page, pageIndex) => (

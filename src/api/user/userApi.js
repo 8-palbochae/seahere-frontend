@@ -19,10 +19,10 @@ const postUser = async (userInfo, type) => {
             },
         });
 
-        if(res.status===201){ 
+        if (res.status === 201) {
             return res;
         }
-        else{
+        else {
             throw new Error("사업자 회원 가입에 실패하였습니다");
         }
     } catch (error) {
@@ -50,13 +50,13 @@ const postUser = async (userInfo, type) => {
 
 const postSocialUser = async (socialUser) => {
     const body = {
-        "userId" : socialUser.userId,
-        "username" : socialUser.username,
-        "companyId" : socialUser.companyId,
-        "address" : socialUser.address,
-        "type" : socialUser.type,
+        "userId": socialUser.userId,
+        "username": socialUser.username,
+        "companyId": socialUser.companyId,
+        "address": socialUser.address,
+        "type": socialUser.type,
     };
-    
+
     try {
         const res = await axios.post(`${url}/users/oauth`, body, {
             headers: {
@@ -64,11 +64,11 @@ const postSocialUser = async (socialUser) => {
             },
         });
 
-        if(res.status===201){
-            console.log(res); 
+        if (res.status === 201) {
+            console.log(res);
             return res;
         }
-        else{
+        else {
             throw new Error("회원 가입에 실패하였습니다");
         }
     } catch (error) {

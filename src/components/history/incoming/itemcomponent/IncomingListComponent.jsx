@@ -1,14 +1,18 @@
 import React from "react";
 import IncomingListItem from "./IncomingListItem";
 
-const IncomingListComponent = ({ data }) => {
+const IncomingListComponent = ({ data, date }) => {
 	return (
-		<div className="space-y-1">
-			{/*ListItem 간의 gap*/}
-			{data.map((item) => (
-				<IncomingListItem item={item} key={item.incomingId} />
-			))}
-		</div>
+		<>
+			<div className="flex justify-start items-center text-xl w-full ml-3">
+				{date}
+			</div>
+			<div className="w-full flex flex-col items-center ">
+				{data.map((item) => (
+					<IncomingListItem item={item} key={item.incomingId} />
+				))}
+			</div>
+		</>
 	);
 };
 

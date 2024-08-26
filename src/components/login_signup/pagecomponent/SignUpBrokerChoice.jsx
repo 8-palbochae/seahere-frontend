@@ -5,20 +5,29 @@ import back from '../../../assets/login_signup/backbutton.svg';
 import useUserTypeStore from '../../../stores/signupType';
 import Background from '../itemcomponent/Background';
 import ChoiceBox from '../itemcomponent/ChoiceBox';
+import { useSearchParams } from 'react-router-dom';
 
 const SignUpBrokerChoice = () => {
-  const { userType, setUserType } = useUserTypeStore((state) => ({
+  const [params, setParams] = useSearchParams(); 
+  const guestId = params.get('guest');
+
+  const { userType, setUserType, setGuestId } = useUserTypeStore((state) => ({
     userType: state.userType,
     setUserType: state.setUserType,
+    setGuestId: state.setGuestId,
   }));
+
+  useEffect(() => {
+    if (guestId) {
+      setGuestId(guestId)
+    }
+  }, [guestId]);
 
   const handleOnClickUserType = (type) => {
     setUserType(type);
   }
 
-  useEffect(() => {
-    console.log(userType);
-  }, [userType]);
+  
 
 
   return (

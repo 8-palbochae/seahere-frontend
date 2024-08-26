@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import BrokerDeatil from './broker/BrokerDeatil';
-import BrokerSearchInput from '../common/BrokerSearchInput ';
 import { useParams } from 'react-router-dom';
 
 const TradeBrokerMain = () => {
-  const { brokerId } = useParams();
+  const { brokerId } = useParams(); 
+
+  if (!brokerId) {
+    return <p>Broker ID is missing</p>; 
+  }
 
   return (
     <>
-        <BrokerSearchInput/>
-        <BrokerDeatil id={brokerId}/>
+        <BrokerDeatil id={brokerId} />
     </>
   );
 };

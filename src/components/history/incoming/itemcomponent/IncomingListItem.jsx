@@ -5,8 +5,7 @@ import IncomingModifiedModal from "./IncomingModifiedModal";
 const IncomingListItem = ({ item }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const price = item.incomingPrice / item.quantity;
-
-	const [amount, setAmount] = useState(Math.floor(price)); // 초기 금액 설정
+	const [amount, setAmount] = useState(Math.floor(price));
 
 	const handleOpenModal = () => {
 		setIsModalOpen(true);
@@ -18,14 +17,11 @@ const IncomingListItem = ({ item }) => {
 
 	const handleSaveAmount = (newAmount) => {
 		setAmount(newAmount);
-		setIsModalOpen(false); // Close the modal after saving
+		setIsModalOpen(false); 
 	};
 
 	return (
-		<div className="w-full px-2 my-2">
-			<div className="text-gray-700 text-base mb-1 border-b border-gray-300 pb-1">
-				{item.incomingDate}
-			</div>
+		<div className="w-full  my-2">
 			<div
 				className="flex w-full bg-white rounded-lg shadow-xl px-3 py-2 items-center justify-between"
 				onClick={handleOpenModal}
@@ -33,9 +29,9 @@ const IncomingListItem = ({ item }) => {
 				<div className="flex flex-col items-center mr-3 w-1/4 p-2">
 					<div className="w-20 h-20 mb-1">
 						<img
-							className="w-full h-full object-cover"
+							className="w-full h-full object-fill rounded-xl"
 							alt="Image"
-							src={nupchiIcon}
+							src={item.productImg}
 						/>
 					</div>
 					<div className="text-center text-black text-base font-bold truncate w-full">
@@ -52,7 +48,7 @@ const IncomingListItem = ({ item }) => {
 					<span className="text-black font-normal"> Kg</span>
 				</div>
 				<div className="text-center flex-1 text-black font-normal text-base cursor-pointer">
-					{amount} <span className="">원(1kg)</span>
+					{amount.toLocaleString()} <span className="">원(1kg)</span>
 				</div>
 			</div>
 			<IncomingModifiedModal
@@ -60,7 +56,7 @@ const IncomingListItem = ({ item }) => {
 				isOpen={isModalOpen}
 				onClose={handleCloseModal}
 				onSave={handleSaveAmount}
-				initialAmount={amount} // 원래 금액을 전달
+				initialAmount={amount}
 			/>
 		</div>
 	);

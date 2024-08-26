@@ -7,9 +7,8 @@ import OutgoingItemDetails from "./OutgoingItemDetails";
 const OutgoingListItem = ({ item }) => {
 	const [isSwiped, setIsSwiped] = useState(false);
 	const [showOutgoingComplete, setShowOutgoingComplete] = useState(false);
-	const isNotComplete = item.state !== "COMPLETE";
-	console.log(item.state);
-	// 핸들러 함수들
+	const isNotComplete = item.state !== "COMPLETE" && item.state !== "REJECT";
+
 	const handleSwipeLeft = () => {
 		if (isNotComplete) {
 			setIsSwiped(true);
@@ -39,12 +38,8 @@ const OutgoingListItem = ({ item }) => {
 	const handleToggle = () => {
 		setIsExpanded((prevState) => !prevState);
 	};
-
 	return (
 		<div className="relative w-full flex flex-col">
-			<div className="text-gray-700 text-base mb-1 border-b border-gray-300 pb-1">
-				{item.outgoingDate}
-			</div>
 			<div className="relative w-full flex ">
 				<div
 					ref={itemRef}
@@ -58,7 +53,7 @@ const OutgoingListItem = ({ item }) => {
 					onClick={handleToggle}
 				>
 					<div className="flex-1 flex justify-center items-center">
-						<div className="w-[69px] text-center font-normal text-black truncate  text-base leading-[normal]">
+					<div className="w-[73px] text-center font-normal text-black text-base leading-[normal] break-words">
 							{item.customerName}
 						</div>
 					</div>

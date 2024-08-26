@@ -32,6 +32,7 @@ export const useAddress = () => {
     postCode,
     address,
     detailAddress,
+    setAddress,
     setDetailAddress,
     openPostcode,
     closePostcode,

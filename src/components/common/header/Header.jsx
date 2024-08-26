@@ -2,10 +2,12 @@ import React from "react";
 import headerIcon from "../../../constants/header/header.image";
 import { useNavigate } from "react-router-dom";
 import { useAuthenticationStore } from '../../../stores/authentication';
+import { useHeaderText } from "../../../stores/headerText";
 
 export const Header = () => {
 	const { accessToken, refreshToken, setAccessToken, setRefreshToken } = useAuthenticationStore();
 	const navigate = useNavigate();
+	const {headerText} = useHeaderText();
 
 	const onClick = (page) => {
 		navigate(page);
@@ -16,7 +18,7 @@ export const Header = () => {
 		setRefreshToken(null);
 	}
 
-	const showLogoutIcon = accessToken && refreshToken; // 액세스 토큰과 리프레시 토큰이 모두 존재할 때
+	const showLogoutIcon = accessToken && refreshToken; 
 
 	return (
 		<div>
@@ -31,8 +33,8 @@ export const Header = () => {
 						/>
 					</div>
 				)}
-				<div className="flex justify-items-center items-center text-center font-bold text-lg">
-					헤더입니다
+				<div className="flex-grow flex justify-center items-center text-center font-bold text-lg">
+					{headerText}
 				</div>
 				<div className="flex justify-center items-center">
 					<img
