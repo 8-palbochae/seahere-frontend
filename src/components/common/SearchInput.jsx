@@ -7,6 +7,7 @@ import QrScanner from 'qr-scanner';
 import cancel from '../../assets/common/cancel.svg';
 import CameraCaptureIcon from '../../assets/common/camera-capture.svg';
 import CameraSwitchIcon from '../../assets/common/camera-switch.svg';
+import QRCheckModal from "../login_signup/itemcomponent/QRCheckModal";
 
 const SearchInput = ({ value }) => {
 	let { data, isPending, isError, error } = useQuery({
@@ -19,6 +20,7 @@ const SearchInput = ({ value }) => {
 	const navigate = useNavigate();
 	const [isCameraOpen, setIsCameraOpen] = useState(false);
 	const [isFacingModeUser, setIsFacingModeUser] = useState(true);
+	const [isQRCheckModalOpen, setIsQRCheckModalOpen] = useState(false);
 	const videoRef = useRef(null);
 
 	const openCamera = async () => {
@@ -68,14 +70,13 @@ const SearchInput = ({ value }) => {
 					}
 				} catch (error) {
 					console.error("QR 코드를 처리하는 중 오류 발생:", error);
+					setIsQRCheckModalOpen(true);
 				} finally {
 					setIsCameraOpen(false);
 				}
 			}, 'image/jpeg');
 		}
 	};
-
-
 
 	const handleCancel = () => {
 		setIsCameraOpen(false);
@@ -87,6 +88,12 @@ const SearchInput = ({ value }) => {
 
 	const handleSwitchCamera = () => {
 		setIsFacingModeUser(prevMode => !prevMode);
+		openCamera();
+	};
+
+	const handleRetake = () => {
+		setIsQRCheckModalOpen(false);
+		setIsCameraOpen(true);
 		openCamera();
 	};
 
@@ -206,6 +213,13 @@ const SearchInput = ({ value }) => {
 						</div>
 					)}
 				</>
+			)}
+
+			{isQRCheckModalOpen && (
+				<QRCheckModal
+					onClose={() => setIsQRCheckModalOpen(false)}
+					onRetakeClick={handleRetake}
+				/>
 			)}
 		</div>
 	);
