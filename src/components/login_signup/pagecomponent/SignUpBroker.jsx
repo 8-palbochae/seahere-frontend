@@ -54,10 +54,6 @@ const SignUpBroker = () => {
     const [ocrSuccess, setOcrSuccess] = useState(false);
     const { setCompanyId } = useUserTypeStore.getState();
 
-    useEffect(() => {
-        console.log(isDuplicateModalOpen);
-    }, [isDuplicateModalOpen]);
-
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (!openDate || !dayjs(openDate).isValid()) {
