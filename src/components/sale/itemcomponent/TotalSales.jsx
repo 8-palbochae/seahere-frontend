@@ -14,7 +14,7 @@ const TotalSales = () => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
 
-    // const autoSlideInterval = 4000;
+
 
     useEffect(() => {
         const today = new Date();
@@ -57,13 +57,7 @@ const TotalSales = () => {
     }
     }, [startDate,endDate]);
 
-    // useEffect(() => {
-    //     const intervalId = setInterval(() => {
-    //         setCurrentIndex((prevIndex) => (prevIndex + 1) % 3);
-    //     }, autoSlideInterval);
 
-    //     return () => clearInterval(intervalId);
-    // }, []);
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
