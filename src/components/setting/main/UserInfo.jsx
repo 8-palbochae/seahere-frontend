@@ -13,8 +13,10 @@ const UserInfo = ({ user }) => {
 		<>
 			<div className="flex px-2 items-center relative w-full h-[123px] bg-white rounded-[10px] border border-solid border-[#d9d9d9]">
 				<div className="flex items-center gap-5">
-					<div className=" w-[76px] h-[76px]  bg-[#d9d9d9] rounded-[38px]">
-						<img src={`${user.profileImg !== null ? profileUrl + user.profileImg + '?' + new Date().getTime() : defaultImage}`} />
+					<div className=" w-16 h-16 rounded-full">
+						<img 
+						className='w-full h-full object-cover'
+						src={`${user.profileImg !== null ? profileUrl + user.profileImg + '?' + new Date().getTime() : defaultImage}`} />
 					</div>
 					<div className="flex flex-col">
 						<div className="flex items-center gap-3">
