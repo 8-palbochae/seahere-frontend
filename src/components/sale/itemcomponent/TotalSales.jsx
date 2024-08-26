@@ -67,6 +67,7 @@ const TotalSales = () => {
         const profitData = incomingData.map((item, index) => {
             const outgoingItem = outgoingData.find(out => out.commonDate === item.commonDate);
             const profit = (outgoingItem ? outgoingItem.commonPrice : 0) - item.commonPrice;
+            
             return {
                 ...item,
                 commonPrice: profit 

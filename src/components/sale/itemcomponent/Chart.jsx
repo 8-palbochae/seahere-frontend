@@ -43,7 +43,7 @@ const Chart = ({ data }) => {
                 
                 callbacks: {
                     label: function (context) {
-                        return `${context.label}: ${context.raw.toLocaleString()}원`;
+                        return `${context.label}: ${context.raw.toFixed(0)}원`;
                     },
                 },
             },
@@ -60,7 +60,7 @@ const Chart = ({ data }) => {
                 ticks: {
                     stepSize: 100000,
                     callback: function(value) {
-                        return `${value / 10000}`; 
+                        return `${(value / 10000).toFixed(0)}`; 
                     },
                 },
             },
