@@ -50,7 +50,6 @@ function App() {
 			<TokenProvider>
 				<BrowserRouter>
 					<Routes>
-						{/* 공개된 라우트 */}
 						<Route path="/login" element={<LoginChoice />} />
 						<Route path="/loading" element={<SocialLoading />} />
 						<Route path="/signup" element={<SignUp />}>
@@ -62,10 +61,9 @@ function App() {
 							/>
 						</Route>
 
-						{/* 보호된 라우트 */}
 						<Route element={<PrivateRoute />}>
 							<Route element={<Layout />}>
-								<Route path="/" element={<Main />} />
+								<Route path="/" element={<BrokerMain />} />
 								<Route path="/setting" element={<Setting />}>
 									<Route path="" element={<MainSetting />} />
 									<Route
