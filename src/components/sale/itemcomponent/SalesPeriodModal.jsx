@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import PeriodStart from "../../history/main/itemcomponent/PeriodStart"; 
+ 
 import PeriodEnd from "../../history/main/itemcomponent/PeriodEnd";     
 import dayjs from "dayjs";
 import { IncomingMonthSales, IncomingWeekSales, OutgoingMonthSales, OutgoingWeekSales } from "../../../api/sale/salesApi";
+import PeriodStart from "./PeriodStart";
 
 const SalesPeriodModal = ({ isOpen, onClose, onSearch }) => {
     const [startDate, setStartDate] = useState("");

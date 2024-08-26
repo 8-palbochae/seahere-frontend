@@ -29,7 +29,7 @@ const CartModal = ({ isOpen, onClose, inventory, companyId, children }) => {
             name: inventory.name,
             unitPrice: inventory.price,
             quantity: Number(weight),
-            price: inventory.price * Number(weight),
+            price: 0,
             country: inventory.country,
             naturalStatus: inventory.naturalStatus,
             category: inventory.category,

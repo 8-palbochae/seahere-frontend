@@ -14,7 +14,7 @@ const TotalSales = () => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
 
-    // const autoSlideInterval = 4000;
+
 
     useEffect(() => {
         const today = new Date();
@@ -57,13 +57,7 @@ const TotalSales = () => {
     }
     }, [startDate,endDate]);
 
-    // useEffect(() => {
-    //     const intervalId = setInterval(() => {
-    //         setCurrentIndex((prevIndex) => (prevIndex + 1) % 3);
-    //     }, autoSlideInterval);
 
-    //     return () => clearInterval(intervalId);
-    // }, []);
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -73,6 +67,7 @@ const TotalSales = () => {
         const profitData = incomingData.map((item, index) => {
             const outgoingItem = outgoingData.find(out => out.commonDate === item.commonDate);
             const profit = (outgoingItem ? outgoingItem.commonPrice : 0) - item.commonPrice;
+            
             return {
                 ...item,
                 commonPrice: profit 
@@ -128,7 +123,7 @@ const TotalSales = () => {
                         )}
                     </div>
 
-                    {/* 페이지 표시용 점들 */}
+
                 <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 flex space-x-2">
                     {[0, 1, 2].map((index) => (
                         <div

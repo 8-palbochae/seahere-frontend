@@ -7,6 +7,7 @@ const useCartStore = create(persist(
     company: null, 
 
     addItem: (item) => {
+      console.log(item)
       const { cartItems, company } = get();
       
       if (company && company !== item.companyId) {
@@ -36,7 +37,7 @@ const useCartStore = create(persist(
 
     updateItemQuantity: (id, quantity) => set((state) => {
       const updatedCartItems = state.cartItems.map(item =>
-        item.id === id ? { ...item, quantity, price: item.unitPrice * quantity } : item
+        item.id === id ? { ...item, quantity, price: 0 } : item
       );
       return { cartItems: updatedCartItems };
     }),
