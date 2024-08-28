@@ -33,24 +33,26 @@ const QrList = ({ products, checkedItems, onCheckedChange, onSelectAll, isMainMo
 					전체 선택
 				</Checkbox>
 			</div>
-			<div className="flex flex-col items-center gap-4 w-full p-4 overflow-auto max-h-[65vh]">
-				{products && products.map((product) => (
-					<QrItem
-						key={product.productId}
-						product={product}
-						checked={checkedItems[product.productId] || false}
-						onCheckedChange={onCheckedChange}
-						onModalOpen={handleButtonClick}
-					/>
-				))}
+			<div className='flex flex-col'>
+				<div className="flex flex-col items-center gap-4 w-full p-4 overflow-auto max-h-[65vh]">
+					{products && products.map((product) => (
+						<QrItem
+							key={product.productId}
+							product={product}
+							checked={checkedItems[product.productId] || false}
+							onCheckedChange={onCheckedChange}
+							onModalOpen={handleButtonClick}
+						/>
+					))}
+				</div>
+				<Button
+					className="w-full rounded-[20px] text-white bg-blue-600 p-2"
+					onClick={handleButtonClick}
+					disabled={selectedProducts.length === 0}
+				>
+					{buttonText}
+				</Button>
 			</div>
-			<Button
-				className="w-full rounded-[20px] text-white bg-blue-600 p-2"
-				onClick={handleButtonClick}
-				disabled={selectedProducts.length === 0}
-			>
-				{buttonText}
-			</Button>
 
 			<Modal
 				title="선택한 QR 코드 목록"
