@@ -17,7 +17,7 @@ const EmployeeList = ({ data }) => {
 			console.error("Error updating inventory:", error);
 		},
 	});
-
+	
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const showModal = (employeeId) => {
@@ -52,8 +52,8 @@ const EmployeeList = ({ data }) => {
 				</div>
 			</Modal>
 			{data.map((item) => (
-				<div onClick={() => showModal(item.userId)} className="w-full">
-					<EmployeeInfoItem item={item} key={item.userId} />
+				<div key={item.userId} onClick={() => showModal(item.userId)} className="w-full">
+					<EmployeeInfoItem item={item}  />
 				</div>
 			))}
 		</div>
