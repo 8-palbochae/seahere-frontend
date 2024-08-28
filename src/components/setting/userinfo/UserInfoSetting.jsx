@@ -11,7 +11,6 @@ const UserInfoSetting = () => {
 	const { userData } = location.state || {};
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [profileImage, setProfileImage] = useState(userData.profileImg);
-
 	const openModal = () => {
 		setIsModalOpen(true);
 	};
@@ -30,14 +29,7 @@ const UserInfoSetting = () => {
 				<div className="w-36 h-36 relative">
 					<img
 						className="w-full h-full object-fill rounded-full"
-						src={`${
-							profileImage !== null
-								? profileUrl +
-								  profileImage +
-								  "?" +
-								  new Date().getTime()
-								: defaultImage
-						}`}
+						src={profileImage !== null ? profileImage : defaultImage}
 						alt=""
 					/>
 					<img
