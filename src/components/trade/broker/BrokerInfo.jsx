@@ -8,8 +8,7 @@ const BrokerInfo = ({ company }) => {
     const { id, companyName, address } = company;
     const [isLike, setIsLike] = useState(false);
     const navigate = useNavigate();
-    const profileImg = company.profileImg || "";
-    const imageUrl = profileImg ? `${profileUrl + profileImg}?${new Date().getTime()}` : tradeIcon.brokerLogo;
+    const imageUrl = company.profileImage !== null  ? company.profileImage : tradeIcon.brokerLogo;
 
     const handleLikeClick = (e) => {
         e.stopPropagation();
@@ -27,7 +26,7 @@ const BrokerInfo = ({ company }) => {
         >
             <div className='w-20 h-20 flex items-center justify-center mr-4'>
                 <img
-                    src={`${imageUrl}`}
+                    src={imageUrl}
                     className='w-full h-full object-cover rounded-lg'
                     alt="Broker Logo"
                 />
