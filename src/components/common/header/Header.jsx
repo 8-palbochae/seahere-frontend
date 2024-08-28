@@ -3,6 +3,7 @@ import headerIcon from "../../../constants/header/header.image";
 import { useNavigate } from "react-router-dom";
 import { useAuthenticationStore } from '../../../stores/authentication';
 import { useHeaderText } from "../../../stores/headerText";
+import { postLogout } from '../../../api/user/authApi';
 
 export const Header = () => {
 	const { accessToken, refreshToken, setAccessToken, setRefreshToken } = useAuthenticationStore();
@@ -14,9 +15,17 @@ export const Header = () => {
 	};
 
 	const logoutHandler = () => {
-		setAccessToken(null);
-		setRefreshToken(null);
-	}
+		postLogout()
+				.then(res => {
+						if(res.status === 200){
+								setAccessToken(null);
+								setRefreshToken(null);
+						}
+				})
+				.catch(error => {
+						console.error('Logout error:', error.message);
+				});
+};
 
 	const showLogoutIcon = accessToken && refreshToken; 
 

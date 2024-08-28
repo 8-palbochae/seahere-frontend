@@ -1,5 +1,6 @@
 import axios from "axios";
 import { url } from "../../constants/defaultUrl";
+import { axiosInstance } from '../common/axiosInstance';
 
 const postEmailLogin = async (loginInfo) => {
     const body = {
@@ -87,5 +88,15 @@ const authenticationGet = async () => {
     }
 };
 
+const postLogout = () => {
+    return axiosInstance.post(`${url}/logout`)
+      .then(response => {
+        return response; 
+      })
+      .catch(error => {
+        throw new Error('Failed to fetch data');
+      });
+  };
+  
 
-export { postEmailLogin, authenticationGet };
+export { postEmailLogin, authenticationGet, postLogout };

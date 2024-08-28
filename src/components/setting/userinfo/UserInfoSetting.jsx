@@ -29,7 +29,7 @@ const UserInfoSetting = () => {
 			<div className="flex flex-col items-center">
 				<div className="w-36 h-36 relative">
 					<img
-						className="w-full h-full object-cover rounded-full"
+						className="w-full h-full object-fill rounded-full"
 						src={`${
 							profileImage !== null
 								? profileUrl +
