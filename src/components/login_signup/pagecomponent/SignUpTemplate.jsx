@@ -16,7 +16,7 @@ const SignUpChoice = () => {
         className="absolute w-80 h-80 top-[52px] left-[35px] object-cover"
         src={MainLogo}
       />
-      <Link to="/">
+      <Link to="/login">
         <img
           className="absolute w-[30px] h-10 top-2 left-2.5 object-cover"
           src={back}
